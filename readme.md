@@ -1,21 +1,50 @@
-# **Gamify Gym**
-Este repositório contém o código-fonte do Trabalho de Conclusão de Curso (TCC) Gamify Gym.
+# Welcome to your Expo app 👋
 
-### 📌 Diretrizes para Commits
-Para manter um histórico de commits claro e profissional, sigam as diretrizes do link abaixo:
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-#### [🔗Guia de como fazer commits (LEIA!)](https://cbea.ms/git-commit/)
-#### [🔗Guia de como usar o Git (LEIA!)](https://rogerdudler.github.io/git-guide/index.pt_BR.html)
+## Get started
 
-### 📌 Diretrizes sobre Branches
+1. Install dependencies
 
-Esse repositório possui 4 branches principais, branches temporários podem ser adicionados se tiver necessidade, esses são os branches:
+   ```bash
+   npm install
+   ```
 
-* main: Esse branch deve conter apenas versões completamente funcionais.
-* release: Pode ser usado para testes antes do código ir pro main.
-* dev/backend: Contém as APIs, e outros códigos backend
-* dev/frontend: Festa do Luigi Brugs
-* dev/database: Possui a estrutura do banco de dados e scripts SQL
+2. Start the app
 
-#### **Não façam merge branch sem consenso do grupo! Isso pode causar perca de dados!**
- 
+   ```bash
+   npx expo start
+   ```
+
+In the output, you'll find options to open the app in a
+
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+
+## Get a fresh project
+
+When you're ready, run:
+
+```bash
+npm run reset-project
+```
+
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+
+## Learn more
+
+To learn more about developing your project with Expo, look at the following resources:
+
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+
+## Join the community
+
+Join our community of developers creating universal apps.
+
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
