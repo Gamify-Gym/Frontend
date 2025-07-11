@@ -1,0 +1,73 @@
+import { Tabs } from "expo-router";
+import { View, StyleSheet } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+
+export default function TabLayout() {
+  return (
+    <Tabs
+      initialRouteName="home"
+      screenOptions={{
+        headerShadowVisible: false,
+        tabBarActiveTintColor: "#4A4459",
+        tabBarInactiveTintColor: "#4A4459",
+        tabBarStyle:{
+          backgroundColor:"#F3EDF7"
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="treino"
+        options={{
+          title: "Treino",
+          tabBarIcon: () => (
+            <FontAwesome6 name="dumbbell" size={18} color="#4A4459" />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="dieta"
+        options={{
+          title: "Dieta",
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="silverware-fork-knife"
+              size={18}
+              color="#4A4459"
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="home"
+        options={{
+          tabBarIcon: () => (
+            <MaterialCommunityIcons name="home" size={18} color="#4A4459" />
+          ),
+          title: "Home",
+        }}
+      />
+      <Tabs.Screen
+        name="perfil"
+        options={{
+          title: "Perfil",
+          tabBarIcon: () => (
+            <FontAwesome6 name="user-group" size={18} color="#4A4459" />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="premium"
+        options={{
+          title: "Premium",
+          tabBarIcon: () => (
+            <FontAwesome6 name="crown" size={18} color="#4A4459" />
+          ),
+        }}
+      />
+    </Tabs>
+  );
+}
+
+const styles = StyleSheet.create({});
