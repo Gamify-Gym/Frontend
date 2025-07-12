@@ -1,3 +1,4 @@
+import FAB from "@/components/FAB";
 import { Text, View, StyleSheet } from "react-native";
 
 export default function home() {
@@ -6,6 +7,13 @@ export default function home() {
   });
   return (
     <View style={styles.container}>
+      <FAB
+        label={"Test"}
+        icon="add"
+        onClick={() => {
+          null;
+        }}
+      ></FAB>
     </View>
   );
 }

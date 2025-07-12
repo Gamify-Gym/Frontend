@@ -136,9 +136,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 8,
-    fontWeight: 600,
+    fontWeight: "normal",
   },
   textFocus: {
+    fontWeight: "bold",
     color: "#625B71",
   },
 });
