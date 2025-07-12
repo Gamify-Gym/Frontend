@@ -48,5 +48,6 @@ const style = StyleSheet.create({
     bottom: 25,
     right: 25,
     gap: 5,
+    elevation:3
   },
 });
