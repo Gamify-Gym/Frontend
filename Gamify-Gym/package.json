@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
+    "axios": "^1.10.0",
     "expo": "~53.0.17",
     "expo-blur": "~14.1.5",
     "expo-constants": "~17.1.7",
@@ -38,7 +40,8 @@
     "react-native-svg": "15.11.2",
     "react-native-svg-transformer": "^1.5.1",
     "react-native-web": "~0.20.0",
-    "react-native-webview": "13.13.5"
+    "react-native-webview": "13.13.5",
+    "expo-secure-store": "~14.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
