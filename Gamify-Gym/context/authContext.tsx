@@ -1,12 +1,10 @@
 import * as SecureStore from "expo-secure-store";
-import {
-  createContext,
-  useEffect,
-  useState
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type UserType = {
   //Propriedades do usuário aqui
+  email: string;
+  password: string;
 };
 type AuthContextType = {
   isLogged: boolean;
@@ -14,9 +12,9 @@ type AuthContextType = {
   user: UserType | null;
   token: string | null;
 
-  login: (/*Aqui adicionar o necessário para login. EX: email e senha*/) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  createUser: () => Promise<void>;
+  createUser: () => Promise<string>;
 
   error: string | null;
 };
@@ -28,7 +26,9 @@ const AuthContext = createContext<AuthContextType>({
   token: null,
   login: async () => {},
   logout: async () => {},
-  createUser: async () => {},
+  createUser: async () => {
+    return "não implementado";
+  },
 
   error: null,
 });
@@ -46,6 +46,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const token = await SecureStore.getItemAsync("token");
         if (token) {
           //Aqui fazer checagem com backend
+          setToken(token);
+          setLogged(true);
+          setUser({ email: "mock@email.com", password: "passwordMock" });
         }
       } catch (error) {
         console.log(error);
@@ -57,10 +60,98 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     checkToken();
   }, []);
 
+  const login = async (email: string, password: string) => {
+    if (!email || !password) return;
+    try {
+      setLoading(true);
+      setToken("token");
+      //erro ignorável, já que a esse ponto o token nunca será null
+      await SecureStore.setItemAsync("token", token);
+      setUser({ email: email, password: password });
+    } catch (error: any) {
+      console.error("Erro ao fazer Login!", error);
+      setError(error.message || "Erro ao fazer Login!");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const logout = async () => {
+    try {
+      await SecureStore.deleteItemAsync("token");
+      setToken(null);
+      setUser(null);
+      setLogged(false);
+    } catch (error: any) {
+      setError("Erro ao sair!");
+      console.error("Erro ao sair!", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createUser = async () => {
+    return "Não implementado";
+  };
+
   return (
-    /*login,logout,createUser no value depois que existir*/
-    <AuthContext.Provider value={{ isLogged, isLoading, user, token, error }}>
+    /*login,logout,createUser são funções mock, não funcionama atualmente*/
+    <AuthContext.Provider
+      value={{
+        isLogged,
+        isLoading,
+        user,
+        token,
+        login,
+        logout,
+        createUser,
+        error,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);
+
+//Output do deepseek em exemplo de flow de login
+/*
+
+import { useAuth } from '../context/AuthContext';
+
+export default function LoginScreen() {
+  const { login, isLoading, error, clearError } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    await login(email, password);
+  };
+
+  return (
+    <View>
+      {error && (
+        <Text style={{ color: 'red' }} onPress={clearError}>
+          {error}
+        </Text>
+      )}
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        placeholder="Password"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      <Button
+        title={isLoading ? 'Loading...' : 'Login'}
+        onPress={handleLogin}
+        disabled={isLoading}
+      />
+    </View>
+  );
+}
+*/
