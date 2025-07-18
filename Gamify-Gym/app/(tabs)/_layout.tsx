@@ -1,9 +1,27 @@
-import { Tabs } from "expo-router";
-import { View, StyleSheet, Text } from "react-native";
+import { useAuth } from "@/context/authContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { Tabs, useRouter } from "expo-router";
+import { useEffect } from "react";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
 export default function TabLayout() {
+  const { isLogged, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && !isLogged) {
+      router.replace("/login");
+    }
+  }, [isLoading, isLogged]);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#4A4459" />
+      </View>
+    );
+  }
   return (
     <Tabs
       initialRouteName="home"
