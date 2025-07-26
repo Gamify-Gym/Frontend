@@ -65,9 +65,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setLoading(true);
       setToken("token");
-      //erro ignorável, já que a esse ponto o token nunca será null
-      await SecureStore.setItemAsync("token", token);
-      setUser({ email: email, password: password });
+      await SecureStore.setItemAsync("token", "token");
+      setUser({ email: "mock@email.com", password: "passwordMock" });
+      setLogged(true);
     } catch (error: any) {
       console.error("Erro ao fazer Login!", error);
       setError(error.message || "Erro ao fazer Login!");
@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    /*login,logout,createUser são funções mock, não funcionama atualmente*/
+    /*login,logout,createUser são funções mock, não funcionam atualmente*/
     <AuthContext.Provider
       value={{
         isLogged,

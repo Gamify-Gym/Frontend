@@ -1,7 +1,25 @@
 import { useRouter } from "expo-router";
-import { Text, TouchableNativeFeedback, View } from "react-native";
+import {
+  Text,
+  TouchableNativeFeedback,
+  View,
+  TextInput,
+  Button,
+} from "react-native";
+import { useAuth } from "@/context/authContext";
+import { useState } from "react";
 
 export default function LoginScreen() {
+  const { login, isLoading, error } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    await login(email, password);
+  };
+  const clearError = async () => {
+    return;
+  };
   return (
     <View
       style={{
@@ -15,6 +33,25 @@ export default function LoginScreen() {
         bottom: 1,
       }}
     >
+      <View>
+        {error && (
+          <Text style={{ color: "red" }} onPress={clearError}>
+            {error}
+          </Text>
+        )}
+        <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+        <TextInput
+          placeholder="Password"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <Button
+          title={isLoading ? "Loading..." : "Login"}
+          onPress={handleLogin}
+          disabled={isLoading}
+        />
+      </View>
       <Text>Login Screen </Text>
       <TouchableNativeFeedback
         onPress={() => {
@@ -22,7 +59,7 @@ export default function LoginScreen() {
         }}
       >
         <View>
-          <Text>ir para home sem autenticar</Text>
+          <Text>ir para home sem autenticar </Text>
         </View>
       </TouchableNativeFeedback>
     </View>

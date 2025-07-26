@@ -1,22 +1,22 @@
 import { AuthProvider, useAuth } from "@/context/authContext";
-import { Stack, useRouter, useSegments } from "expo-router";
+import { Stack, useRouter, usePathname } from "expo-router";
 import { useEffect } from "react";
 
 function Protected() {
   const { isLogged, isLoading } = useAuth();
   const router = useRouter();
-  const segments = useSegments();
+  const pathName = usePathname();
 
   useEffect(() => {
-    if (!isLoading) {
-      const inAuthGroup = segments[0] === "(tabs)";
-      if (!isLogged && !inAuthGroup) {
-        router.replace("/login");
-      } else if (isLogged && inAuthGroup) {
-        router.replace("/(tabs)/home");
-      }
+    if (isLoading) return;
+    const isInProtectedRoute = pathName?.startsWith("/(tabs)");
+
+    if (!isLogged && isInProtectedRoute) {
+      router.replace("/login");
+    } else if (isLogged && !isInProtectedRoute) {
+      router.replace("/(tabs)/home");
     }
-  }, [isLogged, isLoading]);
+  }, [isLogged, isLoading, pathName]);
 
   return (
     <Stack screenOptions={{ headerShown: false, statusBarStyle: "dark" }}>
