@@ -13,14 +13,15 @@ function Protected() {
 
     if (!isLogged && isInProtectedRoute) {
       router.replace("/login");
-    } else if (isLogged && !isInProtectedRoute) {
+    } else if (isLogged && pathName === "/login") {
       router.replace("/(tabs)/home");
     }
-  }, [isLogged, isLoading, pathName]);
+  }, [isLogged, isLoading, pathName, router]);
 
   return (
     <Stack screenOptions={{ headerShown: false, statusBarStyle: "dark" }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="login" options={{ headerShown: false }} />
     </Stack>
   );
 }

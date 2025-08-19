@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (tokenStore) {
           const response = await fetch(
-            `${process.env.EXPO_BACKEND_URL}/check`,
+            `${process.env.EXPO_PUBLIC_BACKEND_URL}/check`,
             {
               method: "GET",
               headers: {
@@ -92,12 +92,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       setError(null);
       const credentials = btoa(`${email}:${password}`);
-      const response = await fetch(`${process.env.EXPO_BACKEND_URL}/login`, {
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${credentials}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_BACKEND_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Basic ${credentials}`,
+          },
+        }
+      );
       if (!response.ok) {
         if (response.status === 401) {
           throw new Error("Email ou senha inválidos");

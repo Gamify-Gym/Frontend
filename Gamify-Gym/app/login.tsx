@@ -34,7 +34,6 @@ export default function LoginScreen() {
       }}
     >
       <View>
-        <Text>{process.env.EXPO_BACKEND_URL}</Text>
         {error && (
           <Text style={{ color: "red" }} onPress={clearError}>
             {error}
@@ -54,15 +53,6 @@ export default function LoginScreen() {
         />
       </View>
       <Text>Login Screen </Text>
-      <TouchableNativeFeedback
-        onPress={() => {
-          useRouter().push("/(tabs)/home");
-        }}
-      >
-        <View>
-          <Text>ir para home sem autenticar </Text>
-        </View>
-      </TouchableNativeFeedback>
     </View>
   );
 }
