@@ -1,22 +1,22 @@
 import * as SecureStore from "expo-secure-store";
+import NetInfo from "@react-native-community/netinfo";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type UserType = {
-  //Propriedades do usuário aqui
   email: string;
-  password: string;
 };
+
 type AuthContextType = {
   isLogged: boolean;
   isLoading: boolean;
   user: UserType | null;
   token: string | null;
-
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   createUser: () => Promise<string>;
-
   error: string | null;
+  connected: boolean;
+  clearError: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -26,11 +26,10 @@ const AuthContext = createContext<AuthContextType>({
   token: null,
   login: async () => {},
   logout: async () => {},
-  createUser: async () => {
-    return "não implementado";
-  },
-
+  createUser: async () => "não implementado",
   error: null,
+  connected: true,
+  clearError: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -39,20 +38,44 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [connected, setConnection] = useState<boolean>(true);
 
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const token = await SecureStore.getItemAsync("token");
-        if (token) {
-          //Aqui fazer checagem com backend
-          setToken(token);
+        const tokenStore = await SecureStore.getItemAsync("token");
+        const userStore = await SecureStore.getItemAsync("user");
+
+        if (tokenStore) {
+          const response = await fetch(
+            `${process.env.EXPO_BACKEND_URL}/check`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${tokenStore}`,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            if (response.status === 401) {
+              throw new Error("Sessão inválida ou expirada");
+            } else {
+              throw new Error("Erro ao verificar o token");
+            }
+          }
+
+          setToken(tokenStore);
           setLogged(true);
-          setUser({ email: "mock@email.com", password: "passwordMock" });
+          if (userStore) {
+            setUser(JSON.parse(userStore));
+          }
         }
-      } catch (error) {
-        console.log(error);
-        //tratar erro de algum jeito aqui
+      } catch (error: any) {
+        setError("Falha ao validar o token, você está conectado a internet?");
+        setToken(null);
+        setLogged(false);
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -61,29 +84,55 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    if (!email || !password) return;
+    if (!email || !password) {
+      setError("Email e Senha são obrigatórios!");
+      return;
+    }
     try {
       setLoading(true);
-      setToken("token");
-      await SecureStore.setItemAsync("token", "token");
-      setUser({ email: "mock@email.com", password: "passwordMock" });
+      setError(null);
+      const credentials = btoa(`${email}:${password}`);
+      const response = await fetch(`${process.env.EXPO_BACKEND_URL}/login`, {
+        method: "POST",
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
+      });
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("Email ou senha inválidos");
+        } else if (response.status >= 500) {
+          throw new Error("Erro no servidor, tente novamente mais tarde");
+        } else {
+          throw new Error("Erro ao fazer login");
+        }
+      }
+      const resToken = await response.text();
+      setToken(resToken);
+      await SecureStore.setItemAsync("token", resToken);
+      const newUser = { email };
+      setUser(newUser);
+      await SecureStore.setItemAsync("user", JSON.stringify(newUser));
       setLogged(true);
     } catch (error: any) {
-      console.error("Erro ao fazer Login!", error);
-      setError(error.message || "Erro ao fazer Login!");
+      console.error("Login error:", error);
+      setError(error.message || "Failed to login");
     } finally {
       setLoading(false);
     }
   };
+
   const logout = async () => {
     try {
+      setLoading(true);
+      setError(null);
       await SecureStore.deleteItemAsync("token");
+      await SecureStore.deleteItemAsync("user");
       setToken(null);
       setUser(null);
       setLogged(false);
     } catch (error: any) {
-      setError("Erro ao sair!");
-      console.error("Erro ao sair!", error.message);
+      setError("Failed to logout");
     } finally {
       setLoading(false);
     }
@@ -92,9 +141,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const createUser = async () => {
     return "Não implementado";
   };
+  const clearError = () => {
+    setError("");
+  };
 
   return (
-    /*login,logout,createUser são funções mock, não funcionam atualmente*/
     <AuthContext.Provider
       value={{
         isLogged,
@@ -105,6 +156,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         logout,
         createUser,
         error,
+        connected,
+        clearError,
       }}
     >
       {children}
@@ -113,45 +166,3 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
-
-//Output do deepseek em exemplo de flow de login
-/*
-
-import { useAuth } from '../context/AuthContext';
-
-export default function LoginScreen() {
-  const { login, isLoading, error, clearError } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = async () => {
-    await login(email, password);
-  };
-
-  return (
-    <View>
-      {error && (
-        <Text style={{ color: 'red' }} onPress={clearError}>
-          {error}
-        </Text>
-      )}
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <Button
-        title={isLoading ? 'Loading...' : 'Login'}
-        onPress={handleLogin}
-        disabled={isLoading}
-      />
-    </View>
-  );
-}
-*/

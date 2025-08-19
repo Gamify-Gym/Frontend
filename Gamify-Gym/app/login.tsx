@@ -34,6 +34,7 @@ export default function LoginScreen() {
       }}
     >
       <View>
+        <Text>{process.env.EXPO_BACKEND_URL}</Text>
         {error && (
           <Text style={{ color: "red" }} onPress={clearError}>
             {error}
