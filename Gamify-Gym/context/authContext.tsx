@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           }
         }
       } catch (error: any) {
-        setError("Falha ao validar o token, você está conectado a internet?");
+        setError(error.message);
         setToken(null);
         setLogged(false);
         setUser(null);
@@ -91,14 +91,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setLoading(true);
       setError(null);
-      const credentials = btoa(`${email}:${password}`);
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_BACKEND_URL}/login`,
         {
           method: "POST",
           headers: {
-            Authorization: `Basic ${credentials}`,
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify({ email: email, password: password }),
         }
       );
       if (!response.ok) {

@@ -9,9 +9,6 @@ export default function ExerciseSelected({
 }: {
   treino: TreinoType | null;
 }) {
-  useEffect(() => {
-    console.log(treino);
-  }, [treino]);
   if (treino === null) return;
   const styles = StyleSheet.create({
     container: {
