@@ -84,17 +84,17 @@ export default function CreateUserScreen() {
 
     setIsLoading(true);
     try {
-      const response: Response = await fetch("http://godinologo/create/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
+      const response: Response = await fetch("user/create", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name,
+    email,
+  }),
+});
+
 
       const data: RegisterResponse = await response.json();
 
