@@ -1,100 +1,71 @@
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Pressable,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-} from "react-native";
 import { Text } from "@/components";
-import { useAuth } from "@/context/authContext";
-import { useState } from "react";
-import colors from "@/components/Colors";
 import Button from "@/components/Button";
+import colors from "@/components/Colors";
+import { useAuth } from "@/context/authContext";
 import { useRouter } from "expo-router";
+import { useState } from "react";
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: colors.primary,
-    justifyContent: "flex-end",
-  },
-  loginContainer: {
-    height: "65%",
-    backgroundColor: colors.secondary,
-    borderTopRightRadius: 200,
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: 40,
-    paddingBottom: 80,
-  },
-  textInput: {
-    fontSize: 20,
-    height: 70,
-    overflow: "visible",
-    borderColor: colors.primary,
-    borderWidth: 2,
-    borderStyle: "solid",
-    borderRadius: 12,
-    color: colors.primary,
-  },
-  textInputContainer: {
-    paddingTop: 40,
-    paddingBottom: 40,
-    height: "auto",
-    paddingLeft: 30,
-    paddingRight: 30,
-    width: "100%",
-    gap: 30,
-    justifyContent: "space-between",
+    backgroundColor: colors.white,
+    justifyContent: "center",
+    paddingHorizontal: 30,
   },
   title: {
-    fontWeight: "normal",
+    fontWeight: "bold",
     color: colors.primary,
-    fontSize: 50,
+    fontSize: 36,
+    textAlign: "center",
+    marginBottom: 40,
   },
-  error: {
-    fontWeight: "normal",
-    fontSize: 25,
-    color: "red",
-  },
-  errorContainer: {
-    backgroundColor: "#ee80767a",
-    padding: 10,
+  textInput: {
+    fontSize: 16,
+    height: 55,
+    borderColor: "#ccc",
+    borderWidth: 1,
     borderRadius: 12,
-    borderColor: "red",
-    borderWidth: 0.8,
-    borderStyle: "solid",
+    paddingHorizontal: 15,
+    color: colors.primary,
+    backgroundColor: "#f9f9f9",
   },
-  floatingTitle: {
-    backgroundColor: colors.primary,
-    width: 70,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
-    padding: 5,
-    position: "absolute",
-    top: -20,
-    zIndex: 9,
-    left: 10,
+  textInputContainer: {
+    gap: 20,
+    marginBottom: 30,
   },
-  floatingTitleText: {
-    fontSize: 20,
-    color: colors.white,
+  label: {
+    fontSize: 14,
+    marginBottom: 6,
+    color: "#555",
   },
   createAccountContainer: {
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
     gap: 5,
+    marginTop: 20,
   },
   createAccountText: {
-    fontSize: 16,
+    fontSize: 14,
+    color: "#555",
   },
   createAccountTextLink: {
     color: colors.primary,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
+  },
+  error: {
+    fontSize: 14,
+    color: "red",
+    textAlign: "center",
+    marginTop: 10,
   },
 });
 
@@ -106,78 +77,65 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     await login(email, password);
   };
-  const clearError = async () => {
-    return;
-  };
-  const handleCreateAccount = async () => {
+
+  const handleCreateAccount = () => {
     const router = useRouter();
     router.navigate("/createUser");
   };
+
   return (
     <KeyboardAvoidingView
       style={styles.mainContainer}
       behavior="padding"
       keyboardVerticalOffset={-40}
     >
-      <View style={styles.loginContainer}>
-        <Text style={styles.title}>Login</Text>
-        <View style={styles.textInputContainer}>
-          <View>
-            <View style={styles.floatingTitle}>
-              <Text style={styles.floatingTitleText}>Email</Text>
-            </View>
-            <TextInput
-              placeholder="Insira seu email"
-              style={styles.textInput}
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-              placeholderTextColor={colors.primary}
-              keyboardType="email-address"
-            />
-          </View>
-          <View>
-            <View style={styles.floatingTitle}>
-              <Text style={styles.floatingTitleText}>Senha</Text>
-            </View>
-            <TextInput
-              placeholder="Insira sua senha"
-              style={styles.textInput}
-              value={password}
-              secureTextEntry
-              onChangeText={setPassword}
-              autoCapitalize="none"
-              placeholderTextColor={colors.primary}
-            />
-          </View>
-        </View>
-        <Button
-          title={isLoading ? "Carregando..." : "Login"}
-          onPress={handleLogin}
-          disabled={isLoading}
-          large={true}
-          icon="check"
-        />
-        <View style={styles.createAccountContainer}>
-          <Text style={styles.createAccountText}>
-            Ainda não possui uma conta?
-          </Text>
-          <TouchableOpacity onPress={handleCreateAccount}>
-            <Text style={styles.createAccountTextLink}>Crie sua conta!</Text>
-          </TouchableOpacity>
-        </View>
+      <Text style={styles.title}>Bem vindo de volta</Text>
 
-        {error && (
-          <Pressable
-            style={{ position: "absolute", bottom: 20 }}
-            onPress={clearError}
-          >
-            <View style={styles.errorContainer}>
-              <Text style={styles.error}>{error}</Text>
-            </View>
-          </Pressable>
-        )}
+      <View style={styles.textInputContainer}>
+        <View>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            placeholder="Insira seu email"
+            style={styles.textInput}
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            placeholderTextColor="#aaa"
+            keyboardType="email-address"
+          />
+        </View>
+        <View>
+          <Text style={styles.label}>Senha</Text>
+          <TextInput
+            placeholder="Insira sua senha"
+            style={styles.textInput}
+            value={password}
+            secureTextEntry
+            onChangeText={setPassword}
+            autoCapitalize="none"
+            placeholderTextColor="#aaa"
+          />
+        </View>
       </View>
+
+      <Button
+        title={isLoading ? "Carregando..." : "Login"}
+        onPress={handleLogin}
+        disabled={isLoading}
+        large={true}
+        icon="check"
+      />
+
+      <View style={styles.createAccountContainer}>
+        <Text style={styles.createAccountText}>
+          Ainda não possui uma conta?
+        </Text>
+        <TouchableOpacity onPress={handleCreateAccount}>
+          <Text style={styles.createAccountTextLink}>Crie sua conta!</Text>
+        </TouchableOpacity>
+      </View>
+
+      {error && <Text style={styles.error}>{error}</Text>}
     </KeyboardAvoidingView>
   );
 }
