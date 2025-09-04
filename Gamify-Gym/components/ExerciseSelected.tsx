@@ -5,7 +5,7 @@ import { TreinoType } from "./TreinoSelector";
 
 export default function ExerciseSelected({ treino }: { treino: TreinoType | null }) {
   if (!treino) return null;
-
+   
   
   const animatedValues = useRef<Animated.Value[]>(
     treino.exercicio.map(() => new Animated.Value(0))
@@ -20,7 +20,7 @@ export default function ExerciseSelected({ treino }: { treino: TreinoType | null
       Animated.timing(val, {
         toValue: 1,
         duration: 300,
-        delay: i * 150, // cada exercício aparece com 150ms de diferença
+        delay: i * 20, // cada exercício aparece com 20ms de diferença
         useNativeDriver: true,
       })
     );
@@ -57,7 +57,7 @@ export default function ExerciseSelected({ treino }: { treino: TreinoType | null
           );
         })}
       </ScrollView>
-      // oq que vc veio olhar aqui?
+      {/*oq que vc veio olhar aqui?*/}
     </View>
   );
 }

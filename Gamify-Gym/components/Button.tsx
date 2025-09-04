@@ -15,7 +15,7 @@ function Button({ onPress, title, large, icon, disabled }: ButtonProps) {
   const style = StyleSheet.create({
     button: {
       backgroundColor: colors.primary,
-      width: large ? 250 : 50,
+      width: large ? 325 : 50,
       height: 50,
       borderRadius: 16,
       justifyContent: "center",
@@ -34,7 +34,6 @@ function Button({ onPress, title, large, icon, disabled }: ButtonProps) {
       <View style={style.button}>
         {icon && (
           <MaterialDesignIcons
-            //Erro ignorável
             // @ts-ignore
             name={icon}
             color={colors.white}
