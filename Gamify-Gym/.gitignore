@@ -31,10 +31,12 @@ yarn-error.*
 *.pem
 
 # local env files
-.env*.local
+.env*.local 
+.env
+.vscode
 
 # typescript
 *.tsbuildinfo
 
-app-example
-.idea
+ios/
+android/
