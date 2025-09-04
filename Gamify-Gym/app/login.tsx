@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
+
 });
 
 export default function LoginScreen() {
@@ -82,6 +83,11 @@ export default function LoginScreen() {
     const router = useRouter();
     router.navigate("/createUser");
   };
+
+  const handleTreinos = () => {
+  const router = useRouter();
+  router.navigate("/treino"); 
+};
 
   return (
     <KeyboardAvoidingView
@@ -125,7 +131,7 @@ export default function LoginScreen() {
         large={true}
         icon="check"
       />
-
+      
       <View style={styles.createAccountContainer}>
         <Text style={styles.createAccountText}>
           Ainda não possui uma conta?
@@ -133,6 +139,10 @@ export default function LoginScreen() {
         <TouchableOpacity onPress={handleCreateAccount}>
           <Text style={styles.createAccountTextLink}>Crie sua conta!</Text>
         </TouchableOpacity>
+         <Text style={styles.createAccountText}> | </Text> {/* separador */}
+  <TouchableOpacity onPress={handleTreinos}>
+    <Text style={styles.createAccountTextLink}>Treinos</Text>
+  </TouchableOpacity>
       </View>
 
       {error && <Text style={styles.error}>{error}</Text>}

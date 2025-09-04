@@ -1,7 +1,6 @@
-import { FlatList, StyleSheet, Pressable, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Text } from ".";
 import colors from "./Colors";
-import { useEffect } from "react";
 
 type Exercicio = {
   nome: string;

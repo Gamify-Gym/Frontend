@@ -1,6 +1,6 @@
 export const fakeTreinoData = [
   {
-    nome: "treinoTeste",
+    nome: "Treino 1",
     exercicio: [
       { nome: "Supino Reto", repeticoes: 4, series: 5, complete: false },
       { nome: "Agachamento Livre", repeticoes: 4, series: 5, complete: false },
@@ -11,7 +11,7 @@ export const fakeTreinoData = [
     totalSeries: 15,
   },
   {
-    nome: "treinoTeste2",
+    nome: "Treino 2",
     exercicio: [
       { nome: "Rosca Direta", repeticoes: 3, series: 4, complete: false },
       { nome: "Puxada Frontal", repeticoes: 3, series: 4, complete: false },
@@ -22,7 +22,7 @@ export const fakeTreinoData = [
     totalSeries: 12,
   },
   {
-    nome: "treinoTeste3",
+    nome: "Treino 3",
     exercicio: [
       {
         nome: "Desenvolvimento Ombro",
@@ -38,7 +38,7 @@ export const fakeTreinoData = [
     totalSeries: 9,
   },
   {
-    nome: "treinoTeste4",
+    nome: "Treino 4",
     exercicio: [
       { nome: "Flexão de Braço", repeticoes: 10, series: 3, complete: false },
       {
@@ -54,7 +54,7 @@ export const fakeTreinoData = [
     totalSeries: 10,
   },
   {
-    nome: "treinoTeste5",
+    nome: "Treino 5",
     exercicio: [
       { nome: "Rosca Martelo", repeticoes: 6, series: 4, complete: false },
       { nome: "Cadeira Extensora", repeticoes: 8, series: 3, complete: false },

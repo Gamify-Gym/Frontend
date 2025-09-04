@@ -1,85 +1,98 @@
-import { Pressable, StyleSheet, View } from "react-native";
-import { TreinoType } from "./TreinoSelector";
-import { Text } from ".";
+import { useEffect, useRef } from "react";
+import { Animated, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import colors from "./Colors";
-import { useEffect } from "react";
+import { TreinoType } from "./TreinoSelector";
 
-export default function ExerciseSelected({
-  treino,
-}: {
-  treino: TreinoType | null;
-}) {
-  if (treino === null) return;
-  const styles = StyleSheet.create({
-    container: {
-      backgroundColor: colors.secondary,
-      width: "80%",
-      padding: 10,
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: 12,
-      borderColor: colors.borderOnSecondary,
-      borderWidth: 1,
-      borderStyle: "solid",
-      elevation: 3,
-    },
-    titleContainer: {
-      width: "100%",
-    },
-    title: {
-      fontWeight: "bold",
-      fontSize: 20,
-    },
-    selectorContainer: {
-      width: "100%",
-      display: "flex",
-      alignItems: "center",
-      overflow: "hidden",
-      borderRadius: 12,
-    },
-    selectorWrapper: {
-      margin: 5,
-      borderRadius: 12,
-      overflow: "hidden",
-      width: "100%",
-    },
-    selector: {
-      height: 50,
-      backgroundColor: colors.white,
-      padding: 12,
-      alignItems: "center",
-      justifyContent: "space-between",
-      flexDirection: "row",
-      width: "100%",
-      borderWidth: 1,
-      borderColor: colors.borderOnWhite,
-      borderRadius: 12,
-    },
-    selectorLabel: {
-      fontSize: 16,
-      fontWeight: "bold",
-    },
-  });
+export default function ExerciseSelected({ treino }: { treino: TreinoType | null }) {
+  if (!treino) return null;
+
+  
+  const animatedValues = useRef<Animated.Value[]>(
+    treino.exercicio.map(() => new Animated.Value(0))
+  ).current;
+
+  useEffect(() => {
+   
+    animatedValues.forEach((val) => val.setValue(0));
+
+    //luigibrugs esteve aqui as 00h45 do dia 04/09
+    const animations = animatedValues.map((val, i) =>
+      Animated.timing(val, {
+        toValue: 1,
+        duration: 300,
+        delay: i * 150, // cada exercício aparece com 150ms de diferença
+        useNativeDriver: true,
+      })
+    );
+
+    Animated.stagger(100, animations).start();
+  }, [treino]);
+
   return (
     <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>{treino.nome}</Text>
-        <View style={styles.selectorContainer}>
-          {treino.exercicio.map((exercicio, index) => (
-            <View style={styles.selectorWrapper} key={index}>
-              <Pressable
-                style={styles.selector}
-                android_ripple={{ borderless: true }}
-              >
-                <View>
-                  <Text style={styles.selectorLabel}>{exercicio.nome}</Text>
-                  <Text>{exercicio.repeticoes} Repetições</Text>
-                </View>
+      <Text style={styles.title}>{treino.nome}</Text>
+      <ScrollView
+        style={styles.exerciseContainer}
+        contentContainerStyle={{ gap: 12, paddingBottom: 20 }}
+      >
+        {treino.exercicio.map((exercicio, index) => {
+          const opacity = animatedValues[index] || new Animated.Value(0);
+
+          return (
+            <Animated.View
+              key={index}
+              style={[
+                styles.exerciseCard,
+                { opacity, transform: [{ translateY: opacity.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [20, 0],
+                }) }] },
+              ]}
+            >
+              <Pressable android_ripple={{ color: "#eee" }} style={{ padding: 16 }}>
+                <Text style={styles.exerciseName}>{exercicio.nome}</Text>
+                <Text style={styles.exerciseInfo}>{exercicio.repeticoes} Repetições</Text>
               </Pressable>
-            </View>
-          ))}
-        </View>
-      </View>
+            </Animated.View>
+          );
+        })}
+      </ScrollView>
+      // oq que vc veio olhar aqui?
     </View>
   );
 }
+ // oq que vc veio olhar aqui?
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    marginTop: 20,
+    paddingHorizontal: 10,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: colors.primary,
+    marginBottom: 12,
+  },
+  exerciseContainer: {},
+  exerciseCard: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    marginBottom: 12,
+  },
+  exerciseName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.primary,
+  },
+  exerciseInfo: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 4,
+  },
+});
