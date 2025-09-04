@@ -52,6 +52,12 @@ const styles = StyleSheet.create({
     gap: 5,
     marginTop: 20,
   },
+  linkColumnContainer: {
+    marginTop: 10,
+    alignItems: "center", 
+    gap: 8,               
+},
+
   createAccountText: {
     fontSize: 14,
     color: "#555",
@@ -82,6 +88,11 @@ export default function LoginScreen() {
   const handleCreateAccount = () => {
     const router = useRouter();
     router.navigate("/createUser");
+  };
+
+  const handleDieta = () => {
+    const router = useRouter();
+    router.navigate("/dieta");
   };
 
   const handleTreinos = () => {
@@ -140,10 +151,16 @@ export default function LoginScreen() {
           <Text style={styles.createAccountTextLink}>Crie sua conta!</Text>
         </TouchableOpacity>
          <Text style={styles.createAccountText}> | </Text> {/* separador */}
+         </View>
+       <View style={styles.linkColumnContainer}>
   <TouchableOpacity onPress={handleTreinos}>
     <Text style={styles.createAccountTextLink}>Treinos</Text>
   </TouchableOpacity>
-      </View>
+  <TouchableOpacity onPress={handleDieta}>
+    <Text style={styles.createAccountTextLink}>Dieta</Text>
+  </TouchableOpacity>
+</View>
+      
 
       {error && <Text style={styles.error}>{error}</Text>}
     </KeyboardAvoidingView>
