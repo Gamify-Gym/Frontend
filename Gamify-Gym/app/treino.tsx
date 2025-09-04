@@ -33,7 +33,7 @@ export default function Treino() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffffff", 
+    backgroundColor: "#ffffff", 
     paddingTop: 50,
     alignItems: "center",
   },
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#ffffffff", 
+    color: "#ffffff", 
     textShadowColor: "#ffffffff",
     textShadowOffset: { width: 0, height: 3 },
     textShadowRadius: 5,
