@@ -2,9 +2,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import {
   GestureResponderEvent,
   TouchableOpacity,
-  Text,
   StyleSheet,
 } from "react-native";
+import { Text } from ".";
 
 type Props = {
   label: string;

@@ -19,18 +19,13 @@ export type TreinoType = {
 
 type TreinoData = TreinoType[];
 
-export default function TreinoSelector({
-  treinoData,
-  onPress,
-}: {
-  treinoData: TreinoData;
-  onPress: (treino: TreinoType) => void;
-}) {
+export default function TreinoSelector({treinoData,onPress,} : {treinoData: TreinoData;onPress: (treino: TreinoType) => void;}) {
   const styles = StyleSheet.create({
     container: {
       backgroundColor: colors.secondary,
-      width: "80%",
-      padding: 10,
+      width: "90%",
+      height: "50%",  
+      padding: 20,
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 12,
@@ -44,7 +39,7 @@ export default function TreinoSelector({
       fontWeight: "bold",
     },
     selectorContainer: {
-      width: "100%",
+      width: "110%",
       display: "flex",
       alignItems: "center",
       overflow: "hidden",
@@ -68,7 +63,7 @@ export default function TreinoSelector({
       borderRadius: 12,
     },
     selectorLabel: {
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: "bold",
     },
     selectorDivisor: {

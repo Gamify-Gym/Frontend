@@ -1,6 +1,6 @@
-import ExerciseSelected from "@/components/ExerciseSelected";
+import ExerciseSelected from "@/components/WorkoutSelected";
 import { fakeTreinoData } from "@/components/fakeData";
-import TreinoSelector, { TreinoType } from "@/components/TreinoSelector";
+import TreinoSelector, { TreinoType } from "@/components/WorkoutSelector";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
@@ -12,15 +12,15 @@ export default function Treino() {
   return (
     <View style={styles.container}>
     
-   
+      <TreinoSelector 
+       treinoData={fakeTreinoData}
+       onPress={handleTreinoChange}
+      >
+      </TreinoSelector>
 
-    
-      <TreinoSelector treinoData={fakeTreinoData} onPress={handleTreinoChange} />
-
-    
       <ScrollView
         style={styles.exerciseScroll}
-        contentContainerStyle={{ paddingBottom: 40 }}
+        contentContainerStyle={{ paddingBottom: 23 }}
         showsVerticalScrollIndicator={false}
       >
         <ExerciseSelected treino={selectedTreino} />
@@ -28,7 +28,6 @@ export default function Treino() {
     </View>
   );
 }
-//sociedade esportiva palmeiras 💥
 
 const styles = StyleSheet.create({
   container: {
