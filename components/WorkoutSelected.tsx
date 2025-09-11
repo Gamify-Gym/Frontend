@@ -5,29 +5,28 @@ import colors from "./Colors";
 import { TreinoType } from "./WorkoutSelector";
 
 export default function ExerciseSelected({ treino }: { treino: TreinoType | null }) {
-  if (!treino) return null;
-   
-  
   const animatedValues = useRef<Animated.Value[]>(
-    treino.exercicio.map(() => new Animated.Value(0))
+    treino?.exercicio?.map(() => new Animated.Value(0)) || []
   ).current;
 
   useEffect(() => {
-   
+    if (!treino) return;
+
     animatedValues.forEach((val) => val.setValue(0));
 
-    //luigibrugs esteve aqui as 00h45 do dia 04/09
     const animations = animatedValues.map((val, i) =>
       Animated.timing(val, {
         toValue: 1,
         duration: 300,
-        delay: i * 20, // cada exercício aparece com 20ms de diferença
+        delay: i * 20,
         useNativeDriver: true,
       })
     );
 
     Animated.stagger(100, animations).start();
   }, [treino]);
+
+  if (!treino) return null;
 
   return (
     <View style={styles.container}>
@@ -44,24 +43,33 @@ export default function ExerciseSelected({ treino }: { treino: TreinoType | null
               key={index}
               style={[
                 styles.exerciseCard,
-                { opacity, transform: [{ translateY: opacity.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [20, 0],
-                }) }] },
+                {
+                  opacity,
+                  transform: [
+                    {
+                      translateY: opacity.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [20, 0],
+                      }),
+                    },
+                  ],
+                },
               ]}
             >
               <Pressable android_ripple={{ color: "#eee" }} style={{ padding: 16 }}>
                 <Text style={styles.exerciseName}>{exercicio.nome}</Text>
-                <Text style={styles.exerciseInfo}>{exercicio.repeticoes} Repetições</Text>
+                <Text style={styles.exerciseInfo}>
+                  {exercicio.repeticoes} Repetições
+                </Text>
               </Pressable>
             </Animated.View>
           );
         })}
       </ScrollView>
-      {/*oq que vc veio olhar aqui?*/}
     </View>
   );
 }
+
  // oq que vc veio olhar aqui?
 const styles = StyleSheet.create({
   container: {
