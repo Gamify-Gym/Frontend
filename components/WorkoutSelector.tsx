@@ -2,29 +2,39 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { Text } from ".";
 import colors from "./Colors";
 
-type Exercicio = {
-  nome: string;
+type Exercise = {
+  id: number;
+  name: string;
+  muscles: string;
   repeticoes: number;
   series: number;
-  complete: boolean;
+  complete?: boolean;
 };
 
 export type TreinoType = {
-  nome: string;
-  exercicio: Exercicio[];
-  complete: boolean;
-  totalExercicio: number;
+  id: number;
+  name: string;
+  description: string;
+  exercises: Exercise[];
+  complete?: boolean;
+  totalExercises: number;
   totalSeries: number;
 };
 
 type TreinoData = TreinoType[];
 
-export default function TreinoSelector({treinoData,onPress,} : {treinoData: TreinoData;onPress: (treino: TreinoType) => void;}) {
+export default function TreinoSelector({
+  treinoData,
+  onPress,
+}: {
+  treinoData: TreinoData;
+  onPress: (treino: TreinoType) => void;
+}) {
   const styles = StyleSheet.create({
     container: {
       backgroundColor: colors.secondary,
       width: "90%",
-      height: "50%",  
+      height: "50%",
       padding: 20,
       alignItems: "center",
       justifyContent: "center",
@@ -88,9 +98,9 @@ export default function TreinoSelector({treinoData,onPress,} : {treinoData: Trei
               style={styles.selector}
               onPress={() => onPress(treino)}
             >
-              <Text style={styles.selectorLabel}>{treino.nome}</Text>
+              <Text style={styles.selectorLabel}>{treino.name}</Text>
               <View style={styles.selectorDivisor}>
-                <Text>{treino.totalExercicio} Exercícios</Text>
+                <Text>{treino.totalExercises} Exercícios</Text>
                 <View style={styles.line} />
                 <Text>{treino.totalSeries} Séries</Text>
               </View>

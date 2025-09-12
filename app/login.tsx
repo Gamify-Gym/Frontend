@@ -9,7 +9,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 
 const styles = StyleSheet.create({
@@ -54,9 +54,9 @@ const styles = StyleSheet.create({
   },
   linkColumnContainer: {
     marginTop: 10,
-    alignItems: "center", 
-    gap: 8,               
-},
+    alignItems: "center",
+    gap: 8,
+  },
 
   createAccountText: {
     fontSize: 14,
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
-
 });
 
 export default function LoginScreen() {
@@ -96,9 +95,9 @@ export default function LoginScreen() {
   };
 
   const handleTreinos = () => {
-  const router = useRouter();
-  router.navigate("/treino"); 
-};
+    const router = useRouter();
+    router.navigate("/treino");
+  };
 
   return (
     <KeyboardAvoidingView
@@ -142,7 +141,7 @@ export default function LoginScreen() {
         large={true}
         icon="check"
       />
-      
+
       <View style={styles.createAccountContainer}>
         <Text style={styles.createAccountText}>
           Ainda não possui uma conta?
@@ -150,17 +149,16 @@ export default function LoginScreen() {
         <TouchableOpacity onPress={handleCreateAccount}>
           <Text style={styles.createAccountTextLink}>Crie sua conta!</Text>
         </TouchableOpacity>
-         <Text style={styles.createAccountText}> | </Text> {/* separador */}
-         </View>
-       <View style={styles.linkColumnContainer}>
-  <TouchableOpacity onPress={handleTreinos}>
-    <Text style={styles.createAccountTextLink}>Treinos</Text>
-  </TouchableOpacity>
-  <TouchableOpacity onPress={handleDieta}>
-    <Text style={styles.createAccountTextLink}>Dieta</Text>
-  </TouchableOpacity>
-</View>
-      
+        <Text style={styles.createAccountText}> | </Text>
+      </View>
+      <View style={styles.linkColumnContainer}>
+        <TouchableOpacity onPress={handleTreinos}>
+          <Text style={styles.createAccountTextLink}>Treinos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleDieta}>
+          <Text style={styles.createAccountTextLink}>Dieta</Text>
+        </TouchableOpacity>
+      </View>
 
       {error && <Text style={styles.error}>{error}</Text>}
     </KeyboardAvoidingView>

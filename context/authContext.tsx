@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             {
               method: "GET",
               headers: {
-                Authorization: `Bearer ${tokenStore}`,
+                Authorization: `Bearer ${tokenStore.replace(/"/g, "")}`,
               },
             }
           );
@@ -110,9 +110,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           throw new Error("Erro ao fazer login");
         }
       }
-      const resToken = await response.text();
-      setToken(resToken);
-      await SecureStore.setItemAsync("token", resToken);
+      const resToken = await response.json();
+      console.log(JSON.stringify(resToken.token));
+      setToken(JSON.stringify(resToken.token));
+      await SecureStore.setItemAsync("token", JSON.stringify(resToken.token));
       const newUser = { email };
       setUser(newUser);
       await SecureStore.setItemAsync("user", JSON.stringify(newUser));

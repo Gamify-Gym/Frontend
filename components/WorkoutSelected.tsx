@@ -1,24 +1,32 @@
 import { useEffect, useRef } from "react";
-import { Animated, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import {
+  Animated,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Text } from ".";
 import colors from "./Colors";
 import { TreinoType } from "./WorkoutSelector";
 
-export default function ExerciseSelected({ treino }: { treino: TreinoType | null }) {
-  const animatedValues = useRef<Animated.Value[]>(
-    treino?.exercicio?.map(() => new Animated.Value(0)) || []
-  ).current;
+export default function ExerciseSelected({
+  treino,
+}: {
+  treino: TreinoType | null;
+}) {
+  const animatedValues = useRef<Animated.Value[]>([]);
 
   useEffect(() => {
     if (!treino) return;
 
-    animatedValues.forEach((val) => val.setValue(0));
+    animatedValues.current = treino.exercises.map(() => new Animated.Value(0));
 
-    const animations = animatedValues.map((val, i) =>
+    const animations = animatedValues.current.map((val, i) =>
       Animated.timing(val, {
         toValue: 1,
         duration: 300,
-        delay: i * 20,
+        delay: i * 100,
         useNativeDriver: true,
       })
     );
@@ -30,13 +38,13 @@ export default function ExerciseSelected({ treino }: { treino: TreinoType | null
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{treino.nome}</Text>
+      <Text style={styles.title}>{treino.name}</Text>
       <ScrollView
         style={styles.exerciseContainer}
         contentContainerStyle={{ gap: 12, paddingBottom: 20 }}
       >
-        {treino.exercicio.map((exercicio, index) => {
-          const opacity = animatedValues[index] || new Animated.Value(0);
+        {treino.exercises.map((exercise, index) => {
+          const opacity = animatedValues.current[index];
 
           return (
             <Animated.View
@@ -47,19 +55,24 @@ export default function ExerciseSelected({ treino }: { treino: TreinoType | null
                   opacity,
                   transform: [
                     {
-                      translateY: opacity.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [20, 0],
-                      }),
+                      translateY: opacity
+                        ? opacity.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [20, 0],
+                          })
+                        : 0,
                     },
                   ],
                 },
               ]}
             >
-              <Pressable android_ripple={{ color: "#eee" }} style={{ padding: 16 }}>
-                <Text style={styles.exerciseName}>{exercicio.nome}</Text>
+              <Pressable
+                android_ripple={{ color: "#eee" }}
+                style={{ padding: 16 }}
+              >
+                <Text style={styles.exerciseName}>{exercise.name}</Text>
                 <Text style={styles.exerciseInfo}>
-                  {exercicio.repeticoes} Repetições
+                  {exercise.repeticoes} Repetições
                 </Text>
               </Pressable>
             </Animated.View>
@@ -70,38 +83,37 @@ export default function ExerciseSelected({ treino }: { treino: TreinoType | null
   );
 }
 
- // oq que vc veio olhar aqui?
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    marginTop: 20,
-    paddingHorizontal: 10,
+    flex: 1,
+    padding: 20,
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "bold",
     color: colors.primary,
-    marginBottom: 12,
+    marginBottom: 16,
   },
-  exerciseContainer: {},
+  exerciseContainer: {
+    flex: 1,
+  },
   exerciseCard: {
-    backgroundColor: colors.white,
-    borderRadius: 16,
+    backgroundColor: "#fff",
+    borderRadius: 12,
     elevation: 3,
     shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
-    marginBottom: 12,
   },
   exerciseName: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 18,
+    fontWeight: "600",
     color: colors.primary,
   },
   exerciseInfo: {
     fontSize: 14,
-    color: "#666",
+    color: "#555",
     marginTop: 4,
   },
 });
