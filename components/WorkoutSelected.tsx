@@ -1,37 +1,49 @@
 import { useEffect, useRef } from "react";
 import {
   Animated,
+  GestureResponderEvent,
   Pressable,
   ScrollView,
   StyleSheet,
+  Vibration,
   View,
 } from "react-native";
 import { Text } from ".";
 import colors from "./Colors";
-import { TreinoType } from "./WorkoutSelector";
+import { Exercise, TreinoType } from "./WorkoutSelector";
 
 export default function ExerciseSelected({
   treino,
+  onLongPress,
 }: {
   treino: TreinoType | null;
+  onLongPress: (exercise: Exercise, event: GestureResponderEvent) => void;
 }) {
-  const animatedValues = useRef<Animated.Value[]>([]);
+  const animatedValues = useRef<{ [key: number]: Animated.Value }>({}).current;
 
   useEffect(() => {
-    if (!treino) return;
+    if (treino?.exercises) {
+      // Ensure an Animated.Value exists for each exercise.
+      treino.exercises.forEach((exercise) => {
+        if (!animatedValues[exercise.id]) {
+          animatedValues[exercise.id] = new Animated.Value(0);
+        }
+      });
 
-    animatedValues.current = treino.exercises.map(() => new Animated.Value(0));
+      // Reset animations to 0 before starting a new sequence.
+      // This is crucial for when the user selects a new treino.
+      Object.values(animatedValues).forEach((val) => val.setValue(0));
 
-    const animations = animatedValues.current.map((val, i) =>
-      Animated.timing(val, {
-        toValue: 1,
-        duration: 300,
-        delay: i * 100,
-        useNativeDriver: true,
-      })
-    );
+      const animations = treino.exercises.map((exercise) =>
+        Animated.timing(animatedValues[exercise.id], {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        })
+      );
 
-    Animated.stagger(100, animations).start();
+      Animated.stagger(100, animations).start();
+    }
   }, [treino]);
 
   if (!treino) return null;
@@ -44,7 +56,7 @@ export default function ExerciseSelected({
         contentContainerStyle={{ gap: 12, paddingBottom: 20 }}
       >
         {treino.exercises.map((exercise, index) => {
-          const opacity = animatedValues.current[index];
+          const opacity = animatedValues[exercise.id] || new Animated.Value(0);
 
           return (
             <Animated.View
@@ -69,6 +81,10 @@ export default function ExerciseSelected({
               <Pressable
                 android_ripple={{ color: "#eee" }}
                 style={{ padding: 16 }}
+                onLongPress={(event) => {
+                  Vibration.vibrate(75);
+                  onLongPress(exercise, event);
+                }}
               >
                 <Text style={styles.exerciseName}>{exercise.name}</Text>
                 <Text style={styles.exerciseInfo}>

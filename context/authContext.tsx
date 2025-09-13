@@ -111,7 +111,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       }
       const resToken = await response.json();
-      console.log(JSON.stringify(resToken.token));
       setToken(JSON.stringify(resToken.token));
       await SecureStore.setItemAsync("token", JSON.stringify(resToken.token));
       const newUser = { email };

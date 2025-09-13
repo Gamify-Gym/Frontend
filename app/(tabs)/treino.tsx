@@ -1,16 +1,54 @@
 import ExerciseSelected from "@/components/WorkoutSelected";
 import { fakeTreinoData } from "@/components/fakeData";
-import TreinoSelector, { TreinoType } from "@/components/WorkoutSelector";
+import TreinoSelector, {
+  Exercise,
+  TreinoType,
+} from "@/components/WorkoutSelector";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import {
+  GestureResponderEvent,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { useAuth } from "@/context/authContext";
+import EditMenu from "@/components/editMenu";
 
 export default function Treino() {
   const [selectedTreino, setSelectedTreino] = useState<TreinoType | null>(null);
   const [treino, setTreino] = useState<[TreinoType] | []>([]);
+  const [menuVisible, setMenuVisible] = useState<boolean>(false);
+  const [menuCoords, setMenuCoords] = useState<{
+    x: number | null;
+    y: number | null;
+  }>({ x: null, y: null });
+  const [selectedItem, setSelectedItem] = useState<
+    Exercise | TreinoType | null
+  >(null);
   const { token } = useAuth();
 
-  const handleTreinoChange = (treino: TreinoType) => setSelectedTreino(treino);
+  const handleTreinoChange = (treino: TreinoType) => {
+    setSelectedTreino(null);
+    setTimeout(() => setSelectedTreino(treino), 0);
+  };
+  const handleLongPress = (
+    item: Exercise | TreinoType,
+    event: GestureResponderEvent
+  ) => {
+    const { pageX, pageY } = event.nativeEvent;
+    setMenuCoords({ x: pageX, y: pageY });
+    setSelectedItem(item);
+    setMenuVisible(true);
+  };
+
+  const closeMenu = () => {
+    if (menuVisible) {
+      setMenuVisible(false);
+      setSelectedItem(null);
+      setMenuCoords({ x: null, y: null });
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,10 +72,32 @@ export default function Treino() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={() => closeMenu()}>
+      {menuVisible && (
+        <EditMenu
+          selectedItem={selectedItem}
+          actions={[
+            {
+              label: "Hell",
+              action: () => console.log("hello " + selectedItem?.name),
+            },
+            {
+              label: "Menu",
+              action: () => console.log("menu " + selectedItem?.name),
+            },
+            {
+              label: "Test",
+              action: () => console.log("test " + selectedItem?.name),
+            },
+          ]}
+          // Ignore esse erro, não tem problema
+          coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
+        />
+      )}
       <TreinoSelector
         treinoData={treino}
         onPress={handleTreinoChange}
+        onLongPress={(e, event) => handleLongPress(e, event)}
       ></TreinoSelector>
 
       <ScrollView
@@ -45,9 +105,12 @@ export default function Treino() {
         contentContainerStyle={{ paddingBottom: 23 }}
         showsVerticalScrollIndicator={false}
       >
-        <ExerciseSelected treino={selectedTreino} />
+        <ExerciseSelected
+          treino={selectedTreino}
+          onLongPress={(e, event) => handleLongPress(e, event)}
+        />
       </ScrollView>
-    </View>
+    </Pressable>
   );
 }
 
