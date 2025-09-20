@@ -62,7 +62,14 @@ export default function Treino() {
             },
           }
         );
+        if (!res.ok) {
+          console.error("Request failed", res.status);
+          const errorText = await res.text();
+          setTreino([]);
+          throw new Error(errorText);
+        }
         const json = await res.json();
+        console.log(json);
         setTreino(json);
       } catch (error) {
         console.error(error);

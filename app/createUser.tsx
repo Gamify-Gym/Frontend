@@ -84,17 +84,20 @@ export default function CreateUserScreen() {
 
     setIsLoading(true);
     try {
-      const response: Response = await fetch("user/create", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    name,
-    email,
-  }),
-});
-
+      const response: Response = await fetch(
+        `${process.env.EXPO_PUBLIC_BACKEND_URL}/user/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: name,
+            email: email,
+            password: password,
+          }),
+        }
+      );
 
       const data: RegisterResponse = await response.json();
 
@@ -103,7 +106,6 @@ export default function CreateUserScreen() {
         setIsLoading(false);
         return;
       }
-
       Alert.alert("Sucesso", "Usuário criado com sucesso!");
       router.navigate("/login");
     } catch (error) {
