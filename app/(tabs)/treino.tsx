@@ -30,6 +30,8 @@ export default function Treino() {
   const [selectedItem, setSelectedItem] = useState<
     Exercise | TreinoType | null
   >(null);
+
+  const [treinoTitle, setTreinoType];
   const { token } = useAuth();
 
   const handleTreinoChange = (treino: TreinoType) => {
@@ -107,7 +109,9 @@ export default function Treino() {
           coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
         />
       )}
-      {creationMenuVisible && <FormCreationDialogue />}
+      {creationMenuVisible && (
+        <FormCreationDialogue onSubmit={handleCreateWorkout} />
+      )}
       <TreinoSelector
         treinoData={treino}
         onPress={handleTreinoChange}
@@ -123,8 +127,16 @@ export default function Treino() {
           treino={selectedTreino}
           onLongPress={(e, event) => handleLongPress(e, event)}
         />
-        <FAB label="Novo treino" onClick={handleCreateWorkout} />
       </ScrollView>
+      <FAB
+        label="Novo treino"
+        options={[
+          {
+            label: "create",
+            action: () => setCreationMenuVisible(!creationMenuVisible),
+          },
+        ]}
+      />
     </Pressable>
   );
 }

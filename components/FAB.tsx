@@ -125,7 +125,7 @@ const style = StyleSheet.create({
     justifyContent: "flex-end",
   },
   button: {
-    zIndex: 999,
+    zIndex: 15,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
