@@ -10,12 +10,26 @@ export default function home() {
   return (
     <View style={styles.container}>
       <FAB
-        label={"Logout"}
+        label="Ações"
         icon="add"
-        onClick={() => {
-          logout();
-        }}
-      ></FAB>
+        options={[
+          {
+            label: "Editar",
+            action: () => console.log("Editar"),
+            icon: "edit",
+          },
+          {
+            label: "Excluir",
+            action: () => console.log("Excluir"),
+            icon: "delete",
+          },
+          {
+            label: "Logout",
+            action: () => logout(),
+            icon: "share",
+          },
+        ]}
+      />
     </View>
   );
 }

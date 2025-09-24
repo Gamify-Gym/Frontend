@@ -15,6 +15,7 @@ import {
 import { useAuth } from "@/context/authContext";
 import EditMenu from "@/components/editMenu";
 import FAB from "@/components/FAB";
+import FormCreationDialogue from "@/components/FormCreationDialogue";
 
 export default function Treino() {
   const [selectedTreino, setSelectedTreino] = useState<TreinoType | null>(null);
@@ -106,9 +107,7 @@ export default function Treino() {
           coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
         />
       )}
-      {creationMenuVisible && (
-        <div style={{ width: 100, height: 100, backgroundColor: "black" }} />
-      )}
+      {creationMenuVisible && <FormCreationDialogue />}
       <TreinoSelector
         treinoData={treino}
         onPress={handleTreinoChange}
