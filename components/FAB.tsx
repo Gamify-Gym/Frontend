@@ -3,6 +3,7 @@ import {
   GestureResponderEvent,
   TouchableOpacity,
   StyleSheet,
+  Pressable,
 } from "react-native";
 import { Text } from ".";
 
@@ -19,7 +20,7 @@ export default function FAB({ onClick, label, color, colorText, icon }: Props) {
   const textColor = colorText ?? "#4F378A";
   const showIcon = icon ?? null;
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onClick}
       style={[style.button, { backgroundColor: backgroundColor }]}
     >
@@ -27,7 +28,7 @@ export default function FAB({ onClick, label, color, colorText, icon }: Props) {
       {/* @ts-ignore*/}
       {icon && <MaterialIcons name={showIcon} size={30} color={textColor} />}
       <Text style={[style.buttonText, { color: textColor }]}>{label}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 

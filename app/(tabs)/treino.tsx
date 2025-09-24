@@ -14,11 +14,14 @@ import {
 } from "react-native";
 import { useAuth } from "@/context/authContext";
 import EditMenu from "@/components/editMenu";
+import FAB from "@/components/FAB";
 
 export default function Treino() {
   const [selectedTreino, setSelectedTreino] = useState<TreinoType | null>(null);
   const [treino, setTreino] = useState<[TreinoType] | []>([]);
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
+  const [creationMenuVisible, setCreationMenuVisible] =
+    useState<boolean>(false);
   const [menuCoords, setMenuCoords] = useState<{
     x: number | null;
     y: number | null;
@@ -78,6 +81,8 @@ export default function Treino() {
     fetchData();
   }, []);
 
+  const handleCreateWorkout = async () => {};
+
   return (
     <Pressable style={styles.container} onPress={() => closeMenu()}>
       {menuVisible && (
@@ -101,6 +106,9 @@ export default function Treino() {
           coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
         />
       )}
+      {creationMenuVisible && (
+        <div style={{ width: 100, height: 100, backgroundColor: "black" }} />
+      )}
       <TreinoSelector
         treinoData={treino}
         onPress={handleTreinoChange}
@@ -116,6 +124,7 @@ export default function Treino() {
           treino={selectedTreino}
           onLongPress={(e, event) => handleLongPress(e, event)}
         />
+        <FAB label="Novo treino" onClick={handleCreateWorkout} />
       </ScrollView>
     </Pressable>
   );
