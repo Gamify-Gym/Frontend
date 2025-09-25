@@ -31,7 +31,8 @@ export default function Treino() {
     Exercise | TreinoType | null
   >(null);
 
-  const [treinoTitle, setTreinoTitle] = useState<string | null>(null);
+  const [treinoTitle, setTreinoTitle] = useState<string>("");
+  const [treinoDescription, setTreinoDescription] = useState<string>("");
   const { token } = useAuth();
 
   const handleTreinoChange = (treino: TreinoType) => {
@@ -89,7 +90,21 @@ export default function Treino() {
     fetchData();
   }, []);
 
-  const handleCreateWorkout = async () => {};
+  useEffect(() => {
+    const log = () => {
+      console.log(treinoDescription);
+      console.log(treinoTitle);
+    };
+    log();
+  }, [treinoDescription, treinoTitle]);
+
+  const handleCreateWorkout = async ({
+    type,
+  }: {
+    type: "exercise" | "workout";
+  }) => {
+    if (type !== "exercise" && type !== "workout") return;
+  };
 
   return (
     <Pressable style={styles.container} onPress={() => closeMenu()}>
@@ -119,6 +134,18 @@ export default function Treino() {
           onSubmit={handleCreateWorkout}
           onClose={closeCreationMenu}
           title="Creation"
+          options={[
+            {
+              placeholder: "titulo",
+              value: treinoTitle,
+              onChange: setTreinoTitle,
+            },
+            {
+              placeholder: "descrição",
+              value: treinoDescription,
+              onChange: setTreinoDescription,
+            },
+          ]}
         />
       )}
       <TreinoSelector
