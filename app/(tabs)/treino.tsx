@@ -31,7 +31,7 @@ export default function Treino() {
     Exercise | TreinoType | null
   >(null);
 
-  const [treinoTitle, setTreinoType];
+  const [treinoTitle, setTreinoTitle] = useState<string | null>(null);
   const { token } = useAuth();
 
   const handleTreinoChange = (treino: TreinoType) => {
@@ -53,6 +53,11 @@ export default function Treino() {
       setMenuVisible(false);
       setSelectedItem(null);
       setMenuCoords({ x: null, y: null });
+    }
+  };
+  const closeCreationMenu = () => {
+    if (creationMenuVisible) {
+      return setCreationMenuVisible(false);
     }
   };
 
@@ -110,7 +115,11 @@ export default function Treino() {
         />
       )}
       {creationMenuVisible && (
-        <FormCreationDialogue onSubmit={handleCreateWorkout} />
+        <FormCreationDialogue
+          onSubmit={handleCreateWorkout}
+          onClose={closeCreationMenu}
+          title="Creation"
+        />
       )}
       <TreinoSelector
         treinoData={treino}

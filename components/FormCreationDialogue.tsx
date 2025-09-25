@@ -1,4 +1,6 @@
-import { Modal, StyleSheet, TextInput, View } from "react-native";
+import { useEffect } from "react";
+import { BackHandler, Modal, StyleSheet, TextInput, View } from "react-native";
+import { Text } from ".";
 
 type Options = {
   placeholder: string;
@@ -10,17 +12,31 @@ export default function FormCreationDialogue({
   onSubmit,
   options,
   title,
+  onClose,
 }: {
   onSubmit: () => Promise<void>;
-  options: Options[];
+  options?: Options[];
   title: string;
+  onClose: () => void;
 }) {
+  useEffect(() => {
+    const back = () => {
+      onClose();
+      console.log("Backed");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", back);
+    return () => backHandler.remove();
+  }, [onClose]);
   return (
-    <Modal transparent={true}>
+    <Modal transparent={true} onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View style={styles.mainContainer}>
-          {options.map((option, id) => (
+          <Text style={{ color: "red" }}>{title}</Text>
+          {options?.map((option, id) => (
             <TextInput
+              id={id.toString()}
               value={option.value}
               onChangeText={option.onChange}
               placeholder={option.placeholder}
