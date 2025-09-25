@@ -1,6 +1,6 @@
-import { Text } from "@/components";
-import Button from "@/components/Button";
-import colors from "@/components/Colors";
+import { Text } from "@/components/general";
+import colors from "@/components/general/Colors";
+import Button from "@/components/general/Button";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";

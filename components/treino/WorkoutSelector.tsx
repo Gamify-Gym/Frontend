@@ -5,27 +5,9 @@ import {
   Vibration,
   View,
 } from "react-native";
-import { Text } from ".";
-import colors from "./Colors";
-
-export type Exercise = {
-  id: number;
-  name: string;
-  muscles: string;
-  repeticoes: number;
-  series: number;
-  complete?: boolean;
-};
-
-export type TreinoType = {
-  id: number;
-  name: string;
-  description: string;
-  exercises: Exercise[];
-  complete?: boolean;
-  totalExercises: number;
-  totalSeries: number;
-};
+import { Text } from "../general";
+import { TreinoType } from "../general/types";
+import colors from "../general/Colors";
 
 type TreinoData = TreinoType[];
 

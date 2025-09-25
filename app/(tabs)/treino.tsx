@@ -1,158 +1,187 @@
-import ExerciseSelected from "@/components/WorkoutSelected";
-import { fakeTreinoData } from "@/components/fakeData";
-import TreinoSelector, {
-  Exercise,
-  TreinoType,
-} from "@/components/WorkoutSelector";
-import { useEffect, useState } from "react";
+import ExerciseSelected from "@/components/treino/WorkoutSelected";
+import TreinoSelector from "@/components/treino/WorkoutSelector";
 import {
   GestureResponderEvent,
   Pressable,
   ScrollView,
   StyleSheet,
-  View,
 } from "react-native";
-import { useAuth } from "@/context/authContext";
-import EditMenu from "@/components/editMenu";
-import FAB from "@/components/FAB";
-import FormCreationDialogue from "@/components/FormCreationDialogue";
+import { TreinoType, ExerciseType } from "@/components/general/types";
+import EditMenu from "@/components/general/ContextMenu";
+import FAB from "@/components/general/FAB";
+import FormCreationDialogue from "@/components/treino/FormCreationDialogue";
+import { useMenu } from "@/hooks/useMenu";
+import { useWorkout } from "@/hooks/useWorkout";
+import { useState } from "react";
 
 export default function Treino() {
   const [selectedTreino, setSelectedTreino] = useState<TreinoType | null>(null);
-  const [treino, setTreino] = useState<[TreinoType] | []>([]);
-  const [menuVisible, setMenuVisible] = useState<boolean>(false);
-  const [creationMenuVisible, setCreationMenuVisible] =
-    useState<boolean>(false);
-  const [menuCoords, setMenuCoords] = useState<{
-    x: number | null;
-    y: number | null;
-  }>({ x: null, y: null });
-  const [selectedItem, setSelectedItem] = useState<
-    Exercise | TreinoType | null
+  const [creationMenuVisible, setCreationMenuVisible] = useState(false);
+  const [creationType, setCreationType] = useState<
+    "treino" | "exercise" | null
   >(null);
 
-  const [treinoTitle, setTreinoTitle] = useState<string>("");
-  const [treinoDescription, setTreinoDescription] = useState<string>("");
-  const { token } = useAuth();
+  const [treinoTitle, setTreinoTitle] = useState("");
+  const [treinoDescription, setTreinoDescription] = useState("");
+  const [exerciseName, setExerciseName] = useState("");
+  const [exerciseMuscles, setExerciseMuscles] = useState("");
+  const [exerciseReps, setExerciseReps] = useState("");
+  const [exerciseSeries, setExerciseSeries] = useState("");
+  const [exerciseWorkout, setExerciseWorkout] = useState("");
+
+  const {
+    menuVisible,
+    menuCoords,
+    selectedItem,
+    setSelectedItem,
+    handleLongPress,
+    closeMenu,
+  } = useMenu();
+
+  const { treino } = useWorkout();
 
   const handleTreinoChange = (treino: TreinoType) => {
     setSelectedTreino(null);
     setTimeout(() => setSelectedTreino(treino), 0);
   };
-  const handleLongPress = (
-    item: Exercise | TreinoType,
+
+  const handleItemLongPress = (
+    item: ExerciseType | TreinoType,
     event: GestureResponderEvent
   ) => {
-    const { pageX, pageY } = event.nativeEvent;
-    setMenuCoords({ x: pageX, y: pageY });
     setSelectedItem(item);
-    setMenuVisible(true);
+    handleLongPress(event);
   };
 
-  const closeMenu = () => {
-    if (menuVisible) {
-      setMenuVisible(false);
-      setSelectedItem(null);
-      setMenuCoords({ x: null, y: null });
-    }
-  };
   const closeCreationMenu = () => {
-    if (creationMenuVisible) {
-      return setCreationMenuVisible(false);
+    setCreationMenuVisible(false);
+    setCreationType(null);
+  };
+
+  const handleCreateWorkout = async () => {
+    if (creationType === "treino") {
+      console.log("Create Treino:", { treinoTitle, treinoDescription });
+    } else if (creationType === "exercise") {
+      console.log("Create Exercise:", {
+        name: exerciseName,
+        muscles: exerciseMuscles,
+        repeticoes: exerciseReps,
+        series: exerciseSeries,
+        workoutName: exerciseWorkout,
+      });
     }
+    closeCreationMenu();
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.EXPO_PUBLIC_BACKEND_URL}/training/workout`,
+  const MENU_ACTIONS = [
+    {
+      label: "Novo Treino",
+      action: () => console.log("hello " + selectedItem?.name),
+    },
+    {
+      label: "Menu",
+      action: () => console.log("menu " + selectedItem?.name),
+    },
+    {
+      label: "Test",
+      action: () => console.log("test " + selectedItem?.name),
+    },
+  ];
+
+  const FAB_OPTIONS = [
+    {
+      label: "Treino",
+      action: () => {
+        setCreationType("treino");
+        setCreationMenuVisible(true);
+      },
+      icon: "add" as const,
+    },
+    {
+      label: "Exercício",
+      action: () => {
+        setCreationType("exercise");
+        setCreationMenuVisible(true);
+      },
+      icon: "add" as const,
+    },
+  ];
+
+  const FORM_OPTIONS =
+    creationType === "treino"
+      ? [
           {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token?.replace(/"/g, "")}`,
-            },
-          }
-        );
-        if (!res.ok) {
-          console.error("Request failed", res.status);
-          const errorText = await res.text();
-          setTreino([]);
-          throw new Error(errorText);
-        }
-        const json = await res.json();
-        console.log(json);
-        setTreino(json);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const log = () => {
-      console.log(treinoDescription);
-      console.log(treinoTitle);
-    };
-    log();
-  }, [treinoDescription, treinoTitle]);
-
-  const handleCreateWorkout = async ({
-    type,
-  }: {
-    type: "exercise" | "workout";
-  }) => {
-    if (type !== "exercise" && type !== "workout") return;
-  };
+            placeholder: "titulo",
+            value: treinoTitle,
+            onChange: setTreinoTitle,
+          },
+          {
+            placeholder: "descrição",
+            value: treinoDescription,
+            onChange: setTreinoDescription,
+          },
+        ]
+      : creationType === "exercise"
+      ? [
+          {
+            placeholder: "nome",
+            value: exerciseName,
+            onChange: setExerciseName,
+          },
+          {
+            placeholder: "músculos",
+            value: exerciseMuscles,
+            onChange: setExerciseMuscles,
+          },
+          {
+            placeholder: "repetições",
+            value: exerciseReps,
+            onChange: setExerciseReps,
+          },
+          {
+            placeholder: "séries",
+            value: exerciseSeries,
+            onChange: setExerciseSeries,
+          },
+          {
+            type: "select" as const,
+            placeholder: "treino vinculado",
+            value: exerciseWorkout,
+            onChange: setExerciseWorkout,
+            options: treino.map((t: TreinoType) => ({
+              label: t.name,
+              value: t.name,
+            })),
+          },
+        ]
+      : [];
 
   return (
-    <Pressable style={styles.container} onPress={() => closeMenu()}>
+    <Pressable style={styles.container} onPress={closeMenu}>
       {menuVisible && (
         <EditMenu
           selectedItem={selectedItem}
-          actions={[
-            {
-              label: "Hell",
-              action: () => console.log("hello " + selectedItem?.name),
-            },
-            {
-              label: "Menu",
-              action: () => console.log("menu " + selectedItem?.name),
-            },
-            {
-              label: "Test",
-              action: () => console.log("test " + selectedItem?.name),
-            },
-          ]}
-          // Ignore esse erro, não tem problema
+          actions={MENU_ACTIONS}
+          //@ts-expect-error
           coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
         />
       )}
+
       {creationMenuVisible && (
         <FormCreationDialogue
           onSubmit={handleCreateWorkout}
           onClose={closeCreationMenu}
-          title="Creation"
-          options={[
-            {
-              placeholder: "titulo",
-              value: treinoTitle,
-              onChange: setTreinoTitle,
-            },
-            {
-              placeholder: "descrição",
-              value: treinoDescription,
-              onChange: setTreinoDescription,
-            },
-          ]}
+          title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
+          options={FORM_OPTIONS}
+          submitTitle="Adicionar"
         />
       )}
+
       <TreinoSelector
         treinoData={treino}
         onPress={handleTreinoChange}
-        onLongPress={(e, event) => handleLongPress(e, event)}
-      ></TreinoSelector>
+        onLongPress={(item, event) => handleItemLongPress(item, event)}
+      />
 
       <ScrollView
         style={styles.exerciseScroll}
@@ -161,18 +190,11 @@ export default function Treino() {
       >
         <ExerciseSelected
           treino={selectedTreino}
-          onLongPress={(e, event) => handleLongPress(e, event)}
+          onLongPress={(item, event) => handleItemLongPress(item, event)}
         />
       </ScrollView>
-      <FAB
-        label="Novo treino"
-        options={[
-          {
-            label: "create",
-            action: () => setCreationMenuVisible(!creationMenuVisible),
-          },
-        ]}
-      />
+
+      <FAB icon="add" options={FAB_OPTIONS} />
     </Pressable>
   );
 }
@@ -183,27 +205,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingTop: 50,
     alignItems: "center",
-  },
-  header: {
-    marginBottom: 25,
-    alignItems: "center",
-  },
-  headerTitle: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#ffffff",
-    textShadowColor: "#ffffffff",
-    textShadowOffset: { width: 0, height: 3 },
-    textShadowRadius: 5,
-  },
-  headerSubtitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#ffffffff",
-    marginTop: 6,
-    textShadowColor: "#ffffffff",
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
   },
   exerciseScroll: {
     width: "100%",

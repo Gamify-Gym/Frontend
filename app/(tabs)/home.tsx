@@ -1,4 +1,4 @@
-import FAB from "@/components/FAB";
+import FAB from "@/components/general/FAB";
 import { Text, View, StyleSheet } from "react-native";
 import { useAuth } from "@/context/authContext";
 

@@ -16,7 +16,7 @@ type Option = {
 };
 
 type Props = {
-  label: string;
+  label?: string;
   color?: string;
   colorText?: string;
   icon?: string;
@@ -82,6 +82,7 @@ export default function FAB({ label, color, colorText, icon, options }: Props) {
               right: 0,
               opacity,
               transform: [{ translateY }],
+              alignItems: "flex-end",
             }}
           >
             <Pressable
@@ -92,6 +93,7 @@ export default function FAB({ label, color, colorText, icon, options }: Props) {
               }}
             >
               {opt.icon && (
+                //@ts-ignore
                 <MaterialIcons name={opt.icon} size={22} color={textColor} />
               )}
               <Text style={[style.buttonText, { color: textColor }]}>
@@ -106,11 +108,17 @@ export default function FAB({ label, color, colorText, icon, options }: Props) {
         {expanded ? (
           <MaterialIcons name="close" size={28} color={textColor} />
         ) : (
+          //@ts-ignore
           <MaterialIcons name={showIcon} size={28} color={textColor} />
         )}
-        <Text style={[style.buttonText, { color: textColor }]}>
-          {expanded ? "Fechar" : label}
-        </Text>
+        {label && (
+          <Text style={[style.buttonText, { color: textColor }]}>
+            {expanded ? "Fechar" : label}
+          </Text>
+        )}
+        {expanded && !label && (
+          <Text style={[style.buttonText, { color: textColor }]}>Fechar</Text>
+        )}
       </Pressable>
     </View>
   );
@@ -142,6 +150,7 @@ const style = StyleSheet.create({
     borderRadius: 20,
     elevation: 3,
     gap: 6,
+    alignSelf: "flex-start",
   },
   buttonText: {
     fontSize: 16,

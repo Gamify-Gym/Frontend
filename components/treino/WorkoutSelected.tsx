@@ -8,30 +8,26 @@ import {
   Vibration,
   View,
 } from "react-native";
-import { Text } from ".";
-import colors from "./Colors";
-import { Exercise, TreinoType } from "./WorkoutSelector";
-
+import { Text } from "../general";
+import { TreinoType, ExerciseType } from "../general/types";
+import colors from "../general/Colors";
 export default function ExerciseSelected({
   treino,
   onLongPress,
 }: {
   treino: TreinoType | null;
-  onLongPress: (exercise: Exercise, event: GestureResponderEvent) => void;
+  onLongPress: (exercise: ExerciseType, event: GestureResponderEvent) => void;
 }) {
   const animatedValues = useRef<{ [key: number]: Animated.Value }>({}).current;
 
   useEffect(() => {
     if (treino?.exercises) {
-      // Ensure an Animated.Value exists for each exercise.
       treino.exercises.forEach((exercise) => {
         if (!animatedValues[exercise.id]) {
           animatedValues[exercise.id] = new Animated.Value(0);
         }
       });
 
-      // Reset animations to 0 before starting a new sequence.
-      // This is crucial for when the user selects a new treino.
       Object.values(animatedValues).forEach((val) => val.setValue(0));
 
       const animations = treino.exercises.map((exercise) =>
