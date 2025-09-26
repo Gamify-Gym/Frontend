@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export function useWorkout() {
   const [treino, setTreino] = useState<[TreinoType] | []>([]);
+  const [rerun, setRerun] = useState<number>(0);
   const { token } = useAuth();
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export function useWorkout() {
     };
 
     fetchData();
-  }, [token]);
+  }, [rerun]);
 
-  return { treino, setTreino };
+  return { treino, setTreino, setRerun };
 }

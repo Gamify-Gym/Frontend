@@ -1,6 +1,7 @@
 import ExerciseSelected from "@/components/treino/WorkoutSelected";
 import TreinoSelector from "@/components/treino/WorkoutSelector";
 import {
+  Alert,
   GestureResponderEvent,
   Pressable,
   ScrollView,
@@ -13,6 +14,7 @@ import FormCreationDialogue from "@/components/treino/FormCreationDialogue";
 import { useMenu } from "@/hooks/useMenu";
 import { useWorkout } from "@/hooks/useWorkout";
 import { useState } from "react";
+import { useAuth } from "@/context/authContext";
 
 export default function Treino() {
   const [selectedTreino, setSelectedTreino] = useState<TreinoType | null>(null);
@@ -38,7 +40,9 @@ export default function Treino() {
     closeMenu,
   } = useMenu();
 
-  const { treino } = useWorkout();
+  const { token } = useAuth();
+
+  const { treino, setRerun } = useWorkout();
 
   const handleTreinoChange = (treino: TreinoType) => {
     setSelectedTreino(null);
@@ -59,32 +63,49 @@ export default function Treino() {
   };
 
   const handleCreateWorkout = async () => {
-    if (creationType === "treino") {
-      console.log("Create Treino:", { treinoTitle, treinoDescription });
-    } else if (creationType === "exercise") {
-      console.log("Create Exercise:", {
-        name: exerciseName,
-        muscles: exerciseMuscles,
-        repeticoes: exerciseReps,
-        series: exerciseSeries,
-        workoutName: exerciseWorkout,
-      });
+    try {
+      if (creationType === "treino") {
+        console.log("Create Treino:", {
+          treinoTitle,
+          treinoDescription,
+        });
+        const res = await fetch(
+          `${process.env.EXPO_PUBLIC_BACKEND_URL}/training/workout`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token?.replace(/"/g, "")}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Erro ao criar novo treino!");
+        setRerun((prev) => prev++);
+        Alert.alert("Sucesso!", "Novo Treino criado com sucesso!");
+      }
+
+      if (creationType === "exercise") {
+        console.log("Create Exercise:", {
+          name: exerciseName,
+          muscles: exerciseMuscles,
+          repeticoes: exerciseReps,
+          series: exerciseSeries,
+          workoutName: exerciseWorkout,
+        });
+      }
+    } catch (error) {
+    } finally {
+      closeCreationMenu();
     }
-    closeCreationMenu();
   };
 
   const MENU_ACTIONS = [
     {
-      label: "Novo Treino",
-      action: () => console.log("hello " + selectedItem?.name),
+      label: "Editar",
+      action: () => console.log("Editar " + selectedItem?.name),
     },
     {
-      label: "Menu",
-      action: () => console.log("menu " + selectedItem?.name),
-    },
-    {
-      label: "Test",
-      action: () => console.log("test " + selectedItem?.name),
+      label: "Apagar",
+      action: () => console.log("Apagar " + selectedItem?.name),
     },
   ];
 
