@@ -74,6 +74,7 @@ export default function Treino() {
           {
             method: "POST",
             headers: {
+              "Content-Type": "Application/Json",
               Authorization: `Bearer ${token?.replace(/"/g, "")}`,
             },
           }
