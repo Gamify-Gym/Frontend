@@ -1,7 +1,7 @@
-import { Modal, StyleSheet, TextInput, View } from "react-native";
+import { Modal, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import Button from "../general/Button";
 import { Text } from "../general";
+import colors from "../general/Colors";
 
 type InputOption = {
   type?: "input";
@@ -63,7 +63,29 @@ export default function FormCreationDialogue({
             )
           )}
 
-          <Button title={submitTitle} onPress={onSubmit} />
+          <View style={styles.buttonsContainer}>
+            <Pressable
+              style={({ pressed }) => [
+                styles.button,
+                styles.cancelButton,
+                pressed && styles.buttonPressed,
+              ]}
+              onPress={onClose}
+            >
+              <Text style={styles.cancelButtonText}>Cancelar</Text>
+            </Pressable>
+
+            <Pressable
+              style={({ pressed }) => [
+                styles.button,
+                styles.submitButton,
+                pressed && styles.buttonPressed,
+              ]}
+              onPress={onSubmit}
+            >
+              <Text style={styles.submitButtonText}>{submitTitle}</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </Modal>
@@ -75,8 +97,13 @@ const styles = StyleSheet.create({
     width: "75%",
     padding: 20,
     borderRadius: 16,
-    backgroundColor: "blue",
+    backgroundColor: colors.white,
     gap: 10,
+    elevation: 5,
+    shadowColor: colors.textPrimary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   overlay: {
     flex: 1,
@@ -88,11 +115,52 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 12,
-    color: "white",
+    color: colors.textPrimary,
+    textAlign: "center",
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     borderRadius: 8,
-    padding: 10,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: colors.borderOnWhite,
+    fontSize: 16,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15,
+    gap: 10,
+  },
+  button: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 44,
+  },
+  cancelButton: {
+    backgroundColor: colors.lightGray,
+    borderWidth: 1,
+    borderColor: colors.borderOnWhite,
+  },
+  submitButton: {
+    backgroundColor: colors.primary,
+  },
+  buttonPressed: {
+    opacity: 0.8,
+    transform: [{ scale: 0.98 }],
+  },
+  cancelButtonText: {
+    color: colors.textSecondary,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  submitButtonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

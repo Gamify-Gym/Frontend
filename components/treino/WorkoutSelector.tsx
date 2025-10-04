@@ -23,84 +23,173 @@ export default function TreinoSelector({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Treinos</Text>
-      <View style={styles.selectorContainer}>
-        {treinoData.map((treino, index) => (
-          <View key={index} style={styles.selectorWrapper}>
-            <Pressable
-              android_ripple={{ borderless: true }}
-              style={styles.selector}
-              onPress={() => onPress(treino)}
-              onLongPress={(event) => {
-                Vibration.vibrate(75);
-                onLongPress(treino, event);
-              }}
-            >
-              <Text style={styles.selectorLabel}>{treino.name}</Text>
-              <View style={styles.selectorDivisor}>
-                <Text>{treino.totalExercises} Exercícios</Text>
-                <View style={styles.line} />
-                <Text>{treino.totalSeries} Séries</Text>
-              </View>
-            </Pressable>
-          </View>
-        ))}
-      </View>
+
+      {treinoData.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>
+            Nenhum treino, vamos criar alguns?
+          </Text>
+          <Text style={styles.emptySubtext}>Toque no botão + para começar</Text>
+        </View>
+      ) : (
+        <View style={styles.selectorContainer}>
+          {treinoData.map((treino, index) => (
+            <View key={index} style={styles.selectorWrapper}>
+              <Pressable
+                android_ripple={{ color: colors.lightGray, borderless: false }}
+                style={({ pressed }) => [
+                  styles.selector,
+                  pressed && styles.selectorPressed,
+                ]}
+                onPress={() => onPress(treino)}
+                onLongPress={(event) => {
+                  Vibration.vibrate(75);
+                  onLongPress(treino, event);
+                }}
+              >
+                <View style={styles.selectorContent}>
+                  <View style={styles.selectorMain}>
+                    <Text style={styles.selectorLabel}>{treino.name}</Text>
+                    {treino.description && (
+                      <Text
+                        style={styles.selectorDescription}
+                        numberOfLines={1}
+                      >
+                        {treino.description}
+                      </Text>
+                    )}
+                  </View>
+                  <View style={styles.selectorDivisor}>
+                    <View style={styles.statsContainer}>
+                      <Text style={styles.statNumber}>
+                        {treino.totalExercises}
+                      </Text>
+                      <Text style={styles.statLabel}>Exercícios</Text>
+                    </View>
+                    <View style={styles.verticalLine} />
+                    <View style={styles.statsContainer}>
+                      <Text style={styles.statNumber}>
+                        {treino.totalSeries}
+                      </Text>
+                      <Text style={styles.statLabel}>Séries</Text>
+                    </View>
+                  </View>
+                </View>
+              </Pressable>
+            </View>
+          ))}
+        </View>
+      )}
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.secondary,
     width: "90%",
-    height: "50%",
-    padding: 20,
+    minHeight: "50%",
+    maxHeight: "70%",
+    padding: 24,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 12,
+    borderRadius: 20,
     borderColor: colors.borderOnSecondary,
     borderWidth: 1,
     borderStyle: "solid",
-    elevation: 3,
+    elevation: 6,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
+    color: colors.textPrimary,
+    marginBottom: 20,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 40,
+  },
+  emptyText: {
+    fontSize: 18,
+    textAlign: "center",
+    color: colors.textSecondary,
+    fontWeight: "600",
+    marginBottom: 8,
+  },
+  emptySubtext: {
+    fontSize: 14,
+    textAlign: "center",
+    color: colors.gray,
   },
   selectorContainer: {
-    width: "110%",
-    display: "flex",
-    alignItems: "center",
-    overflow: "hidden",
-    borderRadius: 12,
+    width: "100%",
+    gap: 12,
   },
   selectorWrapper: {
-    margin: 5,
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
+    backgroundColor: colors.white,
+    elevation: 2,
+    shadowColor: colors.textPrimary,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
   },
   selector: {
-    height: 50,
     backgroundColor: colors.white,
-    padding: 12,
-    alignItems: "center",
-    justifyContent: "space-between",
+    padding: 0,
+  },
+  selectorPressed: {
+    backgroundColor: colors.secondaryLight,
+  },
+  selectorContent: {
+    padding: 20,
     flexDirection: "row",
-    width: "95%",
-    borderWidth: 1,
-    borderColor: colors.borderOnWhite,
-    borderRadius: 12,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  selectorMain: {
+    flex: 1,
+    marginRight: 16,
   },
   selectorLabel: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "700",
+    color: colors.textPrimary,
+    marginBottom: 4,
+  },
+  selectorDescription: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    opacity: 0.8,
   },
   selectorDivisor: {
-    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
+  statsContainer: {
     alignItems: "center",
   },
-  line: {
-    backgroundColor: "black",
-    width: "100%",
-    height: 1,
+  statNumber: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: colors.primary,
+  },
+  statLabel: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    marginTop: 2,
+  },
+  verticalLine: {
+    width: 1,
+    height: 24,
+    backgroundColor: colors.borderOnWhite,
   },
 });

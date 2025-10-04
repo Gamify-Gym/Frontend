@@ -1,6 +1,7 @@
 import { Text } from "@/components/general";
 import Button from "@/components/general/Button";
 import colors from "@/components/general/Colors";
+import { useAuth } from "@/context/authContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -74,6 +75,7 @@ export default function CreateUserScreen() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const { login, token } = useAuth();
   const router = useRouter();
 
   const handleRegister = async (): Promise<void> => {
@@ -105,6 +107,23 @@ export default function CreateUserScreen() {
         Alert.alert("Erro", data.message || "Erro ao criar usuário");
         setIsLoading(false);
         return;
+      }
+      await login(email, password);
+      const setPlayer = await fetch(
+        `${process.env.EXPO_PUBLIC_BACKEND_URL}/user/type`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ weight: 50, height: 120 }),
+        }
+      );
+      if (!setPlayer.ok) {
+        const errorText = await setPlayer.text();
+        console.error("Server error response:", errorText);
+        Alert.alert("erro", `HTTP ${setPlayer.status}: ${errorText}`);
       }
       Alert.alert("Sucesso", "Usuário criado com sucesso!");
       router.navigate("/login");

@@ -62,25 +62,48 @@ export default function Treino() {
     setCreationType(null);
   };
 
-  const handleCreateWorkout = async () => {
+  const handleCreate = async () => {
     try {
       if (creationType === "treino") {
         console.log("Create Treino:", {
           treinoTitle,
           treinoDescription,
         });
+
         const res = await fetch(
           `${process.env.EXPO_PUBLIC_BACKEND_URL}/training/workout`,
           {
             method: "POST",
             headers: {
-              "Content-Type": "Application/Json",
+              "Content-Type": "application/json",
               Authorization: `Bearer ${token?.replace(/"/g, "")}`,
             },
+            body: JSON.stringify({
+              name: treinoTitle,
+              description: treinoDescription,
+            }),
           }
         );
-        if (!res.ok) throw new Error("Erro ao criar novo treino!");
-        setRerun((prev) => prev++);
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error("Server error response:", errorText);
+          throw new Error(`HTTP ${res.status}: ${errorText}`);
+        }
+
+        let responseData;
+        const responseText = await res.text();
+
+        if (responseText) {
+          try {
+            responseData = JSON.parse(responseText);
+            console.log("Success response:", responseData);
+          } catch (parseError) {
+            console.warn("Response is not JSON:", responseText);
+          }
+        }
+
+        setRerun((prev) => prev + 1);
         Alert.alert("Sucesso!", "Novo Treino criado com sucesso!");
       }
 
@@ -92,8 +115,51 @@ export default function Treino() {
           series: exerciseSeries,
           workoutName: exerciseWorkout,
         });
+        const res = await fetch(
+          `${process.env.EXPO_PUBLIC_BACKEND_URL}/training/exercise`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token?.replace(/"/g, "")}`,
+            },
+            body: JSON.stringify({
+              nameExercise: exerciseName,
+              muscles: exerciseMuscles,
+              repeticoes: exerciseReps,
+              series: exerciseSeries,
+              workout_name: exerciseWorkout,
+            }),
+          }
+        );
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error("Server error response:", errorText);
+          throw new Error(`HTTP ${res.status}: ${errorText}`);
+        }
+
+        let responseData;
+        const responseText = await res.text();
+
+        if (responseText) {
+          try {
+            responseData = JSON.parse(responseText);
+            console.log("Success response:", responseData);
+          } catch (parseError) {
+            console.warn("Response is not JSON:", responseText);
+          }
+        }
+
+        setRerun((prev) => prev + 1);
+        Alert.alert("Sucesso!", "Novo exercício criado com sucesso!");
       }
     } catch (error) {
+      console.error("Create error:", error);
+      Alert.alert(
+        "Erro!",
+        error instanceof Error ? error.message : "Erro ao criar novo item."
+      );
     } finally {
       closeCreationMenu();
     }
@@ -191,7 +257,7 @@ export default function Treino() {
 
       {creationMenuVisible && (
         <FormCreationDialogue
-          onSubmit={handleCreateWorkout}
+          onSubmit={handleCreate}
           onClose={closeCreationMenu}
           title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
           options={FORM_OPTIONS}

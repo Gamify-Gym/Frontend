@@ -1,12 +1,9 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, KeyboardAvoidingView } from "react-native";
 
 export default function Perfil() {
-  const styles = StyleSheet.create({
-    container: { flex: 1, alignItems: "center", justifyContent: "center" },
-  });
-
-  return (
-    <View style={styles.container}>
-    </View>
-  );
+  return <KeyboardAvoidingView style={styles.container}></KeyboardAvoidingView>;
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+});
