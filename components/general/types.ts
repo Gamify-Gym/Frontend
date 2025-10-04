@@ -16,3 +16,36 @@ export type TreinoType = {
   totalExercises: number;
   totalSeries: number;
 };
+export interface User {
+  id_user: number;
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface Player {
+  id_player: number;
+  height: number | null;
+  weight: number | null;
+  weeklyTargetDays: number;
+  weeklyStreak: number;
+  lastWeekOfYear: number;
+  currentWeekTrainedDays: number;
+  workouts: TreinoType[];
+  user: User;
+  activities: PlayerActivity[];
+}
+
+enum PlayerActivityStatus {
+  OK = "OK",
+  BROKEN = "BROKEN",
+  SKIP = "SKIP",
+}
+
+export interface PlayerActivity {
+  id_playerActivity: number;
+  activeDate: string;
+  status: PlayerActivityStatus;
+  player: Player;
+  workout: TreinoType | null;
+}
