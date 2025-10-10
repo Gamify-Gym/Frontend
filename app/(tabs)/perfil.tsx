@@ -29,7 +29,7 @@ export default function Perfil() {
         const data = await response.json();
         console.log(data);
         setPlayer(data);
-      } catch (error) {
+      } catch (error:any) {
         Alert.alert("Erro!", error);
       }
     };

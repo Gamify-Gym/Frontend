@@ -13,7 +13,7 @@ import FAB from "@/components/general/FAB";
 import FormCreationDialogue from "@/components/treino/FormCreationDialogue";
 import { useMenu } from "@/hooks/useMenu";
 import { useWorkout } from "@/hooks/useWorkout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
 
 export default function Treino() {
@@ -165,10 +165,19 @@ export default function Treino() {
     }
   };
 
+ // const handleAlter = async () => {
+ //   try {
+ //     if (selectedItem) {
+ //
+  //    }
+ //    }
+  //}
+
   const MENU_ACTIONS = [
     {
       label: "Editar",
       action: () => console.log("Editar " + selectedItem?.name),
+
     },
     {
       label: "Apagar",
