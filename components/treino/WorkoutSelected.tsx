@@ -11,6 +11,7 @@ import {
 import { Text } from "../general";
 import { TreinoType, ExerciseType } from "../general/types";
 import colors from "../general/Colors";
+import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 
 export default function ExerciseSelected({
   treino,
@@ -48,15 +49,24 @@ export default function ExerciseSelected({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{treino.name}</Text>
+        <View style={styles.titleRow}>
+          <MaterialDesignIcons name="clipboard-check" size={32} color="#df80ff" />
+          <Text style={styles.title}>{treino.name}</Text>
+        </View>
         <View style={styles.treinoStats}>
-          <Text style={styles.statsText}>
-            {treino.exercises.length} exercícios
-          </Text>
+          <View style={styles.statBadge}>
+            <MaterialDesignIcons name="format-list-numbered" size={16} color="#df80ff" />
+            <Text style={styles.statsText}>
+              {treino.exercises.length} exercícios
+            </Text>
+          </View>
           <View style={styles.statDivider} />
-          <Text style={styles.statsText}>
-            {treino.totalSeries} séries totais
-          </Text>
+          <View style={styles.statBadge}>
+            <MaterialDesignIcons name="counter" size={16} color="#df80ff" />
+            <Text style={styles.statsText}>
+              {treino.totalSeries} séries
+            </Text>
+          </View>
         </View>
       </View>
 
@@ -89,7 +99,7 @@ export default function ExerciseSelected({
               ]}
             >
               <Pressable
-                android_ripple={{ color: colors.lightGray }}
+                android_ripple={{ color: colors.hover }}
                 style={styles.exercisePressable}
                 onLongPress={(event) => {
                   Vibration.vibrate(75);
@@ -97,19 +107,29 @@ export default function ExerciseSelected({
                 }}
               >
                 <View style={styles.exerciseHeader}>
-                  <Text style={styles.exerciseName}>{exercise.name}</Text>
+                  <View style={styles.exerciseNameRow}>
+                    <MaterialDesignIcons name="dumbbell" size={20} color={colors.primary} />
+                    <Text style={styles.exerciseName}>{exercise.name}</Text>
+                  </View>
                   <View style={styles.exerciseBadge}>
+                    <MaterialDesignIcons name="numeric" size={14} color={colors.white} />
                     <Text style={styles.badgeText}>
-                      {exercise.series || exercise.series} séries
+                      {exercise.series} séries
                     </Text>
                   </View>
                 </View>
                 <View style={styles.exerciseDetails}>
-                  <Text style={styles.exerciseInfo}>
-                    {exercise.repeticoes} repetições
-                  </Text>
+                  <View style={styles.detailRow}>
+                    <MaterialDesignIcons name="repeat" size={16} color={colors.primary} />
+                    <Text style={styles.exerciseInfo}>
+                      {exercise.repeticoes} repetições
+                    </Text>
+                  </View>
                   {exercise.muscles && (
-                    <Text style={styles.muscleText}>{exercise.muscles}</Text>
+                    <View style={styles.muscleRow}>
+                      <MaterialDesignIcons name="arm-flex" size={16} color={colors.textSecondary} />
+                      <Text style={styles.muscleText}>{exercise.muscles}</Text>
+                    </View>
                   )}
                 </View>
               </Pressable>
@@ -124,52 +144,75 @@ export default function ExerciseSelected({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 12,
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 24,
     alignItems: "center",
+    backgroundColor: "rgba(27, 16, 49, 0.6)",
+    borderRadius: 20,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: "rgba(223, 128, 255, 0.3)",
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 12,
   },
   title: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "bold",
-    color: colors.white,
-    marginBottom: 8,
-    textAlign: "center",
+    color: "#ffffff",
+    letterSpacing: 0.3,
   },
   treinoStats: {
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
   },
+  statBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "rgba(43, 11, 79, 0.8)",
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "rgba(223, 128, 255, 0.2)",
+  },
   statsText: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    fontWeight: "500",
+    fontSize: 13,
+    color: "#ffffff",
+    fontWeight: "600",
   },
   statDivider: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: colors.textSecondary,
+    width: 2,
+    height: 16,
+    backgroundColor: "rgba(223, 128, 255, 0.4)",
+    borderRadius: 1,
   },
   exerciseContainer: {
     flex: 1,
   },
   scrollContent: {
-    gap: 16,
+    gap: 14,
     paddingBottom: 30,
   },
   exerciseCard: {
     backgroundColor: colors.white,
-    borderRadius: 16,
-    elevation: 4,
+    borderRadius: 18,
+    elevation: 5,
     shadowColor: colors.primary,
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 3 },
     borderWidth: 1,
     borderColor: colors.borderOnWhite,
+    overflow: "hidden",
   },
   exercisePressable: {
     padding: 20,
@@ -178,37 +221,68 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: 12,
+    marginBottom: 14,
+  },
+  exerciseNameRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    flex: 1,
+    marginRight: 12,
   },
   exerciseName: {
     fontSize: 18,
     fontWeight: "700",
     color: colors.textPrimary,
     flex: 1,
-    marginRight: 12,
   },
   exerciseBadge: {
-    backgroundColor: colors.primaryLight,
+    backgroundColor: colors.primary,
     paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
+    paddingVertical: 7,
+    borderRadius: 14,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 3,
   },
   badgeText: {
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: "700",
     color: colors.white,
   },
   exerciseDetails: {
-    gap: 4,
+    gap: 8,
+  },
+  detailRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   exerciseInfo: {
     fontSize: 15,
     color: colors.textSecondary,
-    fontWeight: "500",
+    fontWeight: "600",
+  },
+  muscleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: colors.background,
+    alignSelf: "flex-start",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.borderOnWhite,
   },
   muscleText: {
     fontSize: 13,
-    color: colors.gray,
-    fontStyle: "italic",
+    color: colors.textSecondary,
+    fontWeight: "500",
   },
 });

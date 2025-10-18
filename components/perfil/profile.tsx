@@ -12,6 +12,7 @@ import Button from "../general/Button";
 import colors from "../general/Colors";
 import { User, Player } from "../general/types";
 import Field from "./field";
+import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 
 interface ProfileProps {
   player: Player;
@@ -64,6 +65,45 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
             {isEditing ? "Cancelar" : "Editar"}
           </Text>
         </TouchableOpacity>
+      </View>
+
+      {/* Profile Avatar & Summary */}
+      <View style={styles.profileCard}>
+        <View style={styles.avatarContainer}>
+          <View style={styles.avatar}>
+            <MaterialDesignIcons
+              name="account"
+              size={60}
+              color={colors.primary}
+            />
+          </View>
+        </View>
+        <View style={styles.profileSummary}>
+          <Text style={styles.profileName}>{editedPlayer.user.username}</Text>
+          <Text style={styles.profileEmail}>{editedPlayer.user.email}</Text>
+          <View style={styles.quickStats}>
+            <View style={styles.quickStatBadge}>
+              <MaterialDesignIcons
+                name="fire"
+                size={16}
+                color={colors.warning}
+              />
+              <Text style={styles.quickStatText}>
+                {editedPlayer.weeklyStreak} semanas
+              </Text>
+            </View>
+            <View style={styles.quickStatBadge}>
+              <MaterialDesignIcons
+                name="dumbbell"
+                size={16}
+                color={colors.primary}
+              />
+              <Text style={styles.quickStatText}>
+                {editedPlayer.currentWeekTrainedDays}/{editedPlayer.weeklyTargetDays} dias
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
 
       {/* User Information Section */}
@@ -202,15 +242,16 @@ const styles = StyleSheet.create({
   content: {
     width: "100%",
     padding: 20,
+    paddingBottom: 40,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: 24,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
     color: colors.primary,
   },
@@ -218,29 +259,107 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     backgroundColor: colors.primary,
-    borderRadius: 8,
+    borderRadius: 12,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   editButtonText: {
     color: colors.white,
     fontWeight: "600",
     fontSize: 14,
   },
+  profileCard: {
+    backgroundColor: colors.white,
+    borderRadius: 20,
+    padding: 24,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: colors.borderOnWhite,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 4,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+  },
+  avatarContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: colors.secondary,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 3,
+    borderColor: colors.primary,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  profileSummary: {
+    flex: 1,
+    gap: 8,
+  },
+  profileName: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: colors.textPrimary,
+  },
+  profileEmail: {
+    fontSize: 14,
+    color: colors.textSecondary,
+  },
+  quickStats: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 8,
+    flexWrap: "wrap",
+  },
+  quickStatBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: colors.background,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.borderOnWhite,
+  },
+  quickStatText: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: colors.textPrimary,
+  },
   section: {
     backgroundColor: colors.white,
-    padding: 20,
-    paddingLeft: 25,
-    paddingRight: 25,
-    borderRadius: 16,
+    padding: 24,
+    borderRadius: 20,
     marginBottom: 20,
     borderWidth: 1,
     borderColor: colors.borderOnWhite,
-    minWidth: "90%",
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 3,
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: colors.textPrimary,
-    marginBottom: 20,
+    color: colors.primary,
+    marginBottom: 24,
+    letterSpacing: 0.3,
   },
   field: {
     marginBottom: 20,
@@ -280,28 +399,39 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 20,
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: colors.borderOnWhite,
+    marginTop: 24,
+    paddingTop: 24,
+    borderTopWidth: 2,
+    borderTopColor: colors.secondary,
+    gap: 12,
   },
   statItem: {
     alignItems: "center",
+    flex: 1,
+    backgroundColor: colors.background,
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.borderOnWhite,
   },
   statValue: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
     color: colors.primary,
+    marginBottom: 4,
   },
   statLabel: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.textSecondary,
-    marginTop: 4,
+    fontWeight: "500",
+    textAlign: "center",
+    lineHeight: 18,
   },
   buttonsContainer: {
     flexDirection: "row",
     gap: 12,
-    marginTop: 20,
+    marginTop: 24,
+    marginBottom: 8,
   },
   cancelButton: {
     flex: 1,
@@ -312,5 +442,10 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 2,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5,
   },
 });

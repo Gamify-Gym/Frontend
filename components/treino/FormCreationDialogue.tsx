@@ -2,6 +2,7 @@ import { Modal, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Text } from "../general";
 import colors from "../general/Colors";
+import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 
 type InputOption = {
   type?: "input";
@@ -34,34 +35,49 @@ export default function FormCreationDialogue({
   submitTitle: string;
 }) {
   return (
-    <Modal transparent={true} onRequestClose={onClose}>
+    <Modal transparent={true} onRequestClose={onClose} animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.mainContainer}>
-          <Text style={styles.title}>{title}</Text>
+          <View style={styles.headerContainer}>
+            <MaterialDesignIcons
+              name={title.includes("Treino") ? "dumbbell" : "weight-lifter"}
+              size={28}
+              color={colors.primary}
+            />
+            <Text style={styles.title}>{title}</Text>
+          </View>
 
-          {options.map((option, id) =>
-            option.type === "select" ? (
-              <Picker
-                key={id}
-                selectedValue={option.value}
-                onValueChange={(val) => option.onChange(val)}
-                style={styles.input}
-              >
-                <Picker.Item label={option.placeholder} value="" />
-                {option.options.map((opt, i) => (
-                  <Picker.Item key={i} label={opt.label} value={opt.value} />
-                ))}
-              </Picker>
-            ) : (
-              <TextInput
-                key={id}
-                value={option.value}
-                onChangeText={(e) => option.onChange(e)}
-                placeholder={option.placeholder}
-                style={styles.input}
-              />
-            )
-          )}
+          <View style={styles.formContainer}>
+            {options.map((option, id) =>
+              option.type === "select" ? (
+                <View key={id} style={styles.inputWrapper}>
+                  <View style={styles.inputIconContainer}>
+                    <MaterialDesignIcons name="menu-down" size={20} color={colors.textSecondary} />
+                  </View>
+                  <Picker
+                    selectedValue={option.value}
+                    onValueChange={(val) => option.onChange(val)}
+                    style={styles.picker}
+                  >
+                    <Picker.Item label={option.placeholder} value="" />
+                    {option.options.map((opt, i) => (
+                      <Picker.Item key={i} label={opt.label} value={opt.value} />
+                    ))}
+                  </Picker>
+                </View>
+              ) : (
+                <View key={id} style={styles.inputWrapper}>
+                  <TextInput
+                    value={option.value}
+                    onChangeText={(e) => option.onChange(e)}
+                    placeholder={option.placeholder}
+                    placeholderTextColor={colors.textDisabled}
+                    style={styles.input}
+                  />
+                </View>
+              )
+            )}
+          </View>
 
           <View style={styles.buttonsContainer}>
             <Pressable
@@ -72,6 +88,7 @@ export default function FormCreationDialogue({
               ]}
               onPress={onClose}
             >
+              <MaterialDesignIcons name="close" size={18} color={colors.textSecondary} />
               <Text style={styles.cancelButtonText}>Cancelar</Text>
             </Pressable>
 
@@ -83,6 +100,7 @@ export default function FormCreationDialogue({
               ]}
               onPress={onSubmit}
             >
+              <MaterialDesignIcons name="check" size={18} color={colors.white} />
               <Text style={styles.submitButtonText}>{submitTitle}</Text>
             </Pressable>
           </View>
@@ -93,74 +111,112 @@ export default function FormCreationDialogue({
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    width: "75%",
-    padding: 20,
-    borderRadius: 16,
-    backgroundColor: colors.white,
-    gap: 10,
-    elevation: 5,
-    shadowColor: colors.textPrimary,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
   overlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: "rgba(27, 16, 49, 0.85)",
+  },
+  mainContainer: {
+    width: "85%",
+    maxWidth: 400,
+    backgroundColor: colors.white,
+    borderRadius: 24,
+    padding: 28,
+    elevation: 10,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.borderOnWhite,
+  },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+    marginBottom: 24,
+    paddingBottom: 20,
+    borderBottomWidth: 2,
+    borderBottomColor: colors.secondary,
   },
   title: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 12,
     color: colors.textPrimary,
-    textAlign: "center",
+    letterSpacing: 0.3,
+  },
+  formContainer: {
+    gap: 14,
+    marginBottom: 24,
+  },
+  inputWrapper: {
+    position: "relative",
+  },
+  inputIconContainer: {
+    position: "absolute",
+    right: 12,
+    top: 16,
+    zIndex: 1,
   },
   input: {
     backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 1,
+    borderRadius: 14,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderWidth: 2,
     borderColor: colors.borderOnWhite,
     fontSize: 16,
+    color: colors.textPrimary,
+    minHeight: 56,
+  },
+  picker: {
+    backgroundColor: colors.background,
+    borderRadius: 14,
+    borderWidth: 2,
+    borderColor: colors.borderOnWhite,
   },
   buttonsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 15,
-    gap: 10,
+    gap: 12,
   },
   button: {
     flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
+    flexDirection: "row",
+    paddingVertical: 14,
+    paddingHorizontal: 18,
+    borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 44,
+    gap: 8,
+    minHeight: 52,
   },
   cancelButton: {
-    backgroundColor: colors.lightGray,
-    borderWidth: 1,
+    backgroundColor: colors.surface,
+    borderWidth: 2,
     borderColor: colors.borderOnWhite,
   },
   submitButton: {
     backgroundColor: colors.primary,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   buttonPressed: {
-    opacity: 0.8,
-    transform: [{ scale: 0.98 }],
+    opacity: 0.85,
+    transform: [{ scale: 0.97 }],
   },
   cancelButtonText: {
     color: colors.textSecondary,
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "700",
   },
   submitButtonText: {
     color: colors.white,
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "700",
   },
 });

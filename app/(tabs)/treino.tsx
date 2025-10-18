@@ -298,37 +298,11 @@ export default function Treino() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1b1031", 
-    paddingTop: 50,
+    backgroundColor: "#1b1031",
+    paddingTop: 60,
     alignItems: "center",
   },
-  exerciseScroll: {
-    width: "100%",
-  },
   scrollContainer: {
-  width: "100%",
-},
-
-  
-  treinoCard: {
-    backgroundColor: "#2b0b4f", 
-    borderRadius: 12,
-    padding: 15,
-    marginVertical: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 4,
-  },
-  treinoTitle: {
-    color: "#df80ff", 
-    fontWeight: "700",
-    fontSize: 18,
-  },
-  treinoSubtitle: {
-    color: "#ccc",
-    fontSize: 14,
-    marginTop: 4,
+    width: "100%",
   },
 });

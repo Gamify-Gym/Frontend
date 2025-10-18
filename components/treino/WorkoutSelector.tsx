@@ -8,6 +8,7 @@ import {
 import { Text } from "../general";
 import { TreinoType } from "../general/types";
 import colors from "../general/Colors";
+import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 
 type TreinoData = TreinoType[];
 
@@ -22,13 +23,20 @@ export default function TreinoSelector({
 }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Treinos</Text>
+      <View style={styles.headerContainer}>
+        <MaterialDesignIcons name="dumbbell" size={28} color="#df80ff" />
+        <Text style={styles.title}>Meus Treinos</Text>
+      </View>
 
       {treinoData.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>
-            Nenhum treino, vamos criar alguns?
-          </Text>
+          <MaterialDesignIcons
+            name="clipboard-text-outline"
+            size={64}
+            color="#df80ff"
+            style={{ opacity: 0.5, marginBottom: 16 }}
+          />
+          <Text style={styles.emptyText}>Nenhum treino criado ainda</Text>
           <Text style={styles.emptySubtext}>Toque no botão + para começar</Text>
         </View>
       ) : (
@@ -36,7 +44,7 @@ export default function TreinoSelector({
           {treinoData.map((treino, index) => (
             <View key={index} style={styles.selectorWrapper}>
               <Pressable
-                android_ripple={{ color: colors.lightGray, borderless: false }}
+                android_ripple={{ color: "#4a1a7f", borderless: false }}
                 style={({ pressed }) => [
                   styles.selector,
                   pressed && styles.selectorPressed,
@@ -49,11 +57,18 @@ export default function TreinoSelector({
               >
                 <View style={styles.selectorContent}>
                   <View style={styles.selectorMain}>
-                    <Text style={styles.selectorLabel}>{treino.name}</Text>
+                    <View style={styles.titleRow}>
+                      <MaterialDesignIcons
+                        name="weight-lifter"
+                        size={20}
+                        color="#df80ff"
+                      />
+                      <Text style={styles.selectorLabel}>{treino.name}</Text>
+                    </View>
                     {treino.description && (
                       <Text
                         style={styles.selectorDescription}
-                        numberOfLines={1}
+                        numberOfLines={2}
                       >
                         {treino.description}
                       </Text>
@@ -61,17 +76,27 @@ export default function TreinoSelector({
                   </View>
                   <View style={styles.selectorDivisor}>
                     <View style={styles.statsContainer}>
+                      <MaterialDesignIcons
+                        name="format-list-bulleted"
+                        size={16}
+                        color="#df80ff"
+                      />
                       <Text style={styles.statNumber}>
                         {treino.totalExercises}
                       </Text>
-                      <Text style={styles.statLabel}>Exercícios</Text>
+                      <Text style={styles.statLabel}>exercícios</Text>
                     </View>
                     <View style={styles.verticalLine} />
                     <View style={styles.statsContainer}>
+                      <MaterialDesignIcons
+                        name="counter"
+                        size={16}
+                        color="#df80ff"
+                      />
                       <Text style={styles.statNumber}>
                         {treino.totalSeries}
                       </Text>
-                      <Text style={styles.statLabel}>Séries</Text>
+                      <Text style={styles.statLabel}>séries</Text>
                     </View>
                   </View>
                 </View>
@@ -85,28 +110,35 @@ export default function TreinoSelector({
 }
 
 const styles = StyleSheet.create({
-   container: {
-    width: "90%", 
-    paddingHorizontal: 20, 
-    paddingVertical: 36,
-    alignItems: "center", 
-    backgroundColor: colors.darkPurple, 
-    borderRadius: 20,
-    borderWidth: 0.54,
-    borderColor: "#ffffff", 
-    marginBottom: 20, 
+  container: {
+    width: "90%",
+    paddingHorizontal: 24,
+    paddingVertical: 28,
+    backgroundColor: "rgba(27, 16, 49, 0.6)",
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: "rgba(223, 128, 255, 0.3)",
+    marginBottom: 24,
+    elevation: 8,
+    alignSelf: "center",
+  },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+    marginBottom: 24,
   },
   title: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#ffffffff",
-    marginBottom: 20,
+    color: "#ffffff",
+    letterSpacing: 0.5,
   },
   emptyContainer: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 40,
+    paddingVertical: 48,
   },
   emptyText: {
     fontSize: 18,
@@ -118,24 +150,26 @@ const styles = StyleSheet.create({
   emptySubtext: {
     fontSize: 14,
     textAlign: "center",
-    color: "#ccc",
+    color: "#b8a3c9",
   },
   selectorContainer: {
     width: "100%",
-    gap: 12,
+    gap: 14,
+    alignItems: "center",
   },
   selectorWrapper: {
-  borderRadius: 16,
-  overflow: "hidden",
-  backgroundColor: "#2b0b4f",
-  borderWidth: 0.4,
-  borderColor: "#ffffff", 
-  elevation: 3,
-  shadowColor: "#000",
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.3,
-  shadowRadius: 4,
-},
+    width: "100%",
+    borderRadius: 18,
+    overflow: "hidden",
+    backgroundColor: "#2b0b4f",
+    borderWidth: 1,
+    borderColor: "rgba(223, 128, 255, 0.25)",
+    elevation: 4,
+    shadowColor: "#df80ff",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+  },
   selector: {
     padding: 0,
   },
@@ -147,43 +181,52 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    gap: 16,
   },
   selectorMain: {
     flex: 1,
-    marginRight: 16,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 6,
   },
   selectorLabel: {
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: "700",
     color: "#ffffff",
-    marginBottom: 4,
+    flex: 1,
   },
   selectorDescription: {
     fontSize: 14,
     color: "#dfb7ff",
-    opacity: 0.85,
+    lineHeight: 20,
+    marginTop: 4,
   },
   selectorDivisor: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 16,
+    gap: 14,
   },
   statsContainer: {
     alignItems: "center",
+    gap: 2,
   },
   statNumber: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "700",
     color: "#df80ff",
   },
   statLabel: {
-    fontSize: 12,
-    color: "#ffffff",
-    marginTop: 2,
+    fontSize: 11,
+    color: "#b8a3c9",
+    fontWeight: "500",
   },
   verticalLine: {
-    width: 1,
-    height: 24,
-    backgroundColor: "#7a2be0",
+    width: 2,
+    height: 32,
+    backgroundColor: "rgba(223, 128, 255, 0.3)",
+    borderRadius: 1,
   },
 });

@@ -2,13 +2,7 @@ import { Player } from "@/components/general/types";
 import Profile from "@/components/perfil/profile";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Alert,
-} from "react-native";
+import { StyleSheet, KeyboardAvoidingView, Alert } from "react-native";
 
 export default function Perfil() {
   const [player, setPlayer] = useState<Player>();
@@ -37,13 +31,15 @@ export default function Perfil() {
   }, []);
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       {player && <Profile player={player} onSave={() => {}} />}
-      <Text>Hello</Text>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  container: {
+    flex: 1,
+    backgroundColor: "#FEF7FF",
+  },
 });
