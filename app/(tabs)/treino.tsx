@@ -13,7 +13,7 @@ import FAB from "@/components/general/FAB";
 import FormCreationDialogue from "@/components/treino/FormCreationDialogue";
 import { useMenu } from "@/hooks/useMenu";
 import { useWorkout } from "@/hooks/useWorkout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
 
 export default function Treino() {
@@ -165,10 +165,19 @@ export default function Treino() {
     }
   };
 
+ // const handleAlter = async () => {
+ //   try {
+ //     if (selectedItem) {
+ //
+  //    }
+ //    }
+  //}
+
   const MENU_ACTIONS = [
     {
       label: "Editar",
       action: () => console.log("Editar " + selectedItem?.name),
+
     },
     {
       label: "Apagar",
@@ -245,56 +254,81 @@ export default function Treino() {
       : [];
 
   return (
-    <Pressable style={styles.container} onPress={closeMenu}>
-      {menuVisible && (
-        <EditMenu
-          selectedItem={selectedItem}
-          actions={MENU_ACTIONS}
-          //@ts-expect-error
-          coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
-        />
-      )}
+  <Pressable style={styles.container} onPress={closeMenu}>
+    {menuVisible && (
+      <EditMenu
+        selectedItem={selectedItem}
+        actions={MENU_ACTIONS}
+        //@ts-expect-error
+        coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
+      />
+    )}
 
-      {creationMenuVisible && (
-        <FormCreationDialogue
-          onSubmit={handleCreate}
-          onClose={closeCreationMenu}
-          title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
-          options={FORM_OPTIONS}
-          submitTitle="Adicionar"
-        />
-      )}
+    {creationMenuVisible && (
+      <FormCreationDialogue
+        onSubmit={handleCreate}
+        onClose={closeCreationMenu}
+        title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
+        options={FORM_OPTIONS}
+        submitTitle="Adicionar"
+      />
+    )}
 
+    <ScrollView
+      style={styles.scrollContainer}
+      contentContainerStyle={{ paddingBottom: 40 }}
+      showsVerticalScrollIndicator={false}
+    >
       <TreinoSelector
         treinoData={treino}
         onPress={handleTreinoChange}
         onLongPress={(item, event) => handleItemLongPress(item, event)}
       />
 
-      <ScrollView
-        style={styles.exerciseScroll}
-        contentContainerStyle={{ paddingBottom: 23 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <ExerciseSelected
-          treino={selectedTreino}
-          onLongPress={(item, event) => handleItemLongPress(item, event)}
-        />
-      </ScrollView>
+      <ExerciseSelected
+        treino={selectedTreino}
+        onLongPress={(item, event) => handleItemLongPress(item, event)}
+      />
+    </ScrollView>
 
-      <FAB icon="add" options={FAB_OPTIONS} />
-    </Pressable>
-  );
+    <FAB icon="add" options={FAB_OPTIONS} />
+  </Pressable>
+);
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#1b1031", 
     paddingTop: 50,
     alignItems: "center",
   },
   exerciseScroll: {
     width: "100%",
+  },
+  scrollContainer: {
+  width: "100%",
+},
+
+  
+  treinoCard: {
+    backgroundColor: "#2b0b4f", 
+    borderRadius: 12,
+    padding: 15,
+    marginVertical: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  treinoTitle: {
+    color: "#df80ff", 
+    fontWeight: "700",
+    fontSize: 18,
+  },
+  treinoSubtitle: {
+    color: "#ccc",
+    fontSize: 14,
+    marginTop: 4,
   },
 });

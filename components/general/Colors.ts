@@ -17,6 +17,7 @@ const colors = {
   primaryDark: "#4A3C7A",
   secondaryLight: "#ECE4F7",
   secondaryDark: "#D6C6F0",
+  darkPurple: "#1a012cff",
 
   textPrimary: "#1C1B1F",
   textSecondary: "#49454F",

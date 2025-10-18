@@ -85,28 +85,21 @@ export default function TreinoSelector({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.secondary,
-    width: "90%",
-    minHeight: "50%",
-    maxHeight: "70%",
-    padding: 24,
-    alignItems: "center",
-    justifyContent: "center",
+   container: {
+    width: "90%", 
+    paddingHorizontal: 20, 
+    paddingVertical: 36,
+    alignItems: "center", 
+    backgroundColor: colors.darkPurple, 
     borderRadius: 20,
-    borderColor: colors.borderOnSecondary,
-    borderWidth: 1,
-    borderStyle: "solid",
-    elevation: 6,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
+    borderWidth: 0.54,
+    borderColor: "#ffffff", 
+    marginBottom: 20, 
   },
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    color: colors.textPrimary,
+    color: "#ffffffff",
     marginBottom: 20,
   },
   emptyContainer: {
@@ -118,35 +111,36 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     textAlign: "center",
-    color: colors.textSecondary,
+    color: "#ffffff",
     fontWeight: "600",
     marginBottom: 8,
   },
   emptySubtext: {
     fontSize: 14,
     textAlign: "center",
-    color: colors.gray,
+    color: "#ccc",
   },
   selectorContainer: {
     width: "100%",
     gap: 12,
   },
   selectorWrapper: {
-    borderRadius: 16,
-    overflow: "hidden",
-    backgroundColor: colors.white,
-    elevation: 2,
-    shadowColor: colors.textPrimary,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-  },
+  borderRadius: 16,
+  overflow: "hidden",
+  backgroundColor: "#2b0b4f",
+  borderWidth: 0.4,
+  borderColor: "#ffffff", 
+  elevation: 3,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.3,
+  shadowRadius: 4,
+},
   selector: {
-    backgroundColor: colors.white,
     padding: 0,
   },
   selectorPressed: {
-    backgroundColor: colors.secondaryLight,
+    backgroundColor: "#3a0f66",
   },
   selectorContent: {
     padding: 20,
@@ -161,13 +155,13 @@ const styles = StyleSheet.create({
   selectorLabel: {
     fontSize: 18,
     fontWeight: "700",
-    color: colors.textPrimary,
+    color: "#ffffff",
     marginBottom: 4,
   },
   selectorDescription: {
     fontSize: 14,
-    color: colors.textSecondary,
-    opacity: 0.8,
+    color: "#dfb7ff",
+    opacity: 0.85,
   },
   selectorDivisor: {
     flexDirection: "row",
@@ -180,16 +174,16 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 16,
     fontWeight: "700",
-    color: colors.primary,
+    color: "#df80ff",
   },
   statLabel: {
     fontSize: 12,
-    color: colors.textSecondary,
+    color: "#ffffff",
     marginTop: 2,
   },
   verticalLine: {
     width: 1,
     height: 24,
-    backgroundColor: colors.borderOnWhite,
+    backgroundColor: "#7a2be0",
   },
 });
