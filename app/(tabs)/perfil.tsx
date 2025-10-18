@@ -30,7 +30,7 @@ export default function Perfil() {
         console.log(data);
         setPlayer(data);
       } catch (error) {
-        Alert.alert("Erro!", error);
+        Alert.alert("Erro!", error as string);
       }
     };
     getUser();

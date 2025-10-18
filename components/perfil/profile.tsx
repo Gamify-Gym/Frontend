@@ -11,6 +11,7 @@ import { Text } from "../general";
 import Button from "../general/Button";
 import colors from "../general/Colors";
 import { User, Player } from "../general/types";
+import Field from "./field";
 
 interface ProfileProps {
   player: Player;
@@ -69,71 +70,39 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Informações Pessoais</Text>
 
-        <View style={styles.field}>
-          <Text style={styles.label}>Nome de Usuário</Text>
-          <TextInput
-            style={[styles.input, !isEditing && styles.disabledInput]}
-            value={editedPlayer.user.username}
-            onChangeText={(text) =>
-              setEditedPlayer({
-                ...editedPlayer,
-                user: {
-                  ...editedPlayer.user,
-                  username: text,
-                },
-              })
-            }
-            editable={isEditing}
-            placeholder="Nome de usuário"
-          />
-        </View>
+        <Field
+          label="Nome de Usuário"
+          value={editedPlayer.user.username}
+          onChangeText={(text) =>
+            setEditedPlayer({
+              ...editedPlayer,
+              user: {
+                ...editedPlayer.user,
+                username: text,
+              },
+            })
+          }
+          isEditing={isEditing}
+          placeholder="Nome de usuário"
+        />
 
-        <View style={styles.field}>
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={[styles.input, !isEditing && styles.disabledInput]}
-            value={editedPlayer.user.email}
-            onChangeText={(text) =>
-              setEditedPlayer({
-                ...editedPlayer,
-                user: {
-                  ...editedPlayer.user,
-                  email: text,
-                },
-              })
-            }
-            editable={isEditing}
-            placeholder="Email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </View>
-
-        <View style={styles.field}>
-          <Text style={styles.label}>Senha</Text>
-          <TextInput
-            style={[styles.input, !isEditing && styles.disabledInput]}
-            value={editedPlayer.user.password}
-            onChangeText={(text) =>
-              setEditedPlayer({
-                ...editedPlayer,
-                user: {
-                  ...editedPlayer.user,
-                  password: text,
-                },
-              })
-            }
-            editable={isEditing}
-            placeholder="Senha"
-            secureTextEntry
-            autoCapitalize="none"
-          />
-          {isEditing && (
-            <Text style={styles.helperText}>
-              Deixe em branco para manter a senha atual
-            </Text>
-          )}
-        </View>
+        <Field
+          label="Email"
+          value={editedPlayer.user.email}
+          onChangeText={(text) =>
+            setEditedPlayer({
+              ...editedPlayer,
+              user: {
+                ...editedPlayer.user,
+                email: text,
+              },
+            })
+          }
+          isEditing={isEditing}
+          placeholder="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
       </View>
 
       {/* Player Information Section */}
@@ -141,10 +110,9 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
         <Text style={styles.sectionTitle}>Informações do Jogador</Text>
 
         <View style={styles.row}>
-          <View style={[styles.field, styles.halfField]}>
-            <Text style={styles.label}>Altura (cm)</Text>
-            <TextInput
-              style={[styles.input, !isEditing && styles.disabledInput]}
+          <View style={styles.halfField}>
+            <Field
+              label="Altura (cm)"
               value={editedPlayer.height?.toString() || ""}
               onChangeText={(text) =>
                 setEditedPlayer({
@@ -152,16 +120,15 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
                   height: text ? parseFloat(text) : null,
                 })
               }
-              editable={isEditing}
+              isEditing={isEditing}
               placeholder="Altura"
               keyboardType="numeric"
             />
           </View>
 
-          <View style={[styles.field, styles.halfField]}>
-            <Text style={styles.label}>Peso (kg)</Text>
-            <TextInput
-              style={[styles.input, !isEditing && styles.disabledInput]}
+          <View style={styles.halfField}>
+            <Field
+              label="Peso (kg)"
               value={editedPlayer.weight?.toString() || ""}
               onChangeText={(text) =>
                 setEditedPlayer({
@@ -169,29 +136,26 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
                   weight: text ? parseFloat(text) : null,
                 })
               }
-              editable={isEditing}
+              isEditing={isEditing}
               placeholder="Peso"
               keyboardType="numeric"
             />
           </View>
         </View>
 
-        <View style={styles.field}>
-          <Text style={styles.label}>Dias de Treino por Semana</Text>
-          <TextInput
-            style={[styles.input, !isEditing && styles.disabledInput]}
-            value={editedPlayer.weeklyTargetDays.toString()}
-            onChangeText={(text) =>
-              setEditedPlayer({
-                ...editedPlayer,
-                weeklyTargetDays: text ? parseInt(text) : 2,
-              })
-            }
-            editable={isEditing}
-            placeholder="Dias por semana"
-            keyboardType="numeric"
-          />
-        </View>
+        <Field
+          label="Dias de Treino por Semana"
+          value={editedPlayer.weeklyTargetDays.toString()}
+          onChangeText={(text) =>
+            setEditedPlayer({
+              ...editedPlayer,
+              weeklyTargetDays: text ? parseInt(text) : 2,
+            })
+          }
+          isEditing={isEditing}
+          placeholder="Dias por semana"
+          keyboardType="numeric"
+        />
 
         {/* Stats Display (Read-only) */}
         <View style={styles.statsContainer}>
@@ -236,6 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   content: {
+    width: "100%",
     padding: 20,
   },
   header: {
@@ -263,10 +228,13 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: colors.white,
     padding: 20,
+    paddingLeft: 25,
+    paddingRight: 25,
     borderRadius: 16,
     marginBottom: 20,
     borderWidth: 1,
     borderColor: colors.borderOnWhite,
+    minWidth: "90%",
   },
   sectionTitle: {
     fontSize: 20,
