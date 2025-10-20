@@ -108,23 +108,6 @@ export default function CreateUserScreen() {
         setIsLoading(false);
         return;
       }
-      await login(email, password);
-      const setPlayer = await fetch(
-        `${process.env.EXPO_PUBLIC_BACKEND_URL}/user/type`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ weight: 50, height: 120 }),
-        }
-      );
-      if (!setPlayer.ok) {
-        const errorText = await setPlayer.text();
-        console.error("Server error response:", errorText);
-        Alert.alert("erro", `HTTP ${setPlayer.status}: ${errorText}`);
-      }
       Alert.alert("Sucesso", "Usuário criado com sucesso!");
       router.navigate("/login");
     } catch (error) {

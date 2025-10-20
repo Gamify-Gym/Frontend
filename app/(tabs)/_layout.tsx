@@ -26,6 +26,7 @@ export default function TabLayout() {
     <Tabs
       initialRouteName="home"
       screenOptions={{
+        headerShown: false,
         tabBarShowLabel: false,
         headerShadowVisible: false,
         animation: "fade",

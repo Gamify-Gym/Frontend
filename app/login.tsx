@@ -12,69 +12,6 @@ import {
   View,
 } from "react-native";
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    backgroundColor: colors.white,
-    justifyContent: "center",
-    paddingHorizontal: 30,
-  },
-  title: {
-    fontWeight: "bold",
-    color: colors.primary,
-    fontSize: 36,
-    textAlign: "center",
-    marginBottom: 40,
-  },
-  textInput: {
-    fontSize: 16,
-    height: 55,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    color: colors.primary,
-    backgroundColor: "#f9f9f9",
-  },
-  textInputContainer: {
-    gap: 20,
-    marginBottom: 30,
-  },
-  label: {
-    fontSize: 14,
-    marginBottom: 6,
-    color: "#555",
-  },
-  createAccountContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 5,
-    marginTop: 20,
-  },
-  linkColumnContainer: {
-    marginTop: 10,
-    alignItems: "center",
-    gap: 8,
-  },
-
-  createAccountText: {
-    fontSize: 14,
-    color: "#555",
-  },
-  createAccountTextLink: {
-    color: colors.primary,
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  error: {
-    fontSize: 14,
-    color: "red",
-    textAlign: "center",
-    marginTop: 10,
-  },
-});
-
 export default function LoginScreen() {
   const { login, isLoading, error } = useAuth();
   const [email, setEmail] = useState("");
@@ -164,3 +101,66 @@ export default function LoginScreen() {
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: colors.white,
+    justifyContent: "center",
+    paddingHorizontal: 30,
+  },
+  title: {
+    fontWeight: "bold",
+    color: colors.primary,
+    fontSize: 36,
+    textAlign: "center",
+    marginBottom: 40,
+  },
+  textInput: {
+    fontSize: 16,
+    height: 55,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    color: colors.primary,
+    backgroundColor: "#f9f9f9",
+  },
+  textInputContainer: {
+    gap: 20,
+    marginBottom: 30,
+  },
+  label: {
+    fontSize: 14,
+    marginBottom: 6,
+    color: "#555",
+  },
+  createAccountContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 5,
+    marginTop: 20,
+  },
+  linkColumnContainer: {
+    marginTop: 10,
+    alignItems: "center",
+    gap: 8,
+  },
+
+  createAccountText: {
+    fontSize: 14,
+    color: "#555",
+  },
+  createAccountTextLink: {
+    color: colors.primary,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  error: {
+    fontSize: 14,
+    color: "red",
+    textAlign: "center",
+    marginTop: 10,
+  },
+});

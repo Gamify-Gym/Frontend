@@ -18,7 +18,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.GamifyGym"
+      "package": "com.gamify.gym"
     },
     "web": {
       "bundler": "metro",
