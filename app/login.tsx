@@ -86,17 +86,7 @@ export default function LoginScreen() {
         <TouchableOpacity onPress={handleCreateAccount}>
           <Text style={styles.createAccountTextLink}>Crie sua conta!</Text>
         </TouchableOpacity>
-        <Text style={styles.createAccountText}> | </Text>
       </View>
-      <View style={styles.linkColumnContainer}>
-        <TouchableOpacity onPress={handleTreinos}>
-          <Text style={styles.createAccountTextLink}>Treinos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleDieta}>
-          <Text style={styles.createAccountTextLink}>Dieta</Text>
-        </TouchableOpacity>
-      </View>
-
       {error && <Text style={styles.error}>{error}</Text>}
     </KeyboardAvoidingView>
   );
