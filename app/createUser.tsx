@@ -17,57 +17,6 @@ interface RegisterResponse {
   message?: string;
 }
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    backgroundColor: colors.white,
-    justifyContent: "center",
-    paddingHorizontal: 30,
-  },
-  title: {
-    fontWeight: "bold",
-    color: colors.primary,
-    fontSize: 36,
-    textAlign: "center",
-    marginBottom: 40,
-  },
-  textInput: {
-    fontSize: 16,
-    height: 55,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    color: colors.primary,
-    backgroundColor: "#f9f9f9",
-  },
-  textInputContainer: {
-    gap: 20,
-    marginBottom: 30,
-  },
-  label: {
-    fontSize: 14,
-    marginBottom: 6,
-    color: "#555",
-  },
-  loginContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 5,
-    marginTop: 20,
-  },
-  loginText: {
-    fontSize: 14,
-    color: "#555",
-  },
-  loginTextLink: {
-    color: colors.primary,
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-});
-
 export default function CreateUserScreen() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -181,11 +130,12 @@ export default function CreateUserScreen() {
       </View>
 
       <Button
-        title={isLoading ? "Carregando..." : "Cadastrar"}
-        onPress={handleRegister}
+        label={isLoading ? "Carregando..." : "Cadastrar"}
+        onClick={handleRegister}
         disabled={isLoading}
-        large={true}
         icon="check"
+        width={300}
+        height={55}
       />
 
       <View style={styles.loginContainer}>
@@ -197,3 +147,54 @@ export default function CreateUserScreen() {
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: colors.white,
+    justifyContent: "center",
+    paddingHorizontal: 30,
+  },
+  title: {
+    fontWeight: "bold",
+    color: colors.primary,
+    fontSize: 36,
+    textAlign: "center",
+    marginBottom: 40,
+  },
+  textInput: {
+    fontSize: 16,
+    height: 55,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    color: colors.primary,
+    backgroundColor: "#f9f9f9",
+  },
+  textInputContainer: {
+    gap: 20,
+    marginBottom: 30,
+  },
+  label: {
+    fontSize: 14,
+    marginBottom: 6,
+    color: "#555",
+  },
+  loginContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 5,
+    marginTop: 20,
+  },
+  loginText: {
+    fontSize: 14,
+    color: "#555",
+  },
+  loginTextLink: {
+    color: colors.primary,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+});

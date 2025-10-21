@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  TextInput,
   Alert,
   TouchableOpacity,
 } from "react-native";
@@ -99,7 +98,8 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
                 color={colors.primary}
               />
               <Text style={styles.quickStatText}>
-                {editedPlayer.currentWeekTrainedDays}/{editedPlayer.weeklyTargetDays} dias
+                {editedPlayer.currentWeekTrainedDays}/
+                {editedPlayer.weeklyTargetDays} dias
               </Text>
             </View>
           </View>
@@ -217,16 +217,15 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
       {isEditing && (
         <View style={styles.buttonsContainer}>
           <Button
-            title="Cancelar"
-            onPress={handleCancel}
-            style={styles.cancelButton}
+            label="Cancelar"
+            onClick={handleCancel}
+            mainContainerStyle={styles.cancelButton}
             textStyle={styles.cancelButtonText}
-            outline
           />
           <Button
-            title="Salvar Alterações"
-            onPress={handleSave}
-            style={styles.saveButton}
+            label="Salvar Alterações"
+            onClick={handleSave}
+            mainContainerStyle={styles.saveButton}
           />
         </View>
       )}

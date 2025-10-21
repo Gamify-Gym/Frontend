@@ -1,119 +1,114 @@
-import {
-  StyleSheet,
-  Pressable,
-  View,
-  ViewStyle,
-  TextStyle,
-} from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle, Animated } from "react-native";
 import { Text } from ".";
 import colors from "./Colors";
-import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { TextStyle } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import { useRef } from "react";
 
-type ButtonProps = {
-  onPress: () => void;
-  title: string;
-  large?: boolean;
+interface ButtonType {
+  width?: number;
+  height?: number;
+  label: string;
+  onClick: () => Promise<void> | void;
+  onLongClick?: () => Promise<void> | void;
   icon?: string;
-  disabled?: boolean;
-  style?: ViewStyle;
+  iconProps?: { size: number; color?: string };
   textStyle?: TextStyle;
-  outline?: boolean;
-  loading?: boolean;
-};
+  mainContainerStyle?: ViewStyle;
+  animated?: boolean;
+  animationConfig?: {
+    scale?: number;
+    duration?: number;
+  };
+  disabled?: boolean;
+}
 
-function Button({
-  onPress,
-  title,
-  large,
+export default function Button({
+  width,
+  height,
+  label,
+  onClick,
+  onLongClick,
   icon,
-  disabled,
-  style,
+  iconProps,
   textStyle,
-  outline,
-  loading,
-}: ButtonProps) {
-  const styles = StyleSheet.create({
-    button: {
-      backgroundColor: outline
-        ? "transparent"
-        : disabled
-        ? colors.gray
-        : colors.primary,
-      width: large ? 325 : "auto",
-      minWidth: large ? 325 : 120,
-      height: large ? 56 : 48,
-      borderRadius: 16,
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "row",
-      gap: 10,
-      paddingHorizontal: large ? 24 : 16,
-      borderWidth: outline ? 2 : 0,
-      borderColor: outline ? colors.primary : "transparent",
-      opacity: disabled ? 0.6 : 1,
-    },
-    pressed: {
-      backgroundColor: outline
-        ? colors.primary + "20"
-        : disabled
-        ? colors.gray
-        : colors.primaryDark,
-      transform: [{ scale: 0.98 }],
-    },
-    title: {
-      fontSize: large ? 18 : 16,
-      color: outline ? colors.primary : colors.white,
-      fontWeight: "600",
-      includeFontPadding: false,
-    },
-    disabledTitle: {
-      color: outline ? colors.gray : colors.white,
-    },
-    loadingContainer: {
-      position: "absolute",
-      right: 16,
-    },
-  });
-  return (
-    <Pressable
-      onPress={onPress}
-      disabled={disabled || loading}
-      style={({ pressed }) => [
-        styles.button,
-        pressed && !disabled && styles.pressed,
-        style,
-      ]}
-      android_ripple={{
-        color: outline ? colors.primary + "40" : colors.white + "40",
-        borderless: false,
-        radius: 16,
-      }}
-    >
-      {icon && !loading && (
-        <MaterialDesignIcons
-          // @ts-ignore
-          name={icon}
-          color={outline ? colors.primary : colors.white}
-          size={large ? 20 : 16}
-        />
-      )}
+  mainContainerStyle,
+  animated = true,
+  animationConfig,
+  disabled,
+}: ButtonType) {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
 
-      {loading ? (
-        <MaterialDesignIcons
-          name="loading"
-          color={outline ? colors.primary : colors.white}
-          size={large ? 20 : 16}
-          style={{ transform: [{ rotate: "0deg" }] }}
-        />
-      ) : (
-        <Text
-          style={[styles.title, disabled && styles.disabledTitle, textStyle]}
-        >
-          {title}
-        </Text>
-      )}
-    </Pressable>
+  const handlePressIn = () => {
+    if (animated) {
+      Animated.spring(scaleAnim, {
+        toValue: animationConfig?.scale ?? 0.95,
+        speed: animationConfig?.duration ?? 100,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
+  const handlePressOut = () => {
+    if (animated) {
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        speed: animationConfig?.duration ?? 100,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
+  return (
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      <Pressable
+        disabled={disabled}
+        onPress={onClick}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onLongPress={onLongClick ? onLongClick : () => {}}
+        style={[
+          style.mainContainer,
+          mainContainerStyle,
+          width ? { width } : undefined,
+          height ? { height } : undefined,
+        ]}
+      >
+        <View style={style.content}>
+          <View style={style.iconContainer}>
+            {icon && (
+              <MaterialCommunityIcons
+                name={icon as any}
+                size={iconProps?.size ?? 24}
+                color={iconProps?.color ?? colors.lightGray}
+              />
+            )}
+          </View>
+          <View style={style.textContainer}>
+            <Text style={[style.text, textStyle]}>{label}</Text>
+          </View>
+        </View>
+      </Pressable>
+    </Animated.View>
   );
 }
 
-export default Button;
+const style = StyleSheet.create({
+  mainContainer: {
+    backgroundColor: colors.primary,
+    padding: 6,
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderRadius: 16,
+  },
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    justifyContent: "center",
+    flex: 1,
+  },
+  iconContainer: {},
+  textContainer: {},
+  text: { color: colors.lightGray },
+});

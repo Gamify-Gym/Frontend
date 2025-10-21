@@ -72,11 +72,12 @@ export default function LoginScreen() {
       </View>
 
       <Button
-        title={isLoading ? "Carregando..." : "Login"}
-        onPress={handleLogin}
+        label={isLoading ? "Carregando..." : "Login"}
+        onClick={handleLogin}
         disabled={isLoading}
-        large={true}
         icon="check"
+        width={300}
+        height={55}
       />
 
       <View style={styles.createAccountContainer}>

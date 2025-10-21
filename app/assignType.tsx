@@ -83,9 +83,11 @@ export default function AssignTypePage() {
       </View>
 
       <Button
-        title="Confirmar"
-        onPress={handlePress}
+        label="Confirmar"
+        onClick={handlePress}
         disabled={!weight || !height}
+        width={300}
+        height={55}
       />
 
       {error && <Text style={style.error}>{error}</Text>}
