@@ -135,7 +135,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (!userCharacteristics.ok) {
         if (userCharacteristics.status === 404) {
-          console.log("No chara");
           navigate();
           setLogged(true);
           return;

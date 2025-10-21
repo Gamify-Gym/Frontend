@@ -17,7 +17,6 @@ export default function EditMenu({
   coords,
   selectedItem,
 }: EditMenuProps) {
-  console.log(selectedItem);
   return (
     <View style={[styles.menuContainer, { left: coords.x, top: coords.y }]}>
       {actions.map((item, index) => (

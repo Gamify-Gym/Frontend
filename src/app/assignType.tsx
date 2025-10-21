@@ -23,7 +23,6 @@ export default function AssignTypePage() {
 
   const handlePress = async () => {
     try {
-      console.log(token);
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_BACKEND_URL}/user/type`,
         {
@@ -39,7 +38,6 @@ export default function AssignTypePage() {
         }
       );
 
-      console.log("fetched");
       if (!response.ok) throw new Error(`Erro ao completar perfil`);
 
       setUser(await response.json());

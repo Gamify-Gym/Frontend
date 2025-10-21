@@ -65,11 +65,6 @@ export default function Treino() {
   const handleCreate = async () => {
     try {
       if (creationType === "treino") {
-        console.log("Create Treino:", {
-          treinoTitle,
-          treinoDescription,
-        });
-
         const res = await fetch(
           `${process.env.EXPO_PUBLIC_BACKEND_URL}/training/workout`,
           {
@@ -97,7 +92,6 @@ export default function Treino() {
         if (responseText) {
           try {
             responseData = JSON.parse(responseText);
-            console.log("Success response:", responseData);
           } catch (parseError) {
             console.warn("Response is not JSON:", responseText);
           }
@@ -108,13 +102,6 @@ export default function Treino() {
       }
 
       if (creationType === "exercise") {
-        console.log("Create Exercise:", {
-          name: exerciseName,
-          muscles: exerciseMuscles,
-          repeticoes: exerciseReps,
-          series: exerciseSeries,
-          workoutName: exerciseWorkout,
-        });
         const res = await fetch(
           `${process.env.EXPO_PUBLIC_BACKEND_URL}/training/exercise`,
           {
@@ -145,7 +132,6 @@ export default function Treino() {
         if (responseText) {
           try {
             responseData = JSON.parse(responseText);
-            console.log("Success response:", responseData);
           } catch (parseError) {
             console.warn("Response is not JSON:", responseText);
           }
@@ -165,19 +151,18 @@ export default function Treino() {
     }
   };
 
- // const handleAlter = async () => {
- //   try {
- //     if (selectedItem) {
- //
+  // const handleAlter = async () => {
+  //   try {
+  //     if (selectedItem) {
+  //
   //    }
- //    }
+  //    }
   //}
 
   const MENU_ACTIONS = [
     {
       label: "Editar",
       action: () => console.log("Editar " + selectedItem?.name),
-
     },
     {
       label: "Apagar",
@@ -254,46 +239,46 @@ export default function Treino() {
       : [];
 
   return (
-  <Pressable style={styles.container} onPress={closeMenu}>
-    {menuVisible && (
-      <EditMenu
-        selectedItem={selectedItem}
-        actions={MENU_ACTIONS}
-        //@ts-expect-error
-        coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
-      />
-    )}
+    <Pressable style={styles.container} onPress={closeMenu}>
+      {menuVisible && (
+        <EditMenu
+          selectedItem={selectedItem}
+          actions={MENU_ACTIONS}
+          //@ts-expect-error
+          coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
+        />
+      )}
 
-    {creationMenuVisible && (
-      <FormCreationDialogue
-        onSubmit={handleCreate}
-        onClose={closeCreationMenu}
-        title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
-        options={FORM_OPTIONS}
-        submitTitle="Adicionar"
-      />
-    )}
+      {creationMenuVisible && (
+        <FormCreationDialogue
+          onSubmit={handleCreate}
+          onClose={closeCreationMenu}
+          title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
+          options={FORM_OPTIONS}
+          submitTitle="Adicionar"
+        />
+      )}
 
-    <ScrollView
-      style={styles.scrollContainer}
-      contentContainerStyle={{ paddingBottom: 40 }}
-      showsVerticalScrollIndicator={false}
-    >
-      <TreinoSelector
-        treinoData={treino}
-        onPress={handleTreinoChange}
-        onLongPress={(item, event) => handleItemLongPress(item, event)}
-      />
+      <ScrollView
+        style={styles.scrollContainer}
+        contentContainerStyle={{ paddingBottom: 40 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <TreinoSelector
+          treinoData={treino}
+          onPress={handleTreinoChange}
+          onLongPress={(item, event) => handleItemLongPress(item, event)}
+        />
 
-      <ExerciseSelected
-        treino={selectedTreino}
-        onLongPress={(item, event) => handleItemLongPress(item, event)}
-      />
-    </ScrollView>
+        <ExerciseSelected
+          treino={selectedTreino}
+          onLongPress={(item, event) => handleItemLongPress(item, event)}
+        />
+      </ScrollView>
 
-    <FAB icon="add" options={FAB_OPTIONS} />
-  </Pressable>
-);
+      <FAB icon="add" options={FAB_OPTIONS} />
+    </Pressable>
+  );
 }
 const styles = StyleSheet.create({
   container: {

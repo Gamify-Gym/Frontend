@@ -14,9 +14,6 @@ function Protected() {
     const publicRoutes = ["/login", "/assignType", "/createUser"];
     const isInProtectedRoute = !publicRoutes.includes(pathName);
 
-    console.log(user);
-    console.log(pathName);
-
     if (!isLogged && isInProtectedRoute) {
       router.replace("/login");
     } else if (isLogged && pathName === "/login") {
