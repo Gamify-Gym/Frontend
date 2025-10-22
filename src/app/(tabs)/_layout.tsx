@@ -3,7 +3,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Tabs, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import colors from "@/components/general/Colors";
 
 export default function TabLayout() {
@@ -36,8 +42,10 @@ export default function TabLayout() {
           paddingTop: 10,
           height: 70,
         },
-        //@ts-ignore
-        tabBarButton:(props)=><Pressable  {...props} android_ripple={{ color: 'transparent' }}/>
+        tabBarButton: (props) => (
+          //@ts-ignore
+          <Pressable {...props} android_ripple={{ color: null }} />
+        ),
       }}
     >
       <Tabs.Screen

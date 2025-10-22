@@ -12,7 +12,7 @@ import {
   View,
   Platform,
 } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function LoginScreen() {
   const { login, isLoading, error } = useAuth();
@@ -31,7 +31,7 @@ export default function LoginScreen() {
 
   return (
     <LinearGradient
-      colors={['#1b1031', '#341256ff', '#47276cff']}
+      colors={["#1b1031", "#341256ff", colors.brightPurple]}
       style={styles.mainContainer}
     >
       <KeyboardAvoidingView
@@ -69,7 +69,7 @@ export default function LoginScreen() {
             </View>
           </View>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.loginButton}
             onPress={handleLogin}
             disabled={isLoading}
@@ -81,8 +81,11 @@ export default function LoginScreen() {
 
           <View style={styles.createAccountContainer}>
             <Text style={styles.createAccountText}>
-              Ainda não possui uma conta? {' '}
-              <Text style={styles.createAccountTextLink} onPress={handleCreateAccount}>
+              Ainda não possui uma conta?{" "}
+              <Text
+                style={styles.createAccountTextLink}
+                onPress={handleCreateAccount}
+              >
                 Cadastre-se!
               </Text>
             </Text>
@@ -102,28 +105,28 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 11
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 11,
   },
 
   loginBox: {
-    width: '100%',
+    width: "100%",
     maxWidth: 400,
     paddingHorizontal: 8,
   },
 
   title: {
-  fontWeight: "800",
-  color: "#ffffff",
-  fontSize: 50,
-  textAlign: "center",
-  marginBottom: 50,
-  lineHeight: 44,
-  textShadowColor: 'rgba(202, 167, 215, 0.8)',
-  textShadowOffset: { width: 0, height: 0 },
-  textShadowRadius: 20,
-},
+    fontWeight: "800",
+    color: "#ffffff",
+    fontSize: 50,
+    textAlign: "center",
+    marginBottom: 50,
+    lineHeight: 44,
+    textShadowColor: "rgba(202, 167, 215, 0.8)",
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 20,
+  },
 
   textInputContainer: {
     gap: 20,
@@ -135,7 +138,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     marginBottom: 9,
     fontWeight: "700",
-    textShadowColor: 'rgba(255, 255, 255, 0.8)',
+    textShadowColor: "rgba(255, 255, 255, 0.8)",
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 8,
   },
@@ -149,7 +152,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     color: "#ffffff",
     backgroundColor: "rgba(31, 16, 56, 0.7)",
-     shadowColor: "#bc6bd9",
+    shadowColor: "#bc6bd9",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
@@ -157,23 +160,23 @@ const styles = StyleSheet.create({
   },
 
   loginButton: {
-  backgroundColor: '#a06ab4',
-  height: 56,
-  borderRadius: 16,
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginBottom: 24,
-  shadowColor: "#040105ff",
-  shadowOffset: { width: 0, height: 0 },
-  shadowOpacity: 1,
-  shadowRadius: 15,
-  elevation: 15,
-},
+    backgroundColor: "#a06ab4",
+    height: 56,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
+    shadowColor: "#040105ff",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 15,
+    elevation: 15,
+  },
   loginButtonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 22,
-    fontWeight: '800',
-    textShadowColor: 'rgba(255, 255, 255, 0.8)',
+    fontWeight: "800",
+    textShadowColor: "rgba(255, 255, 255, 0.8)",
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 3,
   },
@@ -187,7 +190,7 @@ const styles = StyleSheet.create({
   createAccountText: {
     fontSize: 16,
     color: "#ffffffff",
-    textAlign: 'center',
+    textAlign: "center",
     fontWeight: "500",
   },
 
@@ -195,14 +198,14 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: "#ffa8c5ff",
     fontWeight: "800",
-    textShadowColor: 'rgba(146, 11, 92, 0.8)',
+    textShadowColor: "rgba(146, 11, 92, 0.8)",
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 3,
   },
 
   error: {
     fontSize: 13,
-    color: '#ff6b9d',
+    color: "#ff6b9d",
     textAlign: "center",
     marginTop: 16,
   },
