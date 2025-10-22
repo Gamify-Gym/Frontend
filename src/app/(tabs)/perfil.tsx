@@ -18,6 +18,6 @@ export default function Perfil() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FEF7FF",
+    backgroundColor: "#1b1031",
   },
 });

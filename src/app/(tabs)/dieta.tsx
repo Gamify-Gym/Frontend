@@ -14,5 +14,11 @@ export default function Dieta() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#1b1031",
+    paddingTop: 60,
+  },
 });

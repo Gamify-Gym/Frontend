@@ -24,7 +24,14 @@ export default function TabLayout() {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#4c0185",
+        }}
+      >
         <ActivityIndicator size="large" color="#4A4459" />
       </View>
     );
@@ -36,7 +43,6 @@ export default function TabLayout() {
         headerShown: false,
         tabBarShowLabel: false,
         headerShadowVisible: false,
-        animation: "fade",
         tabBarStyle: {
           backgroundColor: colors.brightPurple,
           paddingTop: 10,
@@ -163,6 +169,7 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen name="complete[exercise]" options={{ href: null }} />
     </Tabs>
   );
 }
