@@ -74,7 +74,7 @@ export default function CreateUserScreen() {
 
   return (
     <LinearGradient
-      colors={['#2d1654', '#4a1b75', '#5c2589']}
+      colors={['#2d1654', '#3b1f53ff', '#2d0e47ff']}
       style={styles.mainContainer}
     >
       <KeyboardAvoidingView
@@ -213,7 +213,6 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     backgroundColor: "rgba(31, 16, 56, 0.7)",
     shadowColor: "#bc6bd9",
-    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
     elevation: 10,
