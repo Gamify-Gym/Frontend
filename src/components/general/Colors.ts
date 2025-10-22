@@ -6,7 +6,9 @@ const colors = {
   borderOnSecondary: "#b4b1b8ff",
 
   gray: "#9E9E9E",
+  pink: "#dc80fe",
   lightGray: "#E0E0E0",
+  secondaryLightGray: "#b7a2c7",
   darkGray: "#616161",
   success: "#4CAF50",
   warning: "#FF9800",
@@ -18,6 +20,7 @@ const colors = {
   secondaryLight: "#ECE4F7",
   secondaryDark: "#D6C6F0",
   darkPurple: "#1a012cff",
+  brightPurple: "#3a0066",
 
   textPrimary: "#1C1B1F",
   textSecondary: "#49454F",

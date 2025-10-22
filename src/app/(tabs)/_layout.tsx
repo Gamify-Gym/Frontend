@@ -4,6 +4,8 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Tabs, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import colors from "@/components/general/Colors";
+
 
 export default function TabLayout() {
   const { isLogged, isLoading } = useAuth();
@@ -31,7 +33,7 @@ export default function TabLayout() {
         headerShadowVisible: false,
         animation: "fade",
         tabBarStyle: {
-          backgroundColor: "#F3EDF7",
+          backgroundColor: colors.brightPurple,
           paddingTop: 10,
           height: 70,
         },
@@ -44,7 +46,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <>
               <View style={[styles.pill, focused && styles.pillFocus]}>
-                <FontAwesome6 name="dumbbell" size={20} color="#4A4459" />
+                <FontAwesome6 name="dumbbell" size={20} color={colors.secondaryLightGray} />
               </View>
               <Text
                 style={[styles.text, focused && styles.textFocus]}
@@ -66,7 +68,7 @@ export default function TabLayout() {
                 <MaterialCommunityIcons
                   name="silverware-fork-knife"
                   size={26}
-                  color="#4A4459"
+                  color={colors.secondaryLightGray}
                 />
               </View>
               <Text
@@ -85,7 +87,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <>
               <View style={[styles.pill, focused && styles.pillFocus]}>
-                <MaterialCommunityIcons name="home" size={26} color="#4A4459" />
+                <MaterialCommunityIcons name="home" size={26} color={colors.secondaryLightGray} />
               </View>
               <Text
                 style={[styles.text, focused && styles.textFocus]}
@@ -105,7 +107,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <>
               <View style={[styles.pill, focused && styles.pillFocus]}>
-                <FontAwesome6 name="user-group" size={20} color="#4A4459" />
+                <FontAwesome6 name="user-group" size={20} color={colors.secondaryLightGray} />
               </View>
               <Text
                 style={[styles.text, focused && styles.textFocus]}
@@ -124,7 +126,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <>
               <View style={[styles.pill, focused && styles.pillFocus]}>
-                <FontAwesome6 name="crown" size={20} color="#4A4459" />
+                <FontAwesome6 name="crown" size={20} color={colors.secondaryLightGray} />
               </View>
               <Text
                 style={[styles.text, focused && styles.textFocus]}
@@ -151,14 +153,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   pillFocus: {
-    backgroundColor: "#E8DEF8",
+    backgroundColor: colors.primary,
   },
   text: {
     fontSize: 8,
     fontWeight: "normal",
+    color: colors.secondaryLightGray,
   },
   textFocus: {
     fontWeight: "bold",
-    color: "#625B71",
+    color: colors.pink,
   },
 });
