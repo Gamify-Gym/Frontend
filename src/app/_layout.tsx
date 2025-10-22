@@ -1,3 +1,4 @@
+import colors from "@/components/general/Colors";
 import { AuthProvider, useAuth } from "@/context/authContext";
 import { Stack, useRouter, usePathname } from "expo-router";
 import { useEffect } from "react";
@@ -28,7 +29,7 @@ function Protected() {
   }, [isLogged, isLoading, pathName, router, user]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#F3EDF7" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor:colors.brightPurple }}>
       <Stack screenOptions={{ headerShown: false, statusBarStyle: "dark" }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />

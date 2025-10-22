@@ -3,9 +3,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Tabs, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import colors from "@/components/general/Colors";
-
 
 export default function TabLayout() {
   const { isLogged, isLoading } = useAuth();
@@ -37,6 +36,8 @@ export default function TabLayout() {
           paddingTop: 10,
           height: 70,
         },
+        //@ts-ignore
+        tabBarButton:(props)=><Pressable  {...props} android_ripple={{ color: 'transparent' }}/>
       }}
     >
       <Tabs.Screen
@@ -46,7 +47,11 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <>
               <View style={[styles.pill, focused && styles.pillFocus]}>
-                <FontAwesome6 name="dumbbell" size={20} color={colors.secondaryLightGray} />
+                <FontAwesome6
+                  name="dumbbell"
+                  size={20}
+                  color={focused ? colors.pink : colors.secondaryLightGray}
+                />
               </View>
               <Text
                 style={[styles.text, focused && styles.textFocus]}
@@ -68,7 +73,7 @@ export default function TabLayout() {
                 <MaterialCommunityIcons
                   name="silverware-fork-knife"
                   size={26}
-                  color={colors.secondaryLightGray}
+                  color={focused ? colors.pink : colors.secondaryLightGray}
                 />
               </View>
               <Text
@@ -87,7 +92,11 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <>
               <View style={[styles.pill, focused && styles.pillFocus]}>
-                <MaterialCommunityIcons name="home" size={26} color={colors.secondaryLightGray} />
+                <MaterialCommunityIcons
+                  name="home"
+                  size={26}
+                  color={focused ? colors.pink : colors.secondaryLightGray}
+                />
               </View>
               <Text
                 style={[styles.text, focused && styles.textFocus]}
@@ -107,7 +116,11 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <>
               <View style={[styles.pill, focused && styles.pillFocus]}>
-                <FontAwesome6 name="user-group" size={20} color={colors.secondaryLightGray} />
+                <FontAwesome6
+                  name="user-group"
+                  size={20}
+                  color={focused ? colors.pink : colors.secondaryLightGray}
+                />
               </View>
               <Text
                 style={[styles.text, focused && styles.textFocus]}
@@ -126,7 +139,11 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <>
               <View style={[styles.pill, focused && styles.pillFocus]}>
-                <FontAwesome6 name="crown" size={20} color={colors.secondaryLightGray} />
+                <FontAwesome6
+                  name="crown"
+                  size={20}
+                  color={focused ? colors.pink : colors.secondaryLightGray}
+                />
               </View>
               <Text
                 style={[styles.text, focused && styles.textFocus]}
@@ -153,7 +170,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   pillFocus: {
-    backgroundColor: colors.primary,
+    backgroundColor: "#4c0185",
+    borderRadius: 30,
   },
   text: {
     fontSize: 8,
