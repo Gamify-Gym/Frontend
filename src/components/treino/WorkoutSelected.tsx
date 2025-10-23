@@ -9,16 +9,19 @@ import {
   View,
 } from "react-native";
 import { Text } from "../general";
+import Button from "../general/Button";
 import { TreinoType, ExerciseType } from "../general/types";
 import colors from "../general/Colors";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 
-export default function ExerciseSelected({
+export default function WorkoutSelected({
   treino,
   onLongPress,
+  startTreino,
 }: {
   treino: TreinoType | null;
   onLongPress: (exercise: ExerciseType, event: GestureResponderEvent) => void;
+  startTreino: (treino: TreinoType) => void;
 }) {
   const animatedValues = useRef<{ [key: number]: Animated.Value }>({}).current;
 
@@ -50,12 +53,20 @@ export default function ExerciseSelected({
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.titleRow}>
-          <MaterialDesignIcons name="clipboard-check" size={32} color="#df80ff" />
+          <MaterialDesignIcons
+            name="clipboard-check"
+            size={32}
+            color="#df80ff"
+          />
           <Text style={styles.title}>{treino.name}</Text>
         </View>
         <View style={styles.treinoStats}>
           <View style={styles.statBadge}>
-            <MaterialDesignIcons name="format-list-numbered" size={16} color="#df80ff" />
+            <MaterialDesignIcons
+              name="format-list-numbered"
+              size={16}
+              color="#df80ff"
+            />
             <Text style={styles.statsText}>
               {treino.exercises.length} exercícios
             </Text>
@@ -63,10 +74,19 @@ export default function ExerciseSelected({
           <View style={styles.statDivider} />
           <View style={styles.statBadge}>
             <MaterialDesignIcons name="counter" size={16} color="#df80ff" />
-            <Text style={styles.statsText}>
-              {treino.totalSeries} séries
-            </Text>
+            <Text style={styles.statsText}>{treino.totalSeries} séries</Text>
           </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            label="Iniciar Treino"
+            icon="play-circle"
+            onClick={() => startTreino(treino)}
+            width={200}
+            height={50}
+            iconProps={{ size: 24, color: "#ffffff" }}
+            textStyle={{ fontSize: 16, fontWeight: "700", color: "#ffffff" }}
+          />
         </View>
       </View>
 
@@ -108,11 +128,19 @@ export default function ExerciseSelected({
               >
                 <View style={styles.exerciseHeader}>
                   <View style={styles.exerciseNameRow}>
-                    <MaterialDesignIcons name="dumbbell" size={20} color={colors.primary} />
+                    <MaterialDesignIcons
+                      name="dumbbell"
+                      size={20}
+                      color={colors.primary}
+                    />
                     <Text style={styles.exerciseName}>{exercise.name}</Text>
                   </View>
                   <View style={styles.exerciseBadge}>
-                    <MaterialDesignIcons name="numeric" size={14} color={colors.white} />
+                    <MaterialDesignIcons
+                      name="numeric"
+                      size={14}
+                      color={colors.white}
+                    />
                     <Text style={styles.badgeText}>
                       {exercise.series} séries
                     </Text>
@@ -120,14 +148,22 @@ export default function ExerciseSelected({
                 </View>
                 <View style={styles.exerciseDetails}>
                   <View style={styles.detailRow}>
-                    <MaterialDesignIcons name="repeat" size={16} color={colors.primary} />
+                    <MaterialDesignIcons
+                      name="repeat"
+                      size={16}
+                      color={colors.primary}
+                    />
                     <Text style={styles.exerciseInfo}>
                       {exercise.repeticoes} repetições
                     </Text>
                   </View>
                   {exercise.muscles && (
                     <View style={styles.muscleRow}>
-                      <MaterialDesignIcons name="arm-flex" size={16} color={colors.textSecondary} />
+                      <MaterialDesignIcons
+                        name="arm-flex"
+                        size={16}
+                        color={colors.textSecondary}
+                      />
                       <Text style={styles.muscleText}>{exercise.muscles}</Text>
                     </View>
                   )}
@@ -194,6 +230,11 @@ const styles = StyleSheet.create({
     height: 16,
     backgroundColor: "rgba(223, 128, 255, 0.4)",
     borderRadius: 1,
+  },
+  buttonContainer: {
+    marginTop: 16,
+    width: "100%",
+    alignItems: "center",
   },
   exerciseContainer: {
     flex: 1,

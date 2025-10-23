@@ -1,9 +1,12 @@
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import ParentView from "@/components/general/ParentView";
 
 export default function Premium() {
   return (
-    <View style={styles.container}>
-    </View>
+    <ParentView>
+      <View style={styles.container}>
+      </View>
+    </ParentView>
   );
 }
 

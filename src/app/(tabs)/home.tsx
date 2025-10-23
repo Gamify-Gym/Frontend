@@ -1,14 +1,15 @@
 import FAB from "@/components/general/FAB";
-import { Text, View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { useAuth } from "@/context/authContext";
 import Button from "@/components/general/Button";
-import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
+import ParentView from "@/components/general/ParentView";
 
 export default function home() {
   const { logout } = useAuth();
 
   return (
-    <View style={styles.container}>
+    <ParentView>
+      <View style={styles.container}>
       <Button
         onClick={() => {}}
         onLongClick={() => Alert.alert("Clique longo")}
@@ -41,7 +42,8 @@ export default function home() {
           },
         ]}
       />
-    </View>
+      </View>
+    </ParentView>
   );
 }
 

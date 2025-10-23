@@ -1,15 +1,16 @@
-import { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
-import { DietaType } from "../../components/general/types";
+import { View, StyleSheet } from "react-native";
 import { useDieta } from "@/hooks/useDietas";
 import DietaSelector from "@/components/dieta/dietaSelector";
+import ParentView from "@/components/general/ParentView";
 
 export default function Dieta() {
-  const { dieta, handleRerun } = useDieta();
+  const { dieta } = useDieta();
   return (
-    <View style={styles.container}>
-      <DietaSelector data={dieta} onPress={() => {}} onLongPress={() => {}} />
-    </View>
+    <ParentView>
+      <View style={styles.container}>
+        <DietaSelector data={dieta} onPress={() => {}} onLongPress={() => {}} />
+      </View>
+    </ParentView>
   );
 }
 

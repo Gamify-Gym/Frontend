@@ -1,4 +1,4 @@
-import ExerciseSelected from "@/components/treino/WorkoutSelected";
+import WorkoutSelected from "@/components/treino/WorkoutSelected";
 import TreinoSelector from "@/components/treino/WorkoutSelector";
 import {
   Alert,
@@ -15,6 +15,8 @@ import { useMenu } from "@/hooks/useMenu";
 import { useWorkout } from "@/hooks/useWorkout";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
+import ParentView from "@/components/general/ParentView";
+import { router, useNavigation, useRouter } from "expo-router";
 
 export default function Treino() {
   const [selectedTreino, setSelectedTreino] = useState<TreinoType | null>(null);
@@ -30,6 +32,8 @@ export default function Treino() {
   const [exerciseReps, setExerciseReps] = useState("");
   const [exerciseSeries, setExerciseSeries] = useState("");
   const [exerciseWorkout, setExerciseWorkout] = useState("");
+
+  const router = useRouter();
 
   const {
     menuVisible,
@@ -238,46 +242,56 @@ export default function Treino() {
         ]
       : [];
 
+  const handleStartTreino = (treino: TreinoType) => {
+    router.push({
+      pathname: "/(tabs)/[treino]",
+      params: { treino: JSON.stringify(treino) },
+    });
+  };
+
   return (
-    <Pressable style={styles.container} onPress={closeMenu}>
-      {menuVisible && (
-        <EditMenu
-          selectedItem={selectedItem}
-          actions={MENU_ACTIONS}
-          //@ts-expect-error
-          coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
-        />
-      )}
+    <ParentView>
+      <Pressable style={styles.container} onPress={closeMenu}>
+        {menuVisible && (
+          <EditMenu
+            selectedItem={selectedItem}
+            actions={MENU_ACTIONS}
+            //@ts-expect-error
+            coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
+          />
+        )}
 
-      {creationMenuVisible && (
-        <FormCreationDialogue
-          onSubmit={handleCreate}
-          onClose={closeCreationMenu}
-          title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
-          options={FORM_OPTIONS}
-          submitTitle="Adicionar"
-        />
-      )}
+        {creationMenuVisible && (
+          <FormCreationDialogue
+            onSubmit={handleCreate}
+            onClose={closeCreationMenu}
+            title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
+            options={FORM_OPTIONS}
+            submitTitle="Adicionar"
+          />
+        )}
 
-      <ScrollView
-        style={styles.scrollContainer}
-        contentContainerStyle={{ paddingBottom: 40 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <TreinoSelector
-          treinoData={treino}
-          onPress={handleTreinoChange}
-          onLongPress={(item, event) => handleItemLongPress(item, event)}
-        />
+        <ScrollView
+          style={styles.scrollContainer}
+          contentContainerStyle={{ paddingBottom: 40 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <TreinoSelector
+            treinoData={treino}
+            onPress={handleTreinoChange}
+            onLongPress={(item, event) => handleItemLongPress(item, event)}
+          />
 
-        <ExerciseSelected
-          treino={selectedTreino}
-          onLongPress={(item, event) => handleItemLongPress(item, event)}
-        />
-      </ScrollView>
+          <WorkoutSelected
+            treino={selectedTreino}
+            onLongPress={(item, event) => handleItemLongPress(item, event)}
+            startTreino={handleStartTreino}
+          />
+        </ScrollView>
 
-      <FAB icon="add" options={FAB_OPTIONS} />
-    </Pressable>
+        <FAB icon="add" options={FAB_OPTIONS} />
+      </Pressable>
+    </ParentView>
   );
 }
 const styles = StyleSheet.create({
