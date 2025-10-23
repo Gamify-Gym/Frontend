@@ -155,14 +155,6 @@ export default function Treino() {
     }
   };
 
-  // const handleAlter = async () => {
-  //   try {
-  //     if (selectedItem) {
-  //
-  //    }
-  //    }
-  //}
-
   const MENU_ACTIONS = [
     {
       label: "Editar",

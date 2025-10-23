@@ -1,5 +1,5 @@
 import { useFocusEffect } from "expo-router";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { View } from "react-native";
 import Animated, {
   useSharedValue,
@@ -11,6 +11,7 @@ const ParentView = (props: any) => {
   const { style, children, ...others } = props;
   const translateX = useSharedValue(300);
   const opacity = useSharedValue(0);
+  const [isVisible, setIsVisible] = useState(false);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
@@ -19,13 +20,30 @@ const ParentView = (props: any) => {
 
   useFocusEffect(
     useCallback(() => {
-      translateX.value = 300;
-      opacity.value = 0;
+      let isActive = true;
 
-      requestAnimationFrame(() => {
-        translateX.value = withTiming(0, { duration: 200 });
-        opacity.value = withTiming(1, { duration: 350 });
-      });
+      const animateIn = () => {
+        if (!isActive) return;
+
+        setIsVisible(true);
+        translateX.value = 300;
+        opacity.value = 0;
+
+        requestAnimationFrame(() => {
+          if (!isActive) return;
+          translateX.value = withTiming(0, { duration: 200 });
+          opacity.value = withTiming(1, { duration: 550 });
+        });
+      };
+
+      animateIn();
+
+      return () => {
+        isActive = false;
+        translateX.value = 300;
+        opacity.value = 0;
+        setIsVisible(false);
+      };
     }, [])
   );
 
@@ -33,7 +51,13 @@ const ParentView = (props: any) => {
     <View style={{ flex: 1, backgroundColor: "#1b1031" }}>
       <Animated.View
         {...others}
-        style={[{ flex: 1, opacity: 0 }, animatedStyle, style]}
+        style={[
+          { flex: 1 },
+          animatedStyle,
+          style,
+          !isVisible && { opacity: 0 },
+        ]}
+        pointerEvents={isVisible ? "auto" : "none"}
       >
         {children}
       </Animated.View>

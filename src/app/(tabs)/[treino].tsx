@@ -18,6 +18,7 @@ export default function TreinoCompleter() {
           <Text>{data.name}</Text>
           <Text>{data.totalExercises}</Text>
           <Text>{data.totalSeries}</Text>
+          <Text>{JSON.stringify(data.exercises)}</Text>
         </View>
       </View>
     </ParentView>
