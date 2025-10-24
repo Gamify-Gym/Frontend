@@ -7,7 +7,7 @@ export type ExerciseType = {
   complete?: boolean;
 };
 
-export type TreinoType = {
+export interface TreinoType {
   id: number;
   name: string;
   description: string;
@@ -15,7 +15,7 @@ export type TreinoType = {
   complete?: boolean;
   totalExercises: number;
   totalSeries: number;
-};
+}
 export interface User {
   id_user: number;
   username: string;

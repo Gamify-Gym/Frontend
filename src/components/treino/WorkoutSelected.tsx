@@ -78,15 +78,17 @@ export default function WorkoutSelected({
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <Button
-            label="Iniciar Treino"
-            icon="play-circle"
-            onClick={() => startTreino(treino)}
-            width={200}
-            height={50}
-            iconProps={{ size: 24, color: "#ffffff" }}
-            textStyle={{ fontSize: 16, fontWeight: "700", color: "#ffffff" }}
-          />
+          {treino.exercises.length !== 0 && (
+            <Button
+              label="Iniciar Treino"
+              icon="play-circle"
+              onClick={() => startTreino(treino)}
+              width={200}
+              height={50}
+              iconProps={{ size: 24, color: "#ffffff" }}
+              textStyle={{ fontSize: 16, fontWeight: "700", color: "#ffffff" }}
+            />
+          )}
         </View>
       </View>
 

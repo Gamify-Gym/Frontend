@@ -169,7 +169,13 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen name="[treino]" options={{ href: null }} />
+      <Tabs.Screen
+        name="[treino]"
+        options={{
+          href: null,
+          tabBarStyle: { display: "none" },
+        }}
+      />
     </Tabs>
   );
 }

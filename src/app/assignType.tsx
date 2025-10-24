@@ -22,6 +22,7 @@ export default function AssignTypePage() {
   };
 
   const handlePress = async () => {
+    if (weight === "" || height === "") return;
     try {
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_BACKEND_URL}/user/type`,
