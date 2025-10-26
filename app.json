@@ -4,13 +4,13 @@
     "slug": "Gamify Gym",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icons/adaptive-icon.png",
+    "icon": "./src/assets/icons/adaptive-icon-dev.png",
     "scheme": "gamifygym",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/icons/adaptive-icon.png",
+        "foregroundImage": "./src/assets/icons/adaptive-icon-dev.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
