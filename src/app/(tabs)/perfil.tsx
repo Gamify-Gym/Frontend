@@ -1,13 +1,19 @@
 import { Player } from "@/components/general/types";
 import Profile from "@/components/perfil/profile";
 import { useAuth } from "@/context/authContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, KeyboardAvoidingView } from "react-native";
 import ParentView from "@/components/general/ParentView";
 
 export default function Perfil() {
   const { user } = useAuth();
-  const [player] = useState<Player | null>(user ? user : null);
+  const [player, setPlayer] = useState<Player | null>(user);
+
+  useEffect(() => {
+    if (user) {
+      setPlayer(user);
+    }
+  }, [user]);
 
   return (
     <ParentView>

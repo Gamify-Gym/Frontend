@@ -16,12 +16,6 @@ export default function TabLayout() {
   const { isLogged, isLoading } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!isLoading && !isLogged) {
-      router.replace("/login");
-    }
-  }, [isLoading, isLogged]);
-
   if (isLoading) {
     return (
       <View
@@ -149,24 +143,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="premium"
         options={{
-          title: "Premium",
-          tabBarIcon: ({ focused }) => (
-            <>
-              <View style={[styles.pill, focused && styles.pillFocus]}>
-                <FontAwesome6
-                  name="crown"
-                  size={20}
-                  color={focused ? colors.pink : colors.secondaryLightGray}
-                />
-              </View>
-              <Text
-                style={[styles.text, focused && styles.textFocus]}
-                numberOfLines={1}
-              >
-                Premium
-              </Text>
-            </>
-          ),
+          href: null,
+          tabBarStyle: { display: "none" },
         }}
       />
       <Tabs.Screen

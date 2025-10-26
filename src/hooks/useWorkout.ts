@@ -1,6 +1,7 @@
 import { TreinoType } from "@/components/general/types";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
+import { getMockWorkouts } from "@/utils/mockData";
 
 export function useWorkout() {
   const [treino, setTreino] = useState<[TreinoType] | []>([]);
@@ -10,25 +11,10 @@ export function useWorkout() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(
-          `${process.env.EXPO_PUBLIC_BACKEND_URL}/training/workout`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token?.replace(/"/g, "")}`,
-            },
-          }
-        );
-
-        if (!res.ok) {
-          console.error("Request failed", res.status);
-          const errorText = await res.text();
-          setTreino([]);
-          throw new Error(errorText);
-        }
-
-        const json = await res.json();
-        setTreino(json);
+        // MOCK: Using mock data instead of API call
+        await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
+        const mockData = getMockWorkouts();
+        setTreino(mockData as any);
       } catch (error) {
         console.error(error);
       }

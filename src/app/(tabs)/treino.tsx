@@ -68,82 +68,13 @@ export default function Treino() {
 
   const handleCreate = async () => {
     try {
-      if (creationType === "treino") {
-        const res = await fetch(
-          `${process.env.EXPO_PUBLIC_BACKEND_URL}/training/workout`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token?.replace(/"/g, "")}`,
-            },
-            body: JSON.stringify({
-              name: treinoTitle,
-              description: treinoDescription,
-            }),
-          }
-        );
+      // MOCK: Insertion operations disabled in demo mode
+      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
 
-        if (!res.ok) {
-          const errorText = await res.text();
-          console.error("Server error response:", errorText);
-          throw new Error(`HTTP ${res.status}: ${errorText}`);
-        }
-
-        let responseData;
-        const responseText = await res.text();
-
-        if (responseText) {
-          try {
-            responseData = JSON.parse(responseText);
-          } catch (parseError) {
-            console.warn("Response is not JSON:", responseText);
-          }
-        }
-
-        setRerun((prev) => prev + 1);
-        Alert.alert("Sucesso!", "Novo Treino criado com sucesso!");
-      }
-
-      if (creationType === "exercise") {
-        const res = await fetch(
-          `${process.env.EXPO_PUBLIC_BACKEND_URL}/training/exercise`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token?.replace(/"/g, "")}`,
-            },
-            body: JSON.stringify({
-              nameExercise: exerciseName,
-              muscles: exerciseMuscles,
-              repeticoes: exerciseReps,
-              series: exerciseSeries,
-              workout_name: exerciseWorkout,
-            }),
-          }
-        );
-
-        if (!res.ok) {
-          const errorText = await res.text();
-          console.error("Server error response:", errorText);
-          throw new Error(`HTTP ${res.status}: ${errorText}`);
-        }
-
-        let responseData;
-        const responseText = await res.text();
-
-        if (responseText) {
-          try {
-            responseData = JSON.parse(responseText);
-          } catch (parseError) {
-            console.warn("Response is not JSON:", responseText);
-          }
-        }
-
-        setRerun((prev) => prev + 1);
-        Alert.alert("Sucesso!", "Novo exercício criado com sucesso!");
-      }
+      Alert.alert(
+        "Modo Demo",
+        "Criação de novos treinos e exercícios está desabilitada no modo de demonstração."
+      );
     } catch (error) {
       console.error("Create error:", error);
       Alert.alert(
@@ -158,11 +89,14 @@ export default function Treino() {
   const MENU_ACTIONS = [
     {
       label: "Editar",
-      action: () => console.log("Editar " + selectedItem?.name),
+      icon: "pencil",
+      action: () => Alert.alert("Modo Demo", "Edição desabilitada no modo de demonstração."),
     },
     {
       label: "Apagar",
-      action: () => console.log("Apagar " + selectedItem?.name),
+      icon: "delete",
+      destructive: true,
+      action: () => Alert.alert("Modo Demo", "Exclusão desabilitada no modo de demonstração."),
     },
   ];
 
@@ -248,8 +182,8 @@ export default function Treino() {
           <EditMenu
             selectedItem={selectedItem}
             actions={MENU_ACTIONS}
-            //@ts-expect-error
-            coords={{ x: menuCoords.x - 15, y: menuCoords.y - 100 }}
+            coords={{ x: menuCoords.x, y: menuCoords.y }}
+            onClose={closeMenu}
           />
         )}
 

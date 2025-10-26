@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "Gamify Gym",
-    "slug": "Gamify Gym",
+    "name": "Gamify Gym (MOCK)",
+    "slug": "Gamify-Gym",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icons/adaptive-icon-dev.png",
+    "icon": "./src/assets/icons/adaptive-icon-mock.png",
     "scheme": "gamifygym",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/icons/adaptive-icon-dev.png",
+        "foregroundImage": "./src/assets/icons/adaptive-icon-mock.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,

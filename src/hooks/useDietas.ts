@@ -1,6 +1,7 @@
 import { DietaType } from "@/components/general/types";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
+import { getMockDiets } from "@/utils/mockData";
 
 export function useDieta() {
   const [dieta, setDieta] = useState<[DietaType] | []>([]);
@@ -10,21 +11,12 @@ export function useDieta() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(
-          `${process.env.EXPO_PUBLIC_BACKEND_URL}/dieta/plan`,
-          { headers: { Authorization: `Bearer ${token}` }, method: "GET" }
-        );
-
-        if (!res.ok) {
-          const errorText = await res.text();
-          setDieta([]);
-          throw new Error(errorText);
-        }
-
-        const json = await res.json();
-        setDieta(json);
+        // MOCK: Using mock data instead of API call
+        await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
+        const mockData = getMockDiets();
+        setDieta(mockData as any);
       } catch (error: any) {
-        throw new Error(error.message);
+        console.error(error);
       }
     };
     fetchData();

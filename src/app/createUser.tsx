@@ -12,7 +12,7 @@ import {
   View,
   Platform,
 } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
 interface RegisterResponse {
   message?: string;
@@ -36,33 +36,17 @@ export default function CreateUserScreen() {
 
     setIsLoading(true);
     try {
-      const response: Response = await fetch(
-        `${process.env.EXPO_PUBLIC_BACKEND_URL}/user/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: name,
-            email: email,
-            password: password,
-          }),
-        }
+      // MOCK: Criação de usuário desabilitada - apenas simulação
+      await new Promise(resolve => setTimeout(resolve, 500)); // Simula delay
+
+      Alert.alert(
+        "Modo Demo",
+        "Criação de usuário desabilitada no modo de demonstração. Use o login para continuar."
       );
-
-      const data: RegisterResponse = await response.json();
-
-      if (!response.ok) {
-        Alert.alert("Erro", data.message || "Erro ao criar usuário");
-        setIsLoading(false);
-        return;
-      }
-      Alert.alert("Sucesso", "Usuário criado com sucesso!");
       router.navigate("/login");
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      Alert.alert("Erro", "Erro ao conectar com o servidor");
+      Alert.alert("Erro", error.message);
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +58,7 @@ export default function CreateUserScreen() {
 
   return (
     <LinearGradient
-      colors={['#2d1654', '#3b1f53ff', '#2d0e47ff']}
+      colors={["#2d1654", "#3b1f53ff", "#2d0e47ff"]}
       style={styles.mainContainer}
     >
       <KeyboardAvoidingView
@@ -83,7 +67,7 @@ export default function CreateUserScreen() {
         keyboardVerticalOffset={-40}
       >
         <View style={styles.loginBox}>
-          <Text style={styles.title}>Crie sua{'\n'}conta</Text>
+          <Text style={styles.title}>Crie sua{"\n"}conta</Text>
 
           <View style={styles.textInputContainer}>
             <View>
@@ -134,7 +118,7 @@ export default function CreateUserScreen() {
             </View>
           </View>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.loginButton}
             onPress={handleRegister}
             disabled={isLoading}
@@ -146,8 +130,11 @@ export default function CreateUserScreen() {
 
           <View style={styles.createAccountContainer}>
             <Text style={styles.createAccountText}>
-              Já possui uma conta?{' '}
-              <Text style={styles.createAccountTextLink} onPress={handleGoToLogin}>
+              Já possui uma conta?{" "}
+              <Text
+                style={styles.createAccountTextLink}
+                onPress={handleGoToLogin}
+              >
                 Faça login!
               </Text>
             </Text>
@@ -165,13 +152,13 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 11,
   },
 
   loginBox: {
-    width: '100%',
+    width: "100%",
     maxWidth: 400,
     paddingHorizontal: 8,
   },
@@ -183,7 +170,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
     lineHeight: 44,
-    textShadowColor: 'rgba(202, 167, 215, 0.8)',
+    textShadowColor: "rgba(202, 167, 215, 0.8)",
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
   },
@@ -198,7 +185,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     marginBottom: 9,
     fontWeight: "700",
-    textShadowColor: 'rgba(255, 255, 255, 0.8)',
+    textShadowColor: "rgba(255, 255, 255, 0.8)",
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 8,
   },
@@ -219,11 +206,11 @@ const styles = StyleSheet.create({
   },
 
   loginButton: {
-    backgroundColor: '#a06ab4',
+    backgroundColor: "#a06ab4",
     height: 56,
     borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 24,
     shadowColor: "#040105ff",
     shadowOffset: { width: 0, height: 0 },
@@ -233,10 +220,10 @@ const styles = StyleSheet.create({
   },
 
   loginButtonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 22,
-    fontWeight: '800',
-    textShadowColor: 'rgba(255, 255, 255, 0.8)',
+    fontWeight: "800",
+    textShadowColor: "rgba(255, 255, 255, 0.8)",
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 3,
   },
@@ -250,7 +237,7 @@ const styles = StyleSheet.create({
   createAccountText: {
     fontSize: 16,
     color: "#ffffffff",
-    textAlign: 'center',
+    textAlign: "center",
     fontWeight: "500",
   },
 
@@ -258,7 +245,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: "#ffa8c5ff",
     fontWeight: "800",
-    textShadowColor: 'rgba(146, 11, 92, 0.8)',
+    textShadowColor: "rgba(146, 11, 92, 0.8)",
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 3,
   },

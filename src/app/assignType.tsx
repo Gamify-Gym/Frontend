@@ -1,5 +1,11 @@
 import { Text } from "@/components/general";
 import Button from "@/components/general/Button";
+import {
+  Player,
+  PlayerActivity,
+  TreinoType,
+  ExerciseType,
+} from "@/components/general/types";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -9,12 +15,13 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { getMockWorkouts } from "@/utils/mockData";
 
 export default function AssignTypePage() {
   const [weight, setWeight] = useState<string>("");
   const [height, setHeight] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const { token, setUser } = useAuth();
+  const { setUser } = useAuth();
   const router = useRouter();
 
   const navigate = () => {
@@ -24,24 +31,27 @@ export default function AssignTypePage() {
   const handlePress = async () => {
     if (weight === "" || height === "") return;
     try {
-      const response = await fetch(
-        `${process.env.EXPO_PUBLIC_BACKEND_URL}/user/type`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            weight: Number(weight),
-            height: Number(height),
-          }),
-        }
-      );
+      // const response = await fetch(
+      //   `${process.env.EXPO_PUBLIC_BACKEND_URL}/user/type`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //     body: JSON.stringify({
+      //       weight: Number(weight),
+      //       height: Number(height),
+      //     }),
+      //   }
+      // );
 
-      if (!response.ok) throw new Error(`Erro ao completar perfil`);
+      // if (!response.ok) throw new Error(`Erro ao completar perfil`);
 
-      setUser(await response.json());
+      // setUser(await response.json());
+
+      // MOCK: Use mock workout data
+
       navigate();
     } catch (error: any) {
       setError(error.message || "Erro ao completar perfil");
