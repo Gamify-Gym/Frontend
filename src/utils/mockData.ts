@@ -1,6 +1,25 @@
 import { TreinoType, DietaType, Alimento, Player } from "@/components/general/types";
 
-// Mock friends data with Brazilian Portuguese names
+export interface MealType {
+  id: string;
+  name: "Café da manhã" | "Almoço" | "Lanche" | "Janta" | "Outros";
+  time?: string;
+  alimentos: Alimento[];
+}
+
+export interface DietaWithMealsType {
+  id: number;
+  name: string;
+  description?: string;
+  dailyCalorieGoal?: number;
+  dailyProteinGoal?: number;
+  dailyCarbGoal?: number;
+  dailyFatGoal?: number;
+  waterGoal?: number;
+  meals: MealType[];
+}
+
+
 export const getMockFriends = (): Player[] => [
   {
     id_player: 2,
@@ -89,13 +108,12 @@ export const getMockFriends = (): Player[] => [
   },
 ];
 
-// Mock workout data with Brazilian Portuguese names
+
 export const getMockWorkouts = (): TreinoType[] => [
   {
     id: 1,
     name: "Treino de Peito e Tríceps",
-    description:
-      "Foco em desenvolvimento da musculatura peitoral e tríceps com exercícios compostos",
+    description: "Foco em desenvolvimento da musculatura peitoral e tríceps com exercícios compostos",
     totalExercises: 6,
     totalSeries: 18,
     complete: false,
@@ -310,266 +328,286 @@ export const getMockWorkouts = (): TreinoType[] => [
   },
 ];
 
-// Mock diet data with Brazilian Portuguese food names
-export const getMockDiets = (): DietaType[] => [
+export const getMockDietsWithMeals = (): DietaWithMealsType[] => [
   {
     id: 1,
-    name: "Dieta Balanceada - Ganho de Massa",
-    alimentos: [
+    name: "Dieta Ganho de Massa",
+    description: "Dieta hipercalórica para hipertrofia muscular",
+    dailyCalorieGoal: 3200,
+    dailyProteinGoal: 180,
+    dailyCarbGoal: 400,
+    dailyFatGoal: 80,
+    waterGoal: 3000,
+    meals: [
       {
-        id: 1,
-        name: "Peito de Frango Grelhado",
-        calories: 165,
-        fats: 3.6,
-        carbs: 0,
-        fibers: 0,
-        sodium: 74,
-        proteins: 31,
-        acucars: {
-          id: 1,
-          acucarTotal: 0,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 1,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 1.2,
-          gordurasPoliinsaturadas: 0.8,
-          gordurasSaturadas: 1.0,
-        },
+        id: "breakfast-1",
+        name: "Café da manhã",
+        time: "07:00",
+        alimentos: [
+          {
+            id: 1,
+            name: "Ovos Mexidos (3 unidades)",
+            calories: 290,
+            fats: 16,
+            carbs: 2,
+            fibers: 0,
+            sodium: 186,
+            proteins: 20,
+            acucars: { id: 1, acucarTotal: 2, acucarAdicionado: 0 },
+            gorduras: {
+              id: 1,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 6.2,
+              gordurasPoliinsaturadas: 2.1,
+              gordurasSaturadas: 5,
+            },
+          },
+          {
+            id: 2,
+            name: "Aveia com Banana",
+            calories: 180,
+            fats: 3,
+            carbs: 32,
+            fibers: 4,
+            sodium: 5,
+            proteins: 6,
+            acucars: { id: 2, acucarTotal: 8, acucarAdicionado: 0 },
+            gorduras: {
+              id: 2,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 1,
+              gordurasPoliinsaturadas: 1,
+              gordurasSaturadas: 0.5,
+            },
+          },
+        ],
       },
       {
-        id: 2,
-        name: "Arroz Integral",
-        calories: 111,
-        fats: 0.9,
-        carbs: 23,
-        fibers: 1.8,
-        sodium: 5,
-        proteins: 2.6,
-        acucars: {
-          id: 2,
-          acucarTotal: 0.4,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 2,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 0.3,
-          gordurasPoliinsaturadas: 0.3,
-          gordurasSaturadas: 0.2,
-        },
+        id: "lunch-1",
+        name: "Almoço",
+        time: "12:30",
+        alimentos: [
+          {
+            id: 4,
+            name: "Peito de Frango Grelhado (200g)",
+            calories: 330,
+            fats: 7.2,
+            carbs: 0,
+            fibers: 0,
+            sodium: 148,
+            proteins: 62,
+            acucars: { id: 4, acucarTotal: 0, acucarAdicionado: 0 },
+            gorduras: {
+              id: 4,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 2.4,
+              gordurasPoliinsaturadas: 1.6,
+              gordurasSaturadas: 2,
+            },
+          },
+          {
+            id: 5,
+            name: "Arroz Integral (150g)",
+            calories: 167,
+            fats: 1.4,
+            carbs: 35,
+            fibers: 2.7,
+            sodium: 8,
+            proteins: 3.9,
+            acucars: { id: 5, acucarTotal: 0.6, acucarAdicionado: 0 },
+            gorduras: {
+              id: 5,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 0.5,
+              gordurasPoliinsaturadas: 0.5,
+              gordurasSaturadas: 0.3,
+            },
+          },
+        ],
       },
       {
-        id: 3,
-        name: "Batata Doce Assada",
-        calories: 90,
-        fats: 0.1,
-        carbs: 21,
-        fibers: 3.3,
-        sodium: 36,
-        proteins: 2,
-        acucars: {
-          id: 3,
-          acucarTotal: 6.5,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 3,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 0,
-          gordurasPoliinsaturadas: 0,
-          gordurasSaturadas: 0,
-        },
+        id: "snack-1",
+        name: "Lanche",
+        time: "16:00",
+        alimentos: [
+          {
+            id: 8,
+            name: "Whey Protein (30g)",
+            calories: 120,
+            fats: 1.5,
+            carbs: 3,
+            fibers: 0,
+            sodium: 50,
+            proteins: 24,
+            acucars: { id: 8, acucarTotal: 2, acucarAdicionado: 0 },
+            gorduras: {
+              id: 8,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 0.5,
+              gordurasPoliinsaturadas: 0.3,
+              gordurasSaturadas: 0.8,
+            },
+          },
+        ],
       },
       {
-        id: 4,
-        name: "Brócolis Cozido",
-        calories: 35,
-        fats: 0.4,
-        carbs: 7,
-        fibers: 2.6,
-        sodium: 33,
-        proteins: 2.4,
-        acucars: {
-          id: 4,
-          acucarTotal: 1.4,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 4,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 0,
-          gordurasPoliinsaturadas: 0.2,
-          gordurasSaturadas: 0.1,
-        },
+        id: "dinner-1",
+        name: "Janta",
+        time: "19:30",
+        alimentos: [
+          {
+            id: 11,
+            name: "Salmão Grelhado (150g)",
+            calories: 309,
+            fats: 18,
+            carbs: 0,
+            fibers: 0,
+            sodium: 89,
+            proteins: 33,
+            acucars: { id: 11, acucarTotal: 0, acucarAdicionado: 0 },
+            gorduras: {
+              id: 11,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 6.8,
+              gordurasPoliinsaturadas: 6.3,
+              gordurasSaturadas: 3.8,
+            },
+          },
+        ],
       },
       {
-        id: 5,
-        name: "Ovo Cozido",
-        calories: 155,
-        fats: 11,
-        carbs: 1.1,
-        fibers: 0,
-        sodium: 124,
-        proteins: 13,
-        acucars: {
-          id: 5,
-          acucarTotal: 1.1,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 5,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 4.1,
-          gordurasPoliinsaturadas: 1.4,
-          gordurasSaturadas: 3.3,
-        },
+        id: "other-1",
+        name: "Outros",
+        alimentos: [],
       },
     ],
   },
   {
     id: 2,
     name: "Dieta Low Carb",
-    alimentos: [
+    description: "Baixo carboidrato para definição",
+    dailyCalorieGoal: 1800,
+    dailyProteinGoal: 140,
+    dailyCarbGoal: 80,
+    dailyFatGoal: 100,
+    waterGoal: 2500,
+    meals: [
       {
-        id: 6,
-        name: "Salmão Grelhado",
-        calories: 206,
-        fats: 12,
-        carbs: 0,
-        fibers: 0,
-        sodium: 59,
-        proteins: 22,
-        acucars: {
-          id: 6,
-          acucarTotal: 0,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 6,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 4.5,
-          gordurasPoliinsaturadas: 4.2,
-          gordurasSaturadas: 2.5,
-        },
+        id: "breakfast-2",
+        name: "Café da manhã",
+        time: "07:30",
+        alimentos: [
+          {
+            id: 15,
+            name: "Omelete (3 ovos + queijo)",
+            calories: 320,
+            fats: 24,
+            carbs: 3,
+            fibers: 0,
+            sodium: 450,
+            proteins: 24,
+            acucars: { id: 15, acucarTotal: 2, acucarAdicionado: 0 },
+            gorduras: {
+              id: 15,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 9,
+              gordurasPoliinsaturadas: 3,
+              gordurasSaturadas: 10,
+            },
+          },
+        ],
       },
       {
-        id: 7,
-        name: "Abacate",
-        calories: 160,
-        fats: 15,
-        carbs: 9,
-        fibers: 7,
-        sodium: 7,
-        proteins: 2,
-        acucars: {
-          id: 7,
-          acucarTotal: 0.7,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 7,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 10,
-          gordurasPoliinsaturadas: 1.8,
-          gordurasSaturadas: 2.1,
-        },
+        id: "lunch-2",
+        name: "Almoço",
+        time: "12:00",
+        alimentos: [
+          {
+            id: 17,
+            name: "Carne Vermelha Magra (200g)",
+            calories: 290,
+            fats: 12,
+            carbs: 0,
+            fibers: 0,
+            sodium: 75,
+            proteins: 44,
+            acucars: { id: 17, acucarTotal: 0, acucarAdicionado: 0 },
+            gorduras: {
+              id: 17,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 5,
+              gordurasPoliinsaturadas: 0.5,
+              gordurasSaturadas: 5,
+            },
+          },
+        ],
       },
       {
-        id: 8,
-        name: "Azeite Extra Virgem (1 colher)",
-        calories: 119,
-        fats: 14,
-        carbs: 0,
-        fibers: 0,
-        sodium: 0,
-        proteins: 0,
-        acucars: {
-          id: 8,
-          acucarTotal: 0,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 8,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 10,
-          gordurasPoliinsaturadas: 1.4,
-          gordurasSaturadas: 1.9,
-        },
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Dieta Vegetariana",
-    alimentos: [
-      {
-        id: 9,
-        name: "Feijão Preto Cozido",
-        calories: 132,
-        fats: 0.5,
-        carbs: 24,
-        fibers: 8.7,
-        sodium: 2,
-        proteins: 8.9,
-        acucars: {
-          id: 9,
-          acucarTotal: 0.3,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 9,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 0.1,
-          gordurasPoliinsaturadas: 0.2,
-          gordurasSaturadas: 0.1,
-        },
+        id: "snack-2",
+        name: "Lanche",
+        time: "15:30",
+        alimentos: [
+          {
+            id: 19,
+            name: "Iogurte Grego Natural (150g)",
+            calories: 100,
+            fats: 5,
+            carbs: 6,
+            fibers: 0,
+            sodium: 50,
+            proteins: 9,
+            acucars: { id: 19, acucarTotal: 5, acucarAdicionado: 0 },
+            gorduras: {
+              id: 19,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 1.5,
+              gordurasPoliinsaturadas: 0.2,
+              gordurasSaturadas: 3,
+            },
+          },
+        ],
       },
       {
-        id: 10,
-        name: "Quinoa Cozida",
-        calories: 120,
-        fats: 1.9,
-        carbs: 21,
-        fibers: 2.8,
-        sodium: 7,
-        proteins: 4.4,
-        acucars: {
-          id: 10,
-          acucarTotal: 0.9,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 10,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 0.5,
-          gordurasPoliinsaturadas: 1.0,
-          gordurasSaturadas: 0.2,
-        },
+        id: "dinner-2",
+        name: "Janta",
+        time: "19:00",
+        alimentos: [
+          {
+            id: 20,
+            name: "Frango com Legumes",
+            calories: 250,
+            fats: 8,
+            carbs: 12,
+            fibers: 4,
+            sodium: 200,
+            proteins: 35,
+            acucars: { id: 20, acucarTotal: 6, acucarAdicionado: 0 },
+            gorduras: {
+              id: 20,
+              gorduraTrans: 0,
+              gordurasMonosaturadas: 3,
+              gordurasPoliinsaturadas: 2,
+              gordurasSaturadas: 2,
+            },
+          },
+        ],
       },
       {
-        id: 11,
-        name: "Tofu Grelhado",
-        calories: 76,
-        fats: 4.8,
-        carbs: 1.9,
-        fibers: 0.3,
-        sodium: 7,
-        proteins: 8,
-        acucars: {
-          id: 11,
-          acucarTotal: 0.6,
-          acucarAdicionado: 0,
-        },
-        gorduras: {
-          id: 11,
-          gorduraTrans: 0,
-          gordurasMonosaturadas: 1.1,
-          gordurasPoliinsaturadas: 2.7,
-          gordurasSaturadas: 0.7,
-        },
+        id: "other-2",
+        name: "Outros",
+        alimentos: [],
       },
     ],
   },
 ];
+
+
+export const getMockDiets = (): DietaType[] => {
+  const dietsWithMeals = getMockDietsWithMeals();
+  
+  return dietsWithMeals.map(diet => ({
+    id: diet.id,
+    name: diet.name,
+    alimentos: diet.meals.flatMap(meal => meal.alimentos),
+  }));
+};

@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import { Text } from "../general";
 import { TreinoType } from "../general/types";
-import colors from "../general/Colors";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 
 type TreinoData = TreinoType[];
@@ -24,7 +23,7 @@ export default function TreinoSelector({
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <MaterialDesignIcons name="dumbbell" size={28} color="#df80ff" />
+        <MaterialDesignIcons name="dumbbell" size={26} color="#b88aff" />
         <Text style={styles.title}>Meus Treinos</Text>
       </View>
 
@@ -32,9 +31,9 @@ export default function TreinoSelector({
         <View style={styles.emptyContainer}>
           <MaterialDesignIcons
             name="clipboard-text-outline"
-            size={64}
-            color="#df80ff"
-            style={{ opacity: 0.5, marginBottom: 16 }}
+            size={56}
+            color="#8b5fbf"
+            style={{ opacity: 0.6, marginBottom: 12 }}
           />
           <Text style={styles.emptyText}>Nenhum treino criado ainda</Text>
           <Text style={styles.emptySubtext}>Toque no botão + para começar</Text>
@@ -44,7 +43,7 @@ export default function TreinoSelector({
           {treinoData.map((treino, index) => (
             <View key={index} style={styles.selectorWrapper}>
               <Pressable
-                android_ripple={{ color: "#4a1a7f", borderless: false }}
+                android_ripple={{ color: "rgba(139, 95, 191, 0.3)", borderless: false }}
                 style={({ pressed }) => [
                   styles.selector,
                   pressed && styles.selectorPressed,
@@ -61,7 +60,7 @@ export default function TreinoSelector({
                       <MaterialDesignIcons
                         name="weight-lifter"
                         size={20}
-                        color="#df80ff"
+                        color="#b88aff"
                       />
                       <Text style={styles.selectorLabel}>{treino.name}</Text>
                     </View>
@@ -78,8 +77,8 @@ export default function TreinoSelector({
                     <View style={styles.statsContainer}>
                       <MaterialDesignIcons
                         name="format-list-bulleted"
-                        size={16}
-                        color="#df80ff"
+                        size={15}
+                        color="#9f7dcc"
                       />
                       <Text style={styles.statNumber}>
                         {treino.totalExercises}
@@ -90,8 +89,8 @@ export default function TreinoSelector({
                     <View style={styles.statsContainer}>
                       <MaterialDesignIcons
                         name="counter"
-                        size={16}
-                        color="#df80ff"
+                        size={15}
+                        color="#ff9a76"
                       />
                       <Text style={styles.statNumber}>
                         {treino.totalSeries}
@@ -111,77 +110,74 @@ export default function TreinoSelector({
 
 const styles = StyleSheet.create({
   container: {
-    width: "90%",
-    paddingHorizontal: 24,
-    paddingVertical: 28,
-    backgroundColor: "rgba(27, 16, 49, 0.6)",
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: "rgba(223, 128, 255, 0.3)",
-    marginBottom: 24,
-    elevation: 8,
+    width: "92%",
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+    backgroundColor: "rgba(13, 7, 24, 0.5)",
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: "rgba(169, 112, 255, 0.25)",
+    marginBottom: 20,
     alignSelf: "center",
   },
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 12,
-    marginBottom: 24,
+    gap: 10,
+    marginBottom: 20,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: 24,
+    fontWeight: "700",
     color: "#ffffff",
     letterSpacing: 0.5,
   },
   emptyContainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 48,
+    paddingVertical: 40,
   },
   emptyText: {
-    fontSize: 18,
+    fontSize: 16,
     textAlign: "center",
-    color: "#ffffff",
+    color: "#e5d4f0",
     fontWeight: "600",
-    marginBottom: 8,
+    marginBottom: 6,
   },
   emptySubtext: {
-    fontSize: 14,
+    fontSize: 13,
     textAlign: "center",
-    color: "#b8a3c9",
+    color: "#9f7dcc",
   },
   selectorContainer: {
     width: "100%",
-    gap: 14,
+    gap: 12,
     alignItems: "center",
   },
   selectorWrapper: {
     width: "100%",
-    borderRadius: 18,
+    borderRadius: 16,
     overflow: "hidden",
-    backgroundColor: "#2b0b4f",
-    borderWidth: 1,
-    borderColor: "rgba(223, 128, 255, 0.25)",
-    elevation: 4,
-    shadowColor: "#df80ff",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
+    backgroundColor: "rgba(43, 25, 70, 0.6)",
+    borderWidth: 1.5,
+    borderColor: "rgba(169, 112, 255, 0.2)",
+    shadowOpacity: 0.1,
     shadowRadius: 8,
+    elevation: 3,
   },
   selector: {
     padding: 0,
   },
   selectorPressed: {
-    backgroundColor: "#3a0f66",
+    backgroundColor: "rgba(58, 35, 85, 0.8)",
   },
   selectorContent: {
-    padding: 20,
+    padding: 18,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    gap: 16,
+    gap: 14,
   },
   selectorMain: {
     flex: 1,
@@ -193,40 +189,41 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   selectorLabel: {
-    fontSize: 19,
-    fontWeight: "700",
+    fontSize: 17,
+    fontWeight: "600",
     color: "#ffffff",
     flex: 1,
+    letterSpacing: 0.3,
   },
   selectorDescription: {
-    fontSize: 14,
-    color: "#dfb7ff",
-    lineHeight: 20,
+    fontSize: 13,
+    color: "#c5a8e0",
+    lineHeight: 18,
     marginTop: 4,
   },
   selectorDivisor: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 14,
+    gap: 12,
   },
   statsContainer: {
     alignItems: "center",
     gap: 2,
   },
   statNumber: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "700",
-    color: "#df80ff",
+    color: "#b88aff",
   },
   statLabel: {
-    fontSize: 11,
-    color: "#b8a3c9",
+    fontSize: 10,
+    color: "#9f7dcc",
     fontWeight: "500",
   },
   verticalLine: {
-    width: 2,
-    height: 32,
-    backgroundColor: "rgba(223, 128, 255, 0.3)",
+    width: 1.5,
+    height: 28,
+    backgroundColor: "rgba(169, 112, 255, 0.25)",
     borderRadius: 1,
   },
 });

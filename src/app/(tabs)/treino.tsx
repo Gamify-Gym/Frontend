@@ -13,10 +13,11 @@ import FAB from "@/components/general/FAB";
 import FormCreationDialogue from "@/components/treino/FormCreationDialogue";
 import { useMenu } from "@/hooks/useMenu";
 import { useWorkout } from "@/hooks/useWorkout";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "@/context/authContext";
 import ParentView from "@/components/general/ParentView";
-import { router, useNavigation, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Treino() {
   const [selectedTreino, setSelectedTreino] = useState<TreinoType | null>(null);
@@ -68,8 +69,7 @@ export default function Treino() {
 
   const handleCreate = async () => {
     try {
-      // MOCK: Insertion operations disabled in demo mode
-      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       Alert.alert(
         "Modo Demo",
@@ -177,53 +177,62 @@ export default function Treino() {
 
   return (
     <ParentView>
-      <Pressable style={styles.container} onPress={closeMenu}>
-        {menuVisible && (
-          <EditMenu
-            selectedItem={selectedItem}
-            actions={MENU_ACTIONS}
-            coords={{ x: menuCoords.x, y: menuCoords.y }}
-            onClose={closeMenu}
-          />
-        )}
+      <LinearGradient
+        colors={['#1a0f2e', '#2d1654', '#3d1f5c', '#2d1654']}
+        locations={[0, 0.4, 0.7, 1]}
+        style={styles.gradient}
+      >
+        <Pressable style={styles.container} onPress={closeMenu}>
+          {menuVisible && (
+            <EditMenu
+              selectedItem={selectedItem}
+              actions={MENU_ACTIONS}
+              coords={{ x: menuCoords.x, y: menuCoords.y }}
+              onClose={closeMenu}
+            />
+          )}
 
-        {creationMenuVisible && (
-          <FormCreationDialogue
-            onSubmit={handleCreate}
-            onClose={closeCreationMenu}
-            title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
-            options={FORM_OPTIONS}
-            submitTitle="Adicionar"
-          />
-        )}
+          {creationMenuVisible && (
+            <FormCreationDialogue
+              onSubmit={handleCreate}
+              onClose={closeCreationMenu}
+              title={creationType === "treino" ? "Novo Treino" : "Novo Exercício"}
+              options={FORM_OPTIONS}
+              submitTitle="Adicionar"
+            />
+          )}
 
-        <ScrollView
-          style={styles.scrollContainer}
-          contentContainerStyle={{ paddingBottom: 40 }}
-          showsVerticalScrollIndicator={false}
-        >
-          <TreinoSelector
-            treinoData={treino}
-            onPress={handleTreinoChange}
-            onLongPress={(item, event) => handleItemLongPress(item, event)}
-          />
+          <ScrollView
+            style={styles.scrollContainer}
+            contentContainerStyle={{ paddingBottom: 40 }}
+            showsVerticalScrollIndicator={false}
+          >
+            <TreinoSelector
+              treinoData={treino}
+              onPress={handleTreinoChange}
+              onLongPress={(item, event) => handleItemLongPress(item, event)}
+            />
 
-          <WorkoutSelected
-            treino={selectedTreino}
-            onLongPress={(item, event) => handleItemLongPress(item, event)}
-            startTreino={handleStartTreino}
-          />
-        </ScrollView>
+            <WorkoutSelected
+              treino={selectedTreino}
+              onLongPress={(item, event) => handleItemLongPress(item, event)}
+              startTreino={handleStartTreino}
+            />
+          </ScrollView>
 
-        <FAB icon="add" options={FAB_OPTIONS} />
-      </Pressable>
+          <FAB icon="add" options={FAB_OPTIONS} />
+        </Pressable>
+      </LinearGradient>
     </ParentView>
   );
 }
+
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: "#1b1031",
     paddingTop: 60,
     alignItems: "center",
   },
