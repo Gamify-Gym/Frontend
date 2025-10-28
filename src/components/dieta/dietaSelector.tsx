@@ -35,7 +35,7 @@ export default function DietaSelector({
             color="#8b5fbf"
             style={{ opacity: 0.6, marginBottom: 12 }}
           />
-          <Text style={styles.emptyText}>Nenhuma dieta criada ainda</Text>
+          <Text style={styles.emptyText}>Nenhuma dieta criada</Text>
           <Text style={styles.emptySubtext}>Toque no botão + para começar</Text>
         </View>
       ) : (
