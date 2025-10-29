@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
     borderColor: "rgba(169, 112, 255, 0.2)",
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    elevation: 3,
   },
   selector: {
     padding: 0,

@@ -262,7 +262,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 12,
-    elevation: 8,
     minWidth: 200,
   },
   startButtonText: {
@@ -285,7 +284,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 3 },
-    elevation: 4,
     borderWidth: 1,
     borderColor: "rgba(139, 95, 191, 0.15)",
     overflow: "hidden",
@@ -332,7 +330,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 3,
   },
   badgeText: {
     fontSize: 11,
