@@ -106,3 +106,36 @@ export interface AlimentoDto {
   gordurasSaturadas: number;
   idDieta: number;
 }
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+}
+
+export interface CheckResponse {
+  valid: boolean;
+}
+
+
+export interface MealType {
+  id: string;
+  name: "Café da manhã" | "Almoço" | "Lanche" | "Janta" | "Outros";
+  time?: string;
+  alimentos: Alimento[];
+}
+
+export interface DietaWithMealsType {
+  id: number;
+  name: string;
+  description?: string;
+  dailyCalorieGoal?: number;
+  dailyProteinGoal?: number;
+  dailyCarbGoal?: number;
+  dailyFatGoal?: number;
+  waterGoal?: number;
+  meals: MealType[];
+}

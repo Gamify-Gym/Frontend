@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
-    elevation: 10,
+    
   },
 
   loginButton: {
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 15,
-    elevation: 15,
+    
   },
   loginButtonText: {
     color: "#ffffff",
