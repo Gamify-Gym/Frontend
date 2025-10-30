@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   },
   selectorWrapper: {
     width: "100%",
-    borderRadius: 16,
+    borderRadius: 15,
     overflow: "hidden",
     backgroundColor: "rgba(43, 25, 70, 0.6)",
     borderWidth: 1.5,
