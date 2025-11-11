@@ -68,30 +68,25 @@ export default function EditMenu({
     });
   };
 
-  // Calculate menu position to ensure it stays on screen
   const menuWidth = 200;
   const menuHeight = actions.length * 60 + 16;
 
   let menuX = coords.x || 0;
   let menuY = coords.y || 0;
 
-  // Adjust if menu goes off right edge
   if (menuX + menuWidth > SCREEN_WIDTH) {
     menuX = SCREEN_WIDTH - menuWidth - 16;
   }
 
-  // Adjust if menu goes off bottom edge
   if (menuY + menuHeight > SCREEN_HEIGHT) {
     menuY = SCREEN_HEIGHT - menuHeight - 16;
   }
 
-  // Ensure menu doesn't go off top or left edges
   menuX = Math.max(16, menuX);
   menuY = Math.max(16, menuY);
 
   return (
     <>
-      {/* Backdrop overlay */}
       <Animated.View
         style={[
           styles.backdrop,
@@ -106,7 +101,7 @@ export default function EditMenu({
         <Pressable style={styles.backdropPressable} onPress={handleClose} />
       </Animated.View>
 
-      {/* Menu container */}
+
       <Animated.View
         style={[
           styles.menuContainer,

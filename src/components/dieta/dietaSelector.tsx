@@ -41,7 +41,6 @@ export default function DietaSelector({
       ) : (
         <View style={styles.selectorContainer}>
           {data.map((dieta, index) => {
-            // Calcular total de calorias e alimentos
             const totalCalories = dieta.meals.reduce((sum, meal) => {
               return sum + meal.alimentos.reduce((mealSum, alimento) => mealSum + alimento.calories, 0);
             }, 0);

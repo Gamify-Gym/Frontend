@@ -18,7 +18,6 @@ import FAB from "@/components/general/FAB";
 import { DietaWithMealsType, getMockDietsWithMeals } from "@/utils/mockData";
 
 export default function Dieta() {
-  // Usando dietas com refeições
   const dietasComRefeicoes = getMockDietsWithMeals();
   const [selectedDieta, setSelectedDieta] = useState<DietaWithMealsType | null>(null);
 

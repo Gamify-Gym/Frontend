@@ -132,7 +132,7 @@ export default function DietaSelected({
 
   return (
     <View style={styles.container}>
-      {/* Header com nome da dieta */}
+    
       <View style={styles.header}>
         <View style={styles.titleRow}>
           <MaterialDesignIcons name="silverware-fork-knife" size={28} color="#b88aff" />
@@ -143,7 +143,7 @@ export default function DietaSelected({
         )}
       </View>
 
-      {/* Metas Diárias */}
+  
       {dieta.dailyCalorieGoal && (
         <View style={styles.dailyGoalsContainer}>
           <View style={styles.goalsHeader}>
@@ -247,7 +247,7 @@ export default function DietaSelected({
           </View>
         </View>
       )}
-{/* Gráfico de Pizza dos Macronutrientes */}
+
       {(dailyTotals.proteins > 0 || dailyTotals.carbs > 0 || dailyTotals.fats > 0) && (
         <View style={styles.chartSection}>
           <View style={styles.chartHeader}>
@@ -430,7 +430,7 @@ export default function DietaSelected({
                   </Pressable>
                 </View>
 
-                {/* Mini stats quando não expandido */}
+              
                 {!isExpanded && meal.alimentos.length > 0 && (
                   <View style={styles.miniStatsContainer}>
                     <View style={styles.miniStat}>
@@ -457,7 +457,6 @@ export default function DietaSelected({
                 )}
               </Pressable>
 
-              {/* Conteúdo Expandido (Alimentos) */}
               {isExpanded && (
                 <View style={styles.expandedContent}>
                   {meal.alimentos.length === 0 ? (
@@ -477,7 +476,7 @@ export default function DietaSelected({
                     </View>
                   ) : (
                     <>
-                      {/* Stats completas da refeição */}
+                   
                       <View style={styles.expandedStatsContainer}>
                         <View style={styles.expandedStatItem}>
                           <MaterialDesignIcons name="fire" size={18} color="#ff9a76" />
@@ -526,7 +525,6 @@ export default function DietaSelected({
                         </View>
                       </View>
 
-                      {/* Lista de Alimentos */}
                       <View style={styles.alimentosListContainer}>
                         {meal.alimentos.map((alimento, index) => (
                           <Pressable
@@ -984,10 +982,6 @@ const styles = StyleSheet.create({
   fibersValue: {
     color: "#8b5fbf",
   },
-  fibersValue: {
-    color: "#8b5fbf",
-  },
-  // ADICIONAR AQUI ⬇️
   chartSection: {
     backgroundColor: "rgba(25, 15, 45, 0.5)",
     borderRadius: 20,

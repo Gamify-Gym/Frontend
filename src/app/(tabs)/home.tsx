@@ -1,14 +1,17 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Modal, TouchableOpacity } from "react-native";
 import { useAuth } from "@/context/authContext";
 import ParentView from "@/components/general/ParentView";
 import { Player, PlayerActivity, TreinoType } from "@/components/general/types";
 import { getMockWorkouts, getMockFriends } from "@/utils/mockData";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Text } from "@/components/general";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
+import RankingPodium from "@/components/ranking/RankingPodium";
+import RankingTabs from "@/components/ranking/RankingTabs";
 
 export default function Home() {
   const { user, setUser } = useAuth();
+  const [showFullRanking, setShowFullRanking] = useState(false);
 
   useEffect(() => {
     const workouts: TreinoType[] = getMockWorkouts();
@@ -21,6 +24,15 @@ export default function Home() {
       weeklyStreak: 2,
       lastWeekOfYear: 43,
       currentWeekTrainedDays: 2,
+      monthlyWorkoutDays: 12, // total de dias treinados no mês
+      dietCompletionRate: 75,
+      totalDietDaysCompleted: 30,
+      lastPositionChange: 0,
+      competitionLifts: {
+        benchPress: 80,
+        squat: 110,
+        deadlift: 130,
+      },
       workouts: workouts,
       user: {
         id_user: 1,
@@ -75,18 +87,18 @@ export default function Home() {
 
   const friends = useMemo(() => getMockFriends(), []);
 
-  // Sort friends by weekly streak (highest first)
   const leaderboard = useMemo(() => {
     const allPlayers = user ? [user, ...friends] : friends;
     return allPlayers.sort((a, b) => b.weeklyStreak - a.weeklyStreak);
   }, [friends, user]);
 
-  // Calculate week days for calendar (Sunday to Saturday)
+
+  const topThree = useMemo(() => leaderboard.slice(0, 3), [leaderboard]);
+
   const weekDays = ["D", "S", "T", "Q", "Q", "S", "S"];
   const today = new Date();
   const currentDayOfWeek = today.getDay(); // 0 = Sunday
 
-  // Get activities status for each day this week
   const getWeekActivities = () => {
     if (!user?.activities) return Array(7).fill(null);
 
@@ -126,13 +138,11 @@ export default function Home() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.greeting}>Olá, {user.user.username}! 👋</Text>
           <Text style={styles.subGreeting}>Continue sua jornada</Text>
         </View>
 
-        {/* Stats Summary */}
         <View style={styles.statsCard}>
           <View style={styles.statItem}>
             <MaterialDesignIcons name="fire" size={32} color="#ff6b9d" />
@@ -149,7 +159,6 @@ export default function Home() {
           </View>
         </View>
 
-        {/* Weekly Calendar */}
         <View style={styles.calendarCard}>
           <View style={styles.cardHeader}>
             <MaterialDesignIcons
@@ -202,65 +211,30 @@ export default function Home() {
           </View>
         </View>
 
-        {/* Friends Leaderboard */}
-        <View style={styles.leaderboardCard}>
-          <View style={styles.cardHeader}>
-            <MaterialDesignIcons name="trophy" size={24} color="#ffa64d" />
-            <Text style={styles.cardTitle}>Ranking de Amigos</Text>
-          </View>
-          {leaderboard.map((player, index) => {
-            const isCurrentUser = player.id_player === user.id_player;
-            return (
-              <View
-                key={player.id_player}
-                style={[
-                  styles.leaderboardItem,
-                  isCurrentUser && styles.leaderboardItemHighlight,
-                ]}
-              >
-                <View style={styles.rankBadge}>
-                  {index === 0 && (
-                    <MaterialDesignIcons
-                      name="crown"
-                      size={20}
-                      color="#ffa64d"
-                    />
-                  )}
-                  {index !== 0 && (
-                    <Text style={styles.rankNumber}>#{index + 1}</Text>
-                  )}
-                </View>
-                <View style={styles.playerInfo}>
-                  <Text
-                    style={[
-                      styles.playerName,
-                      isCurrentUser && styles.playerNameHighlight,
-                    ]}
-                  >
-                    {player.user.username}
-                    {isCurrentUser && " (Você)"}
-                  </Text>
-                  <View style={styles.playerStats}>
-                    <MaterialDesignIcons
-                      name="fire"
-                      size={14}
-                      color="#ff6b9d"
-                    />
-                    <Text style={styles.playerStreak}>
-                      {player.weeklyStreak} semanas
-                    </Text>
-                    <Text style={styles.playerDot}>•</Text>
-                    <Text style={styles.playerWorkouts}>
-                      {player.currentWeekTrainedDays}/{player.weeklyTargetDays}{" "}
-                      treinos
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            );
-          })}
-        </View>
+        <RankingPodium
+          topThree={topThree}
+          currentUserId={user.id_player}
+          onViewAll={() => setShowFullRanking(true)}
+        />
       </ScrollView>
+
+    
+<Modal
+  visible={showFullRanking}
+  animationType="slide"
+  presentationStyle="pageSheet"
+  onRequestClose={() => setShowFullRanking(false)}
+>
+  <View style={styles.modalContainer}>
+    <TouchableOpacity
+      onPress={() => setShowFullRanking(false)}
+      style={styles.closeButton}
+    >
+      <MaterialDesignIcons name="close" size={28} color="#ffffff" />
+    </TouchableOpacity>
+    <RankingTabs players={leaderboard} currentUserId={user.id_player} />
+  </View>
+</Modal>
     </ParentView>
   );
 }
@@ -380,68 +354,27 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(43, 11, 79, 0.3)",
     borderColor: "rgba(223, 128, 255, 0.1)",
   },
-  leaderboardCard: {
-    backgroundColor: "rgba(27, 16, 49, 0.6)",
-    borderRadius: 20,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: "rgba(223, 128, 255, 0.3)",
-    elevation: 4,
+  modalContainer: {
+   flex: 1,
+  backgroundColor: "#1b1031",
+  paddingTop: 30,
+  paddingBottom: 50,
   },
-  leaderboardItem: {
+  modalHeader: {
     flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: "rgba(43, 11, 79, 0.4)",
-    borderRadius: 12,
-    marginBottom: 12,
-    gap: 16,
+    justifyContent: "flex-end",
+    marginBottom: 20,
   },
-  leaderboardItemHighlight: {
-    backgroundColor: "rgba(223, 128, 255, 0.15)",
-    borderWidth: 1,
-    borderColor: "rgba(223, 128, 255, 0.4)",
-  },
-  rankBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "rgba(223, 128, 255, 0.2)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  rankNumber: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#dfb7ff",
-  },
-  playerInfo: {
-    flex: 1,
-    gap: 6,
-  },
-  playerName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#ffffff",
-  },
-  playerNameHighlight: {
-    color: "#df80ff",
-  },
-  playerStats: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  playerStreak: {
-    fontSize: 13,
-    color: "#dfb7ff",
-  },
-  playerDot: {
-    fontSize: 13,
-    color: "#dfb7ff",
-  },
-  playerWorkouts: {
-    fontSize: 13,
-    color: "#dfb7ff",
-  },
+  closeButton: {
+  position: "absolute",
+  top: 60,
+  right: 20,
+  width: 44,
+  height: 44,
+  borderRadius: 22,
+  backgroundColor: "rgba(223, 128, 255, 0.2)",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 999,
+},
 });

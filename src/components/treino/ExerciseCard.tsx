@@ -114,7 +114,6 @@ export default function ExerciseCard({
 
       Vibration.vibrate(50);
     } else {
-      // Desmarcar
       setSeries(prev =>
         prev.map(s =>
           s.number === serieNumber ? { ...s, completed: false } : s

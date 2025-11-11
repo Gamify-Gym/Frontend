@@ -59,7 +59,7 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {/* Header */}
+    
       <View style={styles.header}>
         <Text style={styles.title}>Meu Perfil</Text>
         <TouchableOpacity onPress={toggleEdit} style={styles.editButton}>
@@ -69,7 +69,6 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
         </TouchableOpacity>
       </View>
 
-      {/* Profile Avatar & Summary */}
       <View style={styles.profileCard}>
         <View style={styles.avatarContainer}>
           <View style={styles.avatar}>
@@ -109,7 +108,7 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
         </View>
       </View>
 
-      {/* User Information Section */}
+    
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Informações Pessoais</Text>
 
@@ -148,7 +147,7 @@ export default function Profile({ player, onSave, onCancel }: ProfileProps) {
         />
       </View>
 
-      {/* Player Information Section */}
+    
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Informações do Jogador</Text>
 

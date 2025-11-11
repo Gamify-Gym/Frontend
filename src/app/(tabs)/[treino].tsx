@@ -54,7 +54,6 @@ export default function TreinoCompleter() {
   }, []);
 
   useEffect(() => {
-    // Cronômetro geral do treino
     intervalRef.current = setInterval(() => {
       setElapsedTime(Math.floor((Date.now() - startTime) / 1000));
     }, 1000);
@@ -65,7 +64,6 @@ export default function TreinoCompleter() {
   }, [startTime]);
 
   useEffect(() => {
-    // Cronômetro do cardio
     if (isCardioRunning && cardioStartTime) {
       cardioIntervalRef.current = setInterval(() => {
         setCardioElapsed(Math.floor((Date.now() - cardioStartTime) / 1000));
@@ -102,11 +100,9 @@ export default function TreinoCompleter() {
               text: "Sair",
               style: "destructive",
               onPress: () => {
-                // Limpar intervalos
                 if (intervalRef.current) clearInterval(intervalRef.current);
                 if (cardioIntervalRef.current) clearInterval(cardioIntervalRef.current);
-                
-                // Usar setTimeout para evitar conflito com animações
+          
                 setTimeout(() => {
                   router.replace("/(tabs)/treino");
                 }, 100);
@@ -136,11 +132,8 @@ export default function TreinoCompleter() {
               text: "Sair",
               style: "destructive",
               onPress: () => {
-                // Limpar intervalos
                 if (intervalRef.current) clearInterval(intervalRef.current);
                 if (cardioIntervalRef.current) clearInterval(cardioIntervalRef.current);
-                
-                // Usar setTimeout para evitar conflito com animações
                 setTimeout(() => {
                   router.replace("/(tabs)/treino");
                 }, 100);
@@ -212,7 +205,6 @@ export default function TreinoCompleter() {
         {
           text: "Finalizar",
           onPress: () => {
-            // Limpar intervalos antes de sair
             if (intervalRef.current) clearInterval(intervalRef.current);
             if (cardioIntervalRef.current) clearInterval(cardioIntervalRef.current);
             
@@ -295,7 +287,6 @@ export default function TreinoCompleter() {
               />
             ))}
 
-            {/* Seção de Cardio */}
             <View style={styles.cardioSection}>
               <Pressable
                 style={styles.cardioToggle}
@@ -378,7 +369,6 @@ export default function TreinoCompleter() {
               )}
             </View>
 
-            {/* Botão Finalizar Treino */}
             {allExercisesCompleted && (
               <Pressable
                 style={styles.finishButton}

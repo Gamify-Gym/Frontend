@@ -29,6 +29,15 @@ export const getMockFriends = (): Player[] => [
     weeklyStreak: 8,
     lastWeekOfYear: 43,
     currentWeekTrainedDays: 4,
+    monthlyWorkoutDays: 18, // total de dias treinados no mês
+    dietCompletionRate: 85, // % de dias com dieta completa
+    totalDietDaysCompleted: 42, // total de dias
+    lastPositionChange: 0, // 0 = manteve, positivo = subiu, negativo = desceu
+    competitionLifts: {
+      benchPress: 85, // supino em kg
+      squat: 120, // agachamento em kg
+      deadlift: 140, // levantamento terra em kg
+    },
     workouts: [],
     user: {
       id_user: 2,
@@ -46,6 +55,15 @@ export const getMockFriends = (): Player[] => [
     weeklyStreak: 12,
     lastWeekOfYear: 43,
     currentWeekTrainedDays: 4,
+    monthlyWorkoutDays: 22, // total de dias treinados no mês
+    dietCompletionRate: 92, // % de dias com dieta completa
+    totalDietDaysCompleted: 68, // total de dias
+    lastPositionChange: 0, // manteve a posição
+    competitionLifts: {
+      benchPress: 110, // supino em kg
+      squat: 160, // agachamento em kg
+      deadlift: 180, // levantamento terra em kg
+    },
     workouts: [],
     user: {
       id_user: 3,
@@ -63,6 +81,15 @@ export const getMockFriends = (): Player[] => [
     weeklyStreak: 3,
     lastWeekOfYear: 43,
     currentWeekTrainedDays: 2,
+    monthlyWorkoutDays: 14, // total de dias treinados no mês
+    dietCompletionRate: 78, // % de dias com dieta completa
+    totalDietDaysCompleted: 28, // total de dias
+    lastPositionChange: -1, // desceu 1 posição
+    competitionLifts: {
+      benchPress: 55, // supino em kg
+      squat: 80, // agachamento em kg
+      deadlift: 95, // levantamento terra em kg
+    },
     workouts: [],
     user: {
       id_user: 4,
@@ -80,6 +107,15 @@ export const getMockFriends = (): Player[] => [
     weeklyStreak: 5,
     lastWeekOfYear: 43,
     currentWeekTrainedDays: 3,
+    monthlyWorkoutDays: 16, // total de dias treinados no mês
+    dietCompletionRate: 70, // % de dias com dieta completa
+    totalDietDaysCompleted: 35, // total de dias
+    lastPositionChange: 1, // subiu 1 posição
+    competitionLifts: {
+      benchPress: 95, // supino em kg
+      squat: 135, // agachamento em kg
+      deadlift: 155, // levantamento terra em kg
+    },
     workouts: [],
     user: {
       id_user: 5,
@@ -97,6 +133,15 @@ export const getMockFriends = (): Player[] => [
     weeklyStreak: 1,
     lastWeekOfYear: 43,
     currentWeekTrainedDays: 1,
+    monthlyWorkoutDays: 8, // total de dias treinados no mês
+    dietCompletionRate: 60, // % de dias com dieta completa
+    totalDietDaysCompleted: 15, // total de dias
+    lastPositionChange: -2, // desceu 2 posições
+    competitionLifts: {
+      benchPress: 50, // supino em kg
+      squat: 75, // agachamento em kg
+      deadlift: 90, // levantamento terra em kg
+    },
     workouts: [],
     user: {
       id_user: 6,

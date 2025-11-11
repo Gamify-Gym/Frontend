@@ -7,6 +7,12 @@ export type ExerciseType = {
   complete?: boolean;
 };
 
+export interface CompetitionLifts {
+  benchPress: number;
+  squat: number;
+  deadlift: number;
+}
+
 export interface TreinoType {
   id: number;
   name: string;
@@ -34,6 +40,12 @@ export interface Player {
   workouts: TreinoType[];
   user: User;
   activities: PlayerActivity[];
+    dietCompletionRate?: number;
+  totalDietDaysCompleted?: number;
+  lastPositionChange?: number;
+  competitionLifts?: CompetitionLifts;
+   monthlyWorkoutDays?: number;  
+  
 }
 
 enum PlayerActivityStatus {
