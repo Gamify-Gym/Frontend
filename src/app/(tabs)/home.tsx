@@ -8,10 +8,15 @@ import { Text } from "@/components/general";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import RankingPodium from "@/components/ranking/RankingPodium";
 import RankingTabs from "@/components/ranking/RankingTabs";
+import { getRankInfo, calculatePoints } from "@/utils/rankSystem";
+import RankBadge from "@/components/ranking/RankBadge";
+import AllRanksModal from "@/components/ranking/AllRanksModal";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Home() {
   const { user, setUser } = useAuth();
   const [showFullRanking, setShowFullRanking] = useState(false);
+  const [showAllRanks, setShowAllRanks] = useState(false);
 
   useEffect(() => {
     const workouts: TreinoType[] = getMockWorkouts();
@@ -92,6 +97,11 @@ export default function Home() {
     return allPlayers.sort((a, b) => b.weeklyStreak - a.weeklyStreak);
   }, [friends, user]);
 
+  const userRankInfo = useMemo(() => {
+    if (!user) return null;
+    const points = calculatePoints(user);
+    return getRankInfo(points, user.weeklyStreak, user.monthlyWorkoutDays || 0, user.dietCompletionRate || 0);
+  }, [user]);
 
   const topThree = useMemo(() => leaderboard.slice(0, 3), [leaderboard]);
 
@@ -142,6 +152,33 @@ export default function Home() {
           <Text style={styles.greeting}>Olá, {user.user.username}! 👋</Text>
           <Text style={styles.subGreeting}>Continue sua jornada</Text>
         </View>
+
+        {userRankInfo && (
+          <RankBadge
+            rankInfo={userRankInfo}
+            size="large"
+            showPoints={true}
+            showProgress={true}
+          />
+        )}
+
+        {/* BOTÃO VER TODOS OS RANKS */}
+        <TouchableOpacity
+          style={styles.viewAllRanksButton}
+          onPress={() => setShowAllRanks(true)}
+          activeOpacity={0.8}
+        >
+          <LinearGradient
+            colors={['rgba(223, 128, 255, 0.3)', 'rgba(223, 128, 255, 0.1)'] as any}
+            style={styles.viewAllRanksGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <MaterialDesignIcons name="trophy-variant" size={20} color="#df80ff" />
+            <Text style={styles.viewAllRanksText}>Ver todos os ranks</Text>
+            <MaterialDesignIcons name="chevron-right" size={20} color="#df80ff" />
+          </LinearGradient>
+        </TouchableOpacity>
 
         <View style={styles.statsCard}>
           <View style={styles.statItem}>
@@ -218,7 +255,7 @@ export default function Home() {
         />
       </ScrollView>
 
-    
+
 <Modal
   visible={showFullRanking}
   animationType="slide"
@@ -235,6 +272,12 @@ export default function Home() {
     <RankingTabs players={leaderboard} currentUserId={user.id_player} />
   </View>
 </Modal>
+
+<AllRanksModal
+  visible={showAllRanks}
+  onClose={() => setShowAllRanks(false)}
+  currentUserPoints={userRankInfo?.totalPoints}
+/>
     </ParentView>
   );
 }
@@ -377,4 +420,24 @@ const styles = StyleSheet.create({
   alignItems: "center",
   zIndex: 999,
 },
+  viewAllRanksButton: {
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(223, 128, 255, 0.3)',
+  },
+  viewAllRanksGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+  },
+  viewAllRanksText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#df80ff',
+  },
 });

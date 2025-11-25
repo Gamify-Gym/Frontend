@@ -2,6 +2,9 @@ import { View, StyleSheet } from "react-native";
 import { Text } from "@/components/general";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import { Player } from "@/components/general/types";
+import { useMemo } from "react";
+import { getRankInfo, calculatePoints } from "@/utils/rankSystem";
+import RankBadge from "./RankBadge";
 
 interface FrequencyRankingCardProps {
   player: Player;
@@ -11,6 +14,11 @@ interface FrequencyRankingCardProps {
 }
 
 export default function FrequencyRankingCard({ player, position, isCurrentUser, isTopThree }: FrequencyRankingCardProps) {
+  const playerRankInfo = useMemo(() => {
+    const points = calculatePoints(player);
+    return getRankInfo(points, player.weeklyStreak, player.monthlyWorkoutDays || 0, player.dietCompletionRate || 0);
+  }, [player]);
+
   const getRankIcon = () => {
     if (position === 1) return <MaterialDesignIcons name="crown" size={30} color="#FFD700" />;
     if (position === 2) return <MaterialDesignIcons name="medal" size={23} color="#C0C0C0" />;
@@ -34,16 +42,24 @@ export default function FrequencyRankingCard({ player, position, isCurrentUser, 
       </View>
 
       <View style={styles.content}>
-        <Text
-          style={[
-            styles.playerName,
-            isCurrentUser && styles.currentUserName,
-            position === 1 && styles.firstPlaceName,
-          ]}
-        >
-          {player.user.username}
-          {isCurrentUser && " (Você)"}
-        </Text>
+        <View style={styles.nameContainer}>
+          <Text
+            style={[
+              styles.playerName,
+              isCurrentUser && styles.currentUserName,
+              position === 1 && styles.firstPlaceName,
+            ]}
+          >
+            {player.user.username}
+            {isCurrentUser && " (Você)"}
+          </Text>
+          <RankBadge
+            rankInfo={playerRankInfo}
+            size="small"
+            showPoints={false}
+            showProgress={false}
+          />
+        </View>
 
         <View style={styles.statsRow}>
           <MaterialDesignIcons name="calendar-check" size={14} color="#4caf50" />
@@ -108,6 +124,11 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     gap: 6,
+  },
+  nameContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   playerName: {
     fontSize: 15,

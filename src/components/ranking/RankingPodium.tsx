@@ -3,6 +3,9 @@ import { Text } from "@/components/general";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import { Player } from "@/components/general/types";
 import { LinearGradient } from "expo-linear-gradient";
+import { useMemo } from "react";
+import { getRankInfo, calculatePoints } from "@/utils/rankSystem";
+import RankBadge from "./RankBadge";
 
 interface RankingPodiumProps {
   topThree: Player[];
@@ -29,6 +32,11 @@ export default function RankingPodium({ topThree, currentUserId, onViewAll }: Ra
       3: "medal",
     } as const;
 
+    const playerRankInfo = useMemo(() => {
+      const points = calculatePoints(player);
+      return getRankInfo(points, player.weeklyStreak, player.monthlyWorkoutDays || 0, player.dietCompletionRate || 0);
+    }, [player]);
+
     return (
       <View style={[styles.podiumItem, position === 2 && styles.podiumSecond, position === 3 && styles.podiumThird]}>
         <View style={styles.playerAvatar}>
@@ -49,6 +57,12 @@ export default function RankingPodium({ topThree, currentUserId, onViewAll }: Ra
         <Text style={styles.playerName} numberOfLines={1}>
           {player.user.username.split(" ")[0]}
         </Text>
+        <RankBadge
+          rankInfo={playerRankInfo}
+          size="small"
+          showPoints={false}
+          showProgress={false}
+        />
         <View style={styles.statsContainer}>
           <MaterialDesignIcons name="fire" size={12} color="#ff6b9d" />
           <Text style={styles.statText}>{player.weeklyStreak}</Text>

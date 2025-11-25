@@ -6,6 +6,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  View,
 } from "react-native";
 import { TreinoType, ExerciseType } from "@/components/general/types";
 import EditMenu from "@/components/general/ContextMenu";
@@ -18,6 +19,8 @@ import { useAuth } from "@/context/authContext";
 import ParentView from "@/components/general/ParentView";
 import { useRouter } from "expo-router";
 import { LinearGradient } from 'expo-linear-gradient';
+import { Text } from "@/components/general";
+import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 
 export default function Treino() {
   const [selectedTreino, setSelectedTreino] = useState<TreinoType | null>(null);
@@ -45,7 +48,7 @@ export default function Treino() {
     closeMenu,
   } = useMenu();
 
-  const { token } = useAuth();
+  const { user: authUser } = useAuth();
 
   const { treino, setRerun } = useWorkout();
 
@@ -207,6 +210,22 @@ export default function Treino() {
             contentContainerStyle={{ paddingBottom: 40 }}
             showsVerticalScrollIndicator={false}
           >
+            {authUser && (
+              <View style={styles.statsHeader}>
+                <Text style={styles.statsTitle}>💪 Meus Treinos</Text>
+                <View style={styles.statsRow}>
+                  <View style={styles.statBadge}>
+                    <MaterialDesignIcons name="calendar-month" size={16} color="#4caf50" />
+                    <Text style={styles.statText}>{authUser.monthlyWorkoutDays || 0}/30 dias</Text>
+                  </View>
+                  <View style={styles.statBadge}>
+                    <MaterialDesignIcons name="fire" size={16} color="#ff6b9d" />
+                    <Text style={styles.statText}>{authUser.weeklyStreak} seguidos</Text>
+                  </View>
+                </View>
+              </View>
+            )}
+
             <TreinoSelector
               treinoData={treino}
               onPress={handleTreinoChange}
@@ -238,5 +257,38 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     width: "100%",
+  },
+  statsHeader: {
+    backgroundColor: 'rgba(27, 16, 49, 0.6)',
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 16,
+    marginHorizontal: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(223, 128, 255, 0.3)',
+  },
+  statsTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginBottom: 12,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  statBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(223, 128, 255, 0.2)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 10,
+  },
+  statText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#dfb7ff',
   },
 });

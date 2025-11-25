@@ -2,6 +2,9 @@ import { View, StyleSheet } from "react-native";
 import { Text } from "@/components/general";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import { Player } from "@/components/general/types";
+import { useMemo } from "react";
+import { getRankInfo, calculatePoints } from "@/utils/rankSystem";
+import RankBadge from "./RankBadge";
 
 interface StreakRankingCardProps {
   player: Player;
@@ -11,6 +14,11 @@ interface StreakRankingCardProps {
 }
 
 export default function StreakRankingCard({ player, position, isCurrentUser, isTopThree }: StreakRankingCardProps) {
+  const playerRankInfo = useMemo(() => {
+    const points = calculatePoints(player);
+    return getRankInfo(points, player.weeklyStreak, player.monthlyWorkoutDays || 0, player.dietCompletionRate || 0);
+  }, [player]);
+
   const getRankIcon = () => {
     if (position === 1) return <MaterialDesignIcons name="crown" size={34} color="#FFD700" />;
     if (position === 2) return <MaterialDesignIcons name="medal" size={30} color="#C0C0C0" />;
@@ -44,16 +52,24 @@ export default function StreakRankingCard({ player, position, isCurrentUser, isT
 
       <View style={styles.content}>
         <View style={styles.nameRow}>
-          <Text
-            style={[
-              styles.playerName,
-              isCurrentUser && styles.currentUserName,
-              position === 1 && styles.firstPlaceName,
-            ]}
-          >
-            {player.user.username}
-            {isCurrentUser && " (Você)"}
-          </Text>
+          <View style={styles.nameContainer}>
+            <Text
+              style={[
+                styles.playerName,
+                isCurrentUser && styles.currentUserName,
+                position === 1 && styles.firstPlaceName,
+              ]}
+            >
+              {player.user.username}
+              {isCurrentUser && " (Você)"}
+            </Text>
+            <RankBadge
+              rankInfo={playerRankInfo}
+              size="small"
+              showPoints={false}
+              showProgress={false}
+            />
+          </View>
           <View style={styles.changeIndicator}>{getPositionChangeIcon()}</View>
         </View>
 
@@ -135,6 +151,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  nameContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    flex: 1,
   },
   playerName: {
     fontSize: 16,

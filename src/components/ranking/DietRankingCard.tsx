@@ -2,6 +2,9 @@ import { View, StyleSheet } from "react-native";
 import { Text } from "@/components/general";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import { Player } from "@/components/general/types";
+import { useMemo } from "react";
+import { getRankInfo, calculatePoints } from "@/utils/rankSystem";
+import RankBadge from "./RankBadge";
 
 interface DietRankingCardProps {
   player: Player;
@@ -11,6 +14,11 @@ interface DietRankingCardProps {
 }
 
 export default function DietRankingCard({ player, position, isCurrentUser, isTopThree }: DietRankingCardProps) {
+  const playerRankInfo = useMemo(() => {
+    const points = calculatePoints(player);
+    return getRankInfo(points, player.weeklyStreak, player.monthlyWorkoutDays || 0, player.dietCompletionRate || 0);
+  }, [player]);
+
   const getRankIcon = () => {
     if (position === 1) return <MaterialDesignIcons name="crown" size={34} color="#FFD700" />;
     if (position === 2) return <MaterialDesignIcons name="medal" size={30} color="#C0C0C0" />;
@@ -41,16 +49,24 @@ export default function DietRankingCard({ player, position, isCurrentUser, isTop
 
       <View style={styles.content}>
         <View style={styles.nameRow}>
-          <Text
-            style={[
-              styles.playerName,
-              isCurrentUser && styles.currentUserName,
-              position === 1 && styles.firstPlaceName,
-            ]}
-          >
-            {player.user.username}
-            {isCurrentUser && " (Você)"}
-          </Text>
+          <View style={styles.nameContainer}>
+            <Text
+              style={[
+                styles.playerName,
+                isCurrentUser && styles.currentUserName,
+                position === 1 && styles.firstPlaceName,
+              ]}
+            >
+              {player.user.username}
+              {isCurrentUser && " (Você)"}
+            </Text>
+            <RankBadge
+              rankInfo={playerRankInfo}
+              size="small"
+              showPoints={false}
+              showProgress={false}
+            />
+          </View>
           <View style={[styles.completionBadge, { backgroundColor: completionColor + "30" }]}>
             <Text style={[styles.completionText, { color: completionColor }]}>
               {player.dietCompletionRate || 0}%
@@ -127,11 +143,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  nameContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    flex: 1,
+  },
   playerName: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#ffffff",
-    flex: 1,
   },
   currentUserName: {
     color: "#df80ff",
