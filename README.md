@@ -1,50 +1,25 @@
-# Welcome to your Expo app 👋
+# 🏋️ Gamify Gym — Frontend (Versão Antiga)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+⚠️ **Atenção**  
+Este repositório contém uma **versão antiga do frontend** do projeto **Gamify Gym**, desenvolvida durante o período de **Trabalho de Conclusão de Curso (TCC)** na **Etec Albert Einstein**.  
+O código está **arquivado** e serve apenas como **registro histórico da evolução do projeto**, não representando meu nível técnico atual.
 
-## Get started
+---
 
-1. Install dependencies
+## 📌 Sobre o Projeto
 
-   ```bash
-   npm install
-   ```
+O **Gamify Gym** é um aplicativo voltado para **treino e dieta**, utilizando conceitos de **gamificação** para incentivar a constância e o engajamento dos usuários.
 
-2. Start the app
+Este frontend foi responsável por:
+- Interface de autenticação e navegação de usuários
+- Telas de treinos, exercícios e progresso
+- Exibição de informações relacionadas à dieta
+- Consumo de APIs REST do backend
+- Fluxo básico de navegação do aplicativo
 
-   ```bash
-   npx expo start
-   ```
+A aplicação foi desenvolvida com foco acadêmico, priorizando aprendizado, entrega funcional e integração com o backend disponível na época.
 
-In the output, you'll find options to open the app in a
+Atualmente, o projeto passou por **refatorações significativas**, incluindo melhorias de arquitetura, organização de componentes e experiência do usuário.  
+O código mais recente **não é público**, por se tratar de um projeto em desenvolvimento/comercial.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
